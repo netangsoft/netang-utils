@@ -1,5 +1,5 @@
 {
-  "name": "netang-utils",
+  "name": "@netang/utils",
   "version": "0.2.13",
   "description": "netang-utils",
   "scripts": {
