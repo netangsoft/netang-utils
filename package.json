@@ -1,0 +1,27 @@
+{
+  "name": "netang-utils",
+  "version": "0.2.13",
+  "description": "netang-utils",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/netangsoft/netang-utils.git"
+  },
+  "keywords": [
+    "netang-utils"
+  ],
+  "author": "Netang",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/netangsoft/netang-utils/issues"
+  },
+  "homepage": "https://github.com/netangsoft/netang-utils#readme",
+  "devDependencies": {
+    "axios": "^0.25.0",
+    "lodash": "^4.17.21",
+    "qs": "^6.10.3",
+    "resize-observer-polyfill": "^1.5.1"
+  }
+}
