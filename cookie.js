@@ -4,6 +4,7 @@ const isNumeric = require('./isNumeric')
 
 // cookie 默认设置
 const _cookieSettings = {
+    // 缓存前缀
     prefix: 'netang:',
 }
 
@@ -127,7 +128,7 @@ function deleteCookie(key, options = {}) {
 /**
  * 设置 cookie
  */
-function settings(options) {
+function cookieSettings(options) {
     _.assign(_cookieSettings, options)
 }
 
@@ -135,7 +136,7 @@ const cookie = {
     set: setCookie,
     get: getCookie,
     delete: deleteCookie,
-    settings,
+    settings: cookieSettings,
 }
 
 module.exports = cookie

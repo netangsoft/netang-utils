@@ -6,6 +6,7 @@
  */
 
 const isFillString = require('./isFillString')
+const slash = require('./slash')
 
 function getUrl(url, origin = '/') {
 
@@ -18,7 +19,7 @@ function getUrl(url, origin = '/') {
         && ! /javascript/.test(url)
         && isFillString(origin)
     ) {
-        url = utils.slash(origin, 'end', true) + utils.slash(url.replace(/^\//, ''), 'start', false)
+        url = slash(origin, 'end', true) + slash(url.replace(/^\//, ''), 'start', false)
     }
 
     return url
