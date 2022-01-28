@@ -1,5 +1,7 @@
 const getThrowMessage = require('./getThrowMessage')
 
+// 默认设置
+const _scriptSettings = {}
 
 function has(object, key) {
     return object != null && Object.prototype.hasOwnProperty.call(object, key)
@@ -15,7 +17,7 @@ function runScript(url) {
     return new Promise(function(resolve, reject) {
 
         if (typeof url !== 'string' || ! /^(http|https):/.test(url)) {
-            reject('资源地址不正确3')
+            reject('The resource url is incorrect')
             return;
         }
 
@@ -34,7 +36,7 @@ function runScript(url) {
             script.href = url
             script.rel = 'stylesheet'
 
-        // 加载 js
+            // 加载 js
         } else {
 
             if (document.querySelectorAll(`script[src="${url}"]`).length) {
@@ -58,7 +60,7 @@ function runScript(url) {
                 }
             }
 
-        // 其他浏览器
+            // 其他浏览器
         } else {
             script.onload = function() {
                 resolve()
@@ -69,7 +71,7 @@ function runScript(url) {
         script.onerror = function() {
             // 删除节点
             $head.removeChild(script)
-            reject(`[${url}]加载失败`)
+            reject(`[${url}] load failed`)
         }
     })
 }
@@ -105,21 +107,28 @@ function script(urls) {
 
     return new Promise(function(resolve, reject) {
 
-        if (! Array.isArray(urls)) {
-            reject('资源地址不正确1')
-            return
-        }
-
         const promises = []
+
+        if (! Array.isArray(urls)) {
+            urls = [urls]
+        }
 
         for (let url of urls) {
 
-            // 如果为字符串
             if (typeof url === 'string') {
-                promises.push(runScript(url))
+
+                // 如果为 http url
+                if (/^(http|https):/.test(url)) {
+                    promises.push(runScript(url))
+                    continue
+                }
+
+                // 否则为定义的参数
+                url = has(_scriptSettings, url) ? _scriptSettings[url] : null
+            }
 
             // 否则如果为对象
-            } else if (typeof url === 'object' && has(url, 'urls') && Array.isArray(url.urls)) {
+            if (typeof url === 'object' && has(url, 'urls') && Array.isArray(url.urls)) {
 
                 if (! has(url, 'key') || ! has(window, url.key)) {
 
@@ -132,9 +141,9 @@ function script(urls) {
                     }
                 }
 
-            // 否则错误
+                // 否则错误
             } else {
-                reject('资源地址不正确2')
+                reject('The resource url is incorrect')
                 return
             }
         }
@@ -159,6 +168,13 @@ function script(urls) {
                 }
             })
     })
+}
+
+/**
+ * 设置 script
+ */
+script.settings = function(options) {
+    Object.assign(_scriptSettings, options)
 }
 
 module.exports = script
