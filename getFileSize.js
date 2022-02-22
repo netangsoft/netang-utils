@@ -1,5 +1,6 @@
-const _ = require('lodash')
-const toNumberDeep = require('./toNumberDeep')
+import _isNumber from 'lodash/isNumber'
+import _round from 'lodash/round'
+import toNumberDeep from './toNumberDeep'
 
 /**
  * 获取文件大小
@@ -7,10 +8,11 @@ const toNumberDeep = require('./toNumberDeep')
  * @param defaultValue
  * @returns {string}
  */
+
 function getFileSize(value, defaultValue = '') {
 
     value = toNumberDeep(value)
-    if (! _.isNumber(value) || value === 0) {
+    if (! _isNumber(value) || value === 0) {
         return defaultValue
     }
 
@@ -21,7 +23,7 @@ function getFileSize(value, defaultValue = '') {
         index++
     }
 
-    return _.round(value, 2) + ['B', 'K', 'M', 'G'][index]
+    return _round(value, 2) + ['B', 'K', 'M', 'G'][index]
 }
 
 module.exports = getFileSize

@@ -1,6 +1,7 @@
-const _ = require('lodash')
-const qs = require('qs')
-const slash = require('./slash')
+import _isEmpty from 'lodash/isEmpty'
+import _get from 'lodash/get'
+import slash from './slash'
+import parse from 'qs/parse'
 
 /**
  * 解构 url 参数
@@ -21,7 +22,7 @@ const slash = require('./slash')
 
 function url(href, path, defaultValue = '') {
 
-    if (_.isEmpty(href)) {
+    if (_isEmpty(href)) {
         href = window.location.href
     }
 
@@ -96,7 +97,7 @@ function url(href, path, defaultValue = '') {
         if (len > 1) {
             u.url = hrefs[0]
             u.search = hrefs[len - 1]
-            u.query = qs.parse(u.search)
+            u.query = parse(u.search)
         } else {
             u.url = href
             u.search = ''
@@ -110,8 +111,8 @@ function url(href, path, defaultValue = '') {
             u.pathname = u.pathname.replace('___HASH___', '')
             u.url = u.url.replace('___HASH___', isFile ? '#/' : '/#/')
         }
-
-        return path == null ? u : _.get(u, path, defaultValue)
+        
+        return path == null ? u : _get(u, path, defaultValue)
     }
 
     throw new Error('url is error')

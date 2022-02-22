@@ -4,11 +4,9 @@
  * @param {function} handler
  */
 function offResize(element, handler) {
-    if (! element || !element.__resizeListeners__) {
-        return
-    }
+    if (!element || !element.__resizeListeners__) return
     element.__resizeListeners__.splice(element.__resizeListeners__.indexOf(handler), 1)
-    if (! element.__resizeListeners__.length) {
+    if (!element.__resizeListeners__.length) {
         element.__ro__.disconnect()
     }
 }

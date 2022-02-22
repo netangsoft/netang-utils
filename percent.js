@@ -1,5 +1,5 @@
-const _ = require('lodash')
-const toNumberDeep = require('./toNumberDeep')
+import _isNumber from 'lodash/isNumber'
+import toNumberDeep from './toNumberDeep'
 
 /**
  * 计算百分比
@@ -12,7 +12,7 @@ function percent(val, isSign) {
 
     val = toNumberDeep(val)
 
-    if (_.isNumber(val) && val > 0) {
+    if (_isNumber(val) && val > 0) {
 
         if (100 % val === 0) {
             val = 100 / val

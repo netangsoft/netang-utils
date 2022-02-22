@@ -1,3 +1,5 @@
+import _isEmpty from 'lodash/isEmpty'
+
 /**
  * 获取当前 url
  * @param {string} url
@@ -5,21 +7,23 @@
  * @returns {string}
  */
 
-const isFillString = require('./isFillString')
-const slash = require('./slash')
-
 function getUrl(url, origin = '/') {
 
-    if (! isFillString(url)) {
+    if (_isEmpty(url)) {
         url = ''
     }
 
     if (
-        ! /^(http|https|file):/i.test(url)
-        && ! /javascript/.test(url)
-        && isFillString(origin)
+        !/^(http|https):/i.test(url)
+        && !/javascript/.test(url)
     ) {
-        url = slash(origin, 'end', true) + slash(url.replace(/^\//, ''), 'start', false)
+        if (_isEmpty(origin)) {
+            origin = utils.config('url')
+        }
+
+        if (origin) {
+            url = utils.slash(origin, 'end', true) + utils.slash(url.replace(/^\//, ''), 'start', false)
+        }
     }
 
     return url

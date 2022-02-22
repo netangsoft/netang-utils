@@ -1,4 +1,4 @@
-const _ = require('lodash')
+import _isFunction from 'lodash/isFunction'
 
 /**
  * 定时执行
@@ -6,7 +6,7 @@ const _ = require('lodash')
 
 function crontab(func, timeout = 0) {
 
-    if (_.isFunction(func)) {
+    if (_isFunction(func)) {
         throw new TypeError('Expected a function')
     }
 

@@ -1,17 +1,18 @@
-
 /**
  * on
  * 创建监听
  */
 
-const on = function(element, event, handler) {
-    if (element && event && handler) {
-        if (document.addEventListener) {
+const on = document.addEventListener ?
+    function(element, event, handler) {
+        if (element && event && handler) {
             element.addEventListener(event, handler, false)
-        } else {
+        }
+    }
+    : function(element, event, handler) {
+        if (element && event && handler) {
             element.attachEvent('on' + event, handler)
         }
     }
-}
 
 module.exports = on

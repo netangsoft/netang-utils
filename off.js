@@ -3,14 +3,16 @@
  * 取消监听
  */
 
-const off = function(element, event, handler) {
-    if (element && event) {
-        if (document.removeEventListener) {
+const off = document.removeEventListener ?
+    function(element, event, handler) {
+        if (element && event) {
             element.removeEventListener(event, handler, false)
-        } else {
+        }
+    }
+    : function(element, event, handler) {
+        if (element && event) {
             element.detachEvent('on' + event, handler)
         }
     }
-}
 
 module.exports = off

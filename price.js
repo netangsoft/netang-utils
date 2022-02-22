@@ -1,6 +1,8 @@
-const _ = require('lodash')
-const isNumeric = require('./isNumeric')
-const precision = require('./precision')
+import _toNumber from 'lodash/toNumber'
+import _isNumber from 'lodash/isNumber'
+import _split from 'lodash/split'
+import isNumeric from './isNumeric'
+import precision from './precision'
 
 /**
  * 价格(元)
@@ -14,15 +16,15 @@ function price(value, toFixed, isAddComma) {
 
     if (isNumeric(value)) {
 
-        let price = _.toNumber(value)
+        let price = _toNumber(value)
 
-        if (_.isNumber(price)) {
+        if (_isNumber(price)) {
 
             price = precision(price, 2, toFixed !== false)
 
             // 如果加逗号隔开
             if (isAddComma === true) {
-                const arr = _.split(String(price), '.')
+                const arr = _split(String(price), '.')
                 if (arr.length) {
                     price = String(arr[0]).replace(/\B(?=(\d{3})+$)/g,',')
                     if (arr.length > 1) {

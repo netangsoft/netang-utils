@@ -1,23 +1,21 @@
-const getThrowMessage = require('./getThrowMessage')
-
-// 默认设置
-const _scriptSettings = {}
-
-function has(object, key) {
-    return object != null && Object.prototype.hasOwnProperty.call(object, key)
-}
+import getThrowMessage from './getThrowMessage'
 
 /**
  * 加载单个资源文件
  * @param {string} url 资源文件地址
  * @returns {Promise}
  */
+
+function has(object, key) {
+    return object != null && Object.prototype.hasOwnProperty.call(object, key)
+}
+
 function runScript(url) {
 
     return new Promise(function(resolve, reject) {
 
         if (typeof url !== 'string' || ! /^(http|https):/.test(url)) {
-            reject('The resource url is incorrect')
+            reject('资源地址不正确3')
             return;
         }
 
@@ -36,7 +34,7 @@ function runScript(url) {
             script.href = url
             script.rel = 'stylesheet'
 
-            // 加载 js
+        // 加载 js
         } else {
 
             if (document.querySelectorAll(`script[src="${url}"]`).length) {
@@ -60,7 +58,7 @@ function runScript(url) {
                 }
             }
 
-            // 其他浏览器
+        // 其他浏览器
         } else {
             script.onload = function() {
                 resolve()
@@ -71,7 +69,7 @@ function runScript(url) {
         script.onerror = function() {
             // 删除节点
             $head.removeChild(script)
-            reject(`[${url}] load failed`)
+            reject(`[${url}]加载失败`)
         }
     })
 }
@@ -91,10 +89,10 @@ function runScripts(urls) {
                     return
                 }
 
-                s(urls).finally()
+                s(urls)
             }
         }
-        s(urls).finally()
+        s(urls)
     })
 }
 
@@ -107,33 +105,26 @@ function script(urls) {
 
     return new Promise(function(resolve, reject) {
 
-        const promises = []
-
         if (! Array.isArray(urls)) {
-            urls = [urls]
+            reject('资源地址不正确1')
+            return
         }
+
+        const promises = []
 
         for (let url of urls) {
 
+            // 如果为字符串
             if (typeof url === 'string') {
-
-                // 如果为 http url
-                if (/^(http|https):/.test(url)) {
-                    promises.push(runScript(url))
-                    continue
-                }
-
-                // 否则为定义的参数
-                url = has(_scriptSettings, url) ? _scriptSettings[url] : null
-            }
+                promises.push(runScript(url))
 
             // 否则如果为对象
-            if (typeof url === 'object' && has(url, 'urls') && Array.isArray(url.urls)) {
+            } else if (typeof url === 'object' && has(url, 'urls') && Array.isArray(url.urls)) {
 
                 if (! has(url, 'key') || ! has(window, url.key)) {
 
                     for (let item of url.urls) {
-                        if (typeof item === 'string') {
+                        if (typeof item === 'String') {
                             promises.push(runScript(item))
                         } else if (Array.isArray(item) && item.length) {
                             promises.push(runScripts(item))
@@ -141,9 +132,9 @@ function script(urls) {
                     }
                 }
 
-                // 否则错误
+            // 否则错误
             } else {
-                reject('The resource url is incorrect')
+                reject('资源地址不正确2')
                 return
             }
         }
@@ -168,13 +159,6 @@ function script(urls) {
                 }
             })
     })
-}
-
-/**
- * 设置 script
- */
-script.settings = function(options) {
-    Object.assign(_scriptSettings, options)
 }
 
 module.exports = script

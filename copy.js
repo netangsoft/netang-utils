@@ -1,17 +1,9 @@
-const isBrowser = require('./isBrowser')
-
 /**
  * copy
  * 复制文字到剪切板
  * @param data
  */
-
 function copy(data) {
-
-    if (! isBrowser()) {
-        return
-    }
-
     let $input = document.querySelector('#n-copy-input')
     if (! $input) {
         $input = document.createElement('input')

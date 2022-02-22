@@ -1,12 +1,7 @@
-const _ = require('lodash')
-const isFillString = require('./isFillString')
-const isNumeric = require('./isNumeric')
-
-// cookie 默认设置
-const _cookieSettings = {
-    // 缓存前缀
-    prefix: 'netang:',
-}
+import _toNumber from 'lodash/toNumber'
+import _has from 'lodash/has'
+import isFillString from './isFillString'
+import isNumeric from './isNumeric'
 
 /**
  * 保存 cookie
@@ -22,23 +17,22 @@ function setCookie(key, value, options = {}) {
 
     if (isNumeric(options)) {
         options = {
-            expires: _.toNumber(options)
+            expires: _toNumber(options)
         }
     }
 
     // 获取参数
-    const opt = _.assign({
-        prefix: '',
+    const opt = Object.assign({
         path: '/',
         domain: '',
         expires: 0,
         secure: false,
         raw: false,
         json: true,
-    }, _cookieSettings, options)
+    }, options)
 
     // 更新内容
-    let content = `${encodeURIComponent(key)}=${opt.prefix}${encodeURIComponent(JSON.stringify(value))};path=${opt.path}`
+    let content = `${encodeURIComponent(key)}=netang:${encodeURIComponent(JSON.stringify(value))};path=${opt.path}`
 
     // 域名
     if (opt.domain) {
@@ -63,19 +57,13 @@ function setCookie(key, value, options = {}) {
 /**
  * 获取 cookie
  * @param {string} key
- * @param {object} options
  * @returns {any}
  */
-function getCookie(key = '', options = {}) {
+function getCookie(key = '') {
 
     if (! isFillString(key)) {
         return
     }
-
-    // 获取参数
-    const opt = _.assign({
-        prefix: '',
-    }, _cookieSettings, options)
 
     // 获取所有 cookies 并转为数组
     const cookies = document.cookie ? document.cookie.split('; ') : []
@@ -93,7 +81,7 @@ function getCookie(key = '', options = {}) {
 
         try {
             // 判断 cookie 前缀
-            if (isFillString(opt.prefix) && ! _.startsWith(value, opt.prefix)) {
+            if (value.substr(0, 7) !== 'netang:') {
                 continue
             }
 
@@ -106,7 +94,7 @@ function getCookie(key = '', options = {}) {
         } catch (e) {}
     }
 
-    return isFillString(key) ? (_.has(res, key) ? res[key] : null) : res
+    return isFillString(key) ? (_has(res, key) ? res[key] : null) : res
 }
 
 
@@ -125,18 +113,10 @@ function deleteCookie(key, options = {}) {
     )
 }
 
-/**
- * 设置 cookie
- */
-function cookieSettings(options) {
-    _.assign(_cookieSettings, options)
-}
-
 const cookie = {
     set: setCookie,
     get: getCookie,
     delete: deleteCookie,
-    settings: cookieSettings,
 }
 
 module.exports = cookie

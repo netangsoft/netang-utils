@@ -1,4 +1,4 @@
-const _ = require('lodash')
+import _toNumber from 'lodash/toNumber'
 
 /**
  * 数字转 ip
@@ -8,7 +8,7 @@ const _ = require('lodash')
 
 function long2ip(ip) {
 
-    ip = _.toNumber(ip)
+    ip = _toNumber(ip)
     return `${(ip >>> 24) >>> 0}.${((ip << 8) >>> 24) >>> 0}.${(ip << 16) >>> 24}.${(ip << 24) >>> 24}`
 }
 

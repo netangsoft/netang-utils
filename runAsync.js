@@ -1,3 +1,6 @@
+import _isFunction from 'lodash/isFunction'
+import isPromise from './isPromise'
+
 /**
  * 运行函数
  * @param {Function} func
@@ -5,11 +8,8 @@
  * @returns {Function}
  */
 
-const _ = require('lodash')
-const isPromise = require('./isPromise')
-
 function runAsync(func, thisArg = null) {
-    return _.isFunction(func) ? function(...args) {
+    return _isFunction(func) ? function(...args) {
         return new Promise(function(resolve, reject) {
 
             const res = func.call(thisArg, ...args)

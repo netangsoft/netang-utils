@@ -1,5 +1,5 @@
-const _ = require('lodash')
-const isFillArray = require('./isFillArray')
+import _has from 'lodash/has'
+import isFillArray from './isFillArray'
 
 /**
  * 数组转对象
@@ -7,14 +7,13 @@ const isFillArray = require('./isFillArray')
 
 function toObject(lists = [], type = 'all', idKey = 'id', pidKey = 'pid') {
 
-    if (! isFillArray(lists)) {
-        return {}
-    }
-
     const all = {}
 
-    for (const item of lists) {
-        all[item[idKey]] = item
+    const isLists = isFillArray(lists)
+    if (isLists) {
+        for (const item of lists) {
+            all[item[idKey]] = item
+        }
     }
 
     if (type === 'all') {
@@ -25,15 +24,18 @@ function toObject(lists = [], type = 'all', idKey = 'id', pidKey = 'pid') {
 
         const group = {}
 
-        for (const item of lists) {
-            if (_.has(item, pidKey)) {
+        if (isLists) {
+            for (const item of lists) {
 
-                const key = _.has(all, `${pidKey}.${idKey}`) ? all[pidKey][idKey] : item[pidKey]
+                if (_has(item, pidKey)) {
 
-                if (_.has(group, key)) {
-                    group[key].push(item)
-                } else {
-                    group[key] = [item]
+                    const pidValue = item[pidKey]
+
+                    if (! _has(group, pidValue)) {
+                        group[pidValue] = []
+                    }
+
+                    group[pidValue].push(item)
                 }
             }
         }

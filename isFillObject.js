@@ -1,4 +1,4 @@
-const _ = require('lodash')
+import _isPlainObject from 'lodash/isPlainObject'
 
 /**
  * 检查是否为非空对象
@@ -8,7 +8,7 @@ const _ = require('lodash')
 
 function isFillObject(value) {
 
-    if (_.isPlainObject(value)) {
+    if (_isPlainObject(value)) {
 
         for (let key in value) {
 

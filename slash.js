@@ -1,4 +1,7 @@
-const _ = require('lodash')
+import _isString from 'lodash/isString'
+import _isNumber from 'lodash/isNumber'
+import _trimStart from 'lodash/trimStart'
+import _trimEnd from 'lodash/trimEnd'
 
 /**
  * 添加或去除首尾反斜杠
@@ -10,10 +13,10 @@ const _ = require('lodash')
 
 function slash(value, position, isAddSlash = true) {
 
-    if (_.isString(value) || _.isNumber(value)) {
+    if (_isString(value) || _isNumber(value)) {
 
         // 去除前后空格
-        value = _.trim(value + '')
+        value = _trim(value + '')
 
         // 如果不为空
         if (value.length) {
@@ -25,7 +28,7 @@ function slash(value, position, isAddSlash = true) {
             if (isAll || position === 'start') {
 
                 // 先去除前面所有的反斜杠
-                value = _.trimStart(value, '/')
+                value = _trimStart(value, '/')
 
                 // 加上反斜杠
                 if (isAddSlash === true) {
@@ -38,7 +41,7 @@ function slash(value, position, isAddSlash = true) {
             if (isAll || position === 'end') {
 
                 // 先去除后面所有的反斜杠
-                value = _.trimEnd(value, '/')
+                value = _trimEnd(value, '/')
 
                 // 加上反斜杠
                 if (isAddSlash === true) {

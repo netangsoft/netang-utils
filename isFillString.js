@@ -1,4 +1,4 @@
-const _ = require('lodash')
+import _isString from 'lodash/isString'
 
 /**
  * 检查是否为非空字符串
@@ -8,7 +8,7 @@ const _ = require('lodash')
 
 function isFillString(value) {
 
-    return _.isString(value) && value.length > 0
+    return _isString(value) && value.length > 0
 }
 
 module.exports = isFillString

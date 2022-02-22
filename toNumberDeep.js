@@ -1,5 +1,8 @@
-const _ = require('lodash')
-const isNumeric = require('./isNumeric')
+import _isNumber from 'lodash/isNumber'
+import _trim from 'lodash/trim'
+import _isNil from 'lodash/isNil'
+import _isObjectLike from 'lodash/isObjectLike'
+import isNumeric from './isNumeric'
 
 /**
  * 转换为数字
@@ -12,7 +15,7 @@ const isNumeric = require('./isNumeric')
 function numberHandle(value, defaultValue, isBeginZero2String = false) {
 
     // 如果为数字
-    if (_.isNumber(value)) {
+    if (_isNumber(value)) {
         return value
     }
 
@@ -20,7 +23,7 @@ function numberHandle(value, defaultValue, isBeginZero2String = false) {
     if (isNumeric(value)) {
 
         // 去除前后空白
-        value = _.trim(value)
+        value = _trim(value)
 
         if (
             // 如果长度 > 15
@@ -44,7 +47,7 @@ function numberHandle(value, defaultValue, isBeginZero2String = false) {
     }
 
     // 如果有默认值, 则返回默认值
-    if (! _.isNil(defaultValue)) {
+    if (! _isNil(defaultValue)) {
         return defaultValue
     }
 
@@ -59,11 +62,11 @@ function numberHandle(value, defaultValue, isBeginZero2String = false) {
  * @param {boolean} isBeginZero2String 如果开头为 0 的数字, 则转为字符串
  * @returns {number|*}
  */
-function toNumberDeep(value, defaultValue = null, isBeginZero2String = false) {
-    if (_.isObjectLike(value)) {
+function toNumberDeep(value, defaultValue, isBeginZero2String = false) {
+    if (_isObjectLike(value)) {
         for (let key in value) {
             if (Object.prototype.hasOwnProperty.call(value, key)) {
-                if (_.isObjectLike(value[key])) {
+                if (_isObjectLike(value[key])) {
                     toNumberDeep(value[key], defaultValue, isBeginZero2String)
                 } else {
                     value[key] = numberHandle(value[key], defaultValue, isBeginZero2String)

@@ -283,7 +283,7 @@ const json_parse = function () {
     // Return the json_parse function. It will have access to all of the above
     // functions and variables.
 
-    return function (source) {
+    return function (source, reviver) {
 
         text = source + ''
         at = 0

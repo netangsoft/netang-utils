@@ -1,5 +1,5 @@
-const run = require('./run')
-const isRequired = require('./isRequired')
+import run from './run'
+import isRequired from './isRequired'
 
 /**
  * callback
@@ -8,6 +8,7 @@ const isRequired = require('./isRequired')
  * @param {function} callback
  * @returns {any}
  */
+
 function callback(data, callback) {
     return run(callback)(data, isRequired(data))
 }

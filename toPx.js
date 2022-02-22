@@ -1,4 +1,4 @@
-const isNumeric = require('./isNumeric')
+import isNumeric from './isNumeric'
 
 /**
  * 数字转像素

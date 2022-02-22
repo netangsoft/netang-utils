@@ -1,5 +1,4 @@
-const isFillString = require('./isFillString')
-const isBrowser = require('./isBrowser')
+import isFillString from './isFillString'
 
 /**
  * 跳转
@@ -9,7 +8,7 @@ const isBrowser = require('./isBrowser')
 
 function jump(url, replace = false) {
 
-    if (! isBrowser () || ! isFillString(url)) {
+    if (! isFillString(url)) {
         return
     }
 

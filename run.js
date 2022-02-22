@@ -1,14 +1,14 @@
+import _isFunction from 'lodash/isFunction'
+
 /**
  * 运行函数
- * @param {Function} func
- * @param thisArg
+ * @param {Function} fn
+ * @param _this
  * @returns {Function}
  */
 
-const _ = require('lodash')
-
-function run(func, thisArg = null) {
-    return _.isFunction(func) ? function(...args) {
+function run(func, thisArg) {
+    return _isFunction(func) ? function(...args) {
         return func.call(thisArg, ...args)
     } : function() {}
 }

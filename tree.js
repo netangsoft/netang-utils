@@ -1,6 +1,6 @@
-const _ = require('lodash')
-const isFillArray = require('./isFillArray')
-const run = require('./run')
+import _isNil from 'lodash/isNil'
+import isFillArray from './isFillArray'
+import run from './run'
 
 /**
  * 获取树数据
@@ -42,7 +42,7 @@ function tree(p) {
             const index = item[p.idKey]
             all[index] = item
 
-            if (_.isNil(item[p.pidKey])) {
+            if (_isNil(item[p.pidKey])) {
                 item[p.pidKey] = 0
             }
 

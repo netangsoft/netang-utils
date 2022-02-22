@@ -1,4 +1,5 @@
-const _ = require('lodash')
+import _isNumber from 'lodash/isNumber'
+import _isString from 'lodash/isString'
 
 /**
  * 检查是否为数字(包括字符串数字)
@@ -8,11 +9,10 @@ const _ = require('lodash')
 
 function isNumeric(value) {
 
-    return _.isNumber(value)
-        || (
-            _.isString(value)
-            && (value - parseFloat(value) + 1) >= 0
-        )
+    return _isNumber(value) || (
+        _isString(value)
+        && (value - parseFloat(value) + 1) >= 0
+    )
 }
 
 module.exports = isNumeric

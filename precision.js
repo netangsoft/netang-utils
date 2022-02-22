@@ -1,5 +1,6 @@
-const _ = require('lodash')
-const isNumeric = require('./isNumeric')
+import _isNil from 'lodash/isNil'
+import _toNumber from 'lodash/toNumber'
+import isNumeric from './isNumeric'
 
 /**
  * 格式化数字精度
@@ -11,7 +12,7 @@ const isNumeric = require('./isNumeric')
 
 function precision(value, precision, toFixed) {
 
-    if (_.isNil(value)) {
+    if (_isNil(value)) {
         return value
     }
 
@@ -23,7 +24,7 @@ function precision(value, precision, toFixed) {
 
     const res = parseFloat(String(Math.round(value * Math.pow(10, precision)) / Math.pow(10, precision)))
 
-    return toFixed ? res.toFixed(precision) : _.toNumber(res)
+    return toFixed ? res.toFixed(precision) : _toNumber(res)
 }
 
 module.exports = precision

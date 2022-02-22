@@ -1,15 +1,10 @@
-const isFillArray = require('./isFillArray')
-const isFillString = require('./isFillString')
-const isBrowser = require('./isBrowser')
+import isFillArray from './isFillArray'
+import isFillString from './isFillString'
 
 /**
  * 获取 ua
  */
 function getUa() {
-
-    if (! isBrowser()) {
-        return {}
-    }
 
     const ua = navigator.userAgent.toLowerCase()
     const platform = navigator.platform.toLowerCase()

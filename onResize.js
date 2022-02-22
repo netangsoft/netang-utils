@@ -1,5 +1,5 @@
-const ResizeObserver = require('resize-observer-polyfill')
-const run = require('./run')
+import ResizeObserver from 'resize-observer-polyfill'
+import run from './run'
 
 function resizeHandler(entries) {
     for (const entry of entries) {
