@@ -1,5 +1,6 @@
 import _isString from 'lodash/isString'
 import _isNumber from 'lodash/isNumber'
+import _trim from 'lodash/trim'
 import _trimStart from 'lodash/trimStart'
 import _trimEnd from 'lodash/trimEnd'
 
