@@ -1,7 +1,7 @@
 import _isEmpty from 'lodash/isEmpty'
 import _get from 'lodash/get'
 import slash from './slash'
-import parse from 'qs/parse'
+import { parse } from 'qs'
 
 /**
  * 解构 url 参数
@@ -111,7 +111,7 @@ function url(href, path, defaultValue = '') {
             u.pathname = u.pathname.replace('___HASH___', '')
             u.url = u.url.replace('___HASH___', isFile ? '#/' : '/#/')
         }
-        
+
         return path == null ? u : _get(u, path, defaultValue)
     }
 
