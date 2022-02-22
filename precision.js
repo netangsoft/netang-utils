@@ -27,4 +27,4 @@ function precision(value, precision, toFixed) {
     return toFixed ? res.toFixed(precision) : _toNumber(res)
 }
 
-module.exports = precision
+export default precision

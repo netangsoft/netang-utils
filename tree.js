@@ -114,4 +114,4 @@ function tree(p) {
     }
 }
 
-module.exports = tree
+export default tree

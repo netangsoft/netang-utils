@@ -40,4 +40,4 @@ function price(value, toFixed, isAddComma) {
     return value
 }
 
-module.exports = price
+export default price

@@ -14,4 +14,4 @@ function getRandomString(length = 16) {
     return str
 }
 
-module.exports = getRandomString
+export default getRandomString

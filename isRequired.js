@@ -21,4 +21,4 @@ function isRequired(value) {
         || isFillObject(value)
 }
 
-module.exports = isRequired
+export default isRequired

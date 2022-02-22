@@ -56,4 +56,4 @@ function substring(value, start= 0, length = 0, other = '', isReverse = false) {
     return res
 }
 
-module.exports = substring
+export default substring

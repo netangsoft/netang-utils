@@ -26,4 +26,4 @@ function runAsync(func, thisArg = null) {
     } : async function() {}
 }
 
-module.exports = runAsync
+export default runAsync

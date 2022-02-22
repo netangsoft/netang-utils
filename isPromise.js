@@ -13,4 +13,4 @@ function isPromise(value) {
         && _isFunction(value.catch)
 }
 
-module.exports = isPromise
+export default isPromise

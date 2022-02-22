@@ -26,4 +26,4 @@ function getFileSize(value, defaultValue = '') {
     return _round(value, 2) + ['B', 'K', 'M', 'G'][index]
 }
 
-module.exports = getFileSize
+export default getFileSize

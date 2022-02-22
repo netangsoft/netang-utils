@@ -13,4 +13,4 @@ function callback(data, callback) {
     return run(callback)(data, isRequired(data))
 }
 
-module.exports = callback
+export default callback

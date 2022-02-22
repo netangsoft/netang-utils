@@ -78,4 +78,4 @@ function toNumberDeep(value, defaultValue, isBeginZero2String = false) {
     return numberHandle(value, defaultValue, isBeginZero2String)
 }
 
-module.exports = toNumberDeep
+export default toNumberDeep

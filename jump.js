@@ -26,4 +26,4 @@ function jump(url, replace = false) {
     }
 }
 
-module.exports = jump
+export default jump

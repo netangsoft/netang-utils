@@ -9,4 +9,4 @@ function ip2long(value) {
     return arr.length === 4 ? (Number(arr[0]) * 256 * 256 * 256 + Number(arr[1]) * 256 * 256 + Number(arr[2]) * 256 + Number(arr[3])) >>> 0 : 0
 }
 
-module.exports = ip2long
+export default ip2long

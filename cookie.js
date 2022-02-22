@@ -119,4 +119,4 @@ const cookie = {
     delete: deleteCookie,
 }
 
-module.exports = cookie
+export default cookie

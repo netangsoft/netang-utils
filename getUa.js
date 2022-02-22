@@ -124,4 +124,4 @@ function getUa() {
     }
 }
 
-module.exports = getUa
+export default getUa

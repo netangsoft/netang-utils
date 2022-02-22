@@ -32,4 +32,4 @@ function onResize(element, handler) {
     element.__resizeListeners__.push(handler)
 }
 
-module.exports = onResize
+export default onResize

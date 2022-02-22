@@ -161,4 +161,4 @@ function script(urls) {
     })
 }
 
-module.exports = script
+export default script

@@ -22,4 +22,4 @@ function isFillObject(value) {
     return false
 }
 
-module.exports = isFillObject
+export default isFillObject

@@ -13,4 +13,4 @@ function run(func, thisArg) {
     } : function() {}
 }
 
-module.exports = run
+export default run

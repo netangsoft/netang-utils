@@ -49,4 +49,4 @@ function duration(time, type = 1, isSecond = true, defaultValue = '') {
     }
 }
 
-module.exports = duration
+export default duration

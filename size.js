@@ -39,4 +39,4 @@ function size(value) {
     return _size(value)
 }
 
-module.exports = size
+export default size

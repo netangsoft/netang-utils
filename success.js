@@ -8,4 +8,4 @@ function success(data = null) {
     }
 }
 
-module.exports = success
+export default success

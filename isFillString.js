@@ -11,4 +11,4 @@ function isFillString(value) {
     return _isString(value) && value.length > 0
 }
 
-module.exports = isFillString
+export default isFillString

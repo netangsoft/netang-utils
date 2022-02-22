@@ -46,4 +46,4 @@ function toObject(lists = [], type = 'all', idKey = 'id', pidKey = 'pid') {
     return {}
 }
 
-module.exports = toObject
+export default toObject

@@ -15,4 +15,4 @@ function priceCent(val) {
     return val
 }
 
-module.exports = priceCent
+export default priceCent

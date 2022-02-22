@@ -7,6 +7,8 @@ import _isArray from 'lodash/isArray'
  * @returns {boolean}
  */
 
-module.exports = function (value) {
+function isFillArray(value) {
     return _isArray(value) && value.length > 0
 }
+
+export default isFillArray

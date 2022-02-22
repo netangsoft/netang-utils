@@ -15,4 +15,4 @@ function isNumeric(value) {
     )
 }
 
-module.exports = isNumeric
+export default isNumeric

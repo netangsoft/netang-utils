@@ -30,4 +30,4 @@ function crontab(func, timeout = 0) {
     next()
 }
 
-module.exports = crontab
+export default crontab

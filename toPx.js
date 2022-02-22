@@ -10,4 +10,4 @@ function toPx(val) {
     return isNumeric(val) ? val + 'px' : val
 }
 
-module.exports = toPx
+export default toPx

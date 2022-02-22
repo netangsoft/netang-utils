@@ -32,4 +32,4 @@ function percent(val, isSign) {
     return val
 }
 
-module.exports = percent
+export default percent

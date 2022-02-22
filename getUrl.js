@@ -29,4 +29,4 @@ function getUrl(url, origin = '/') {
     return url
 }
 
-module.exports = getUrl
+export default getUrl

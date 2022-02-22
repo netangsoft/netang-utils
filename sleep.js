@@ -46,4 +46,4 @@ async function sleep(timeout = 0) {
     return _sleep
 }
 
-module.exports = sleep
+export default sleep

@@ -312,4 +312,4 @@ const json = {
     },
 }
 
-module.exports = json
+export default json

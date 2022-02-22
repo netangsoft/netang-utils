@@ -57,4 +57,4 @@ function slash(value, position, isAddSlash = true) {
     return ''
 }
 
-module.exports = slash
+export default slash

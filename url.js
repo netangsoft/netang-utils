@@ -118,4 +118,4 @@ function url(href, path, defaultValue = '') {
     throw new Error('url is error')
 }
 
-module.exports = url
+export default url
