@@ -1,4 +1,5 @@
-import _isEmpty from 'lodash/isEmpty'
+import isFillString from './isFillString'
+import slash from './slash'
 
 /**
  * 获取当前 url
@@ -9,21 +10,16 @@ import _isEmpty from 'lodash/isEmpty'
 
 function getUrl(url, origin = '/') {
 
-    if (_isEmpty(url)) {
+    if (! isFillString(url)) {
         url = ''
     }
 
     if (
-        !/^(http|https):/i.test(url)
-        && !/javascript/.test(url)
+        ! /^(http|https|file):/i.test(url)
+        && ! /javascript/.test(url)
+        && isFillString(origin)
     ) {
-        if (_isEmpty(origin)) {
-            origin = utils.config('url')
-        }
-
-        if (origin) {
-            url = utils.slash(origin, 'end', true) + utils.slash(url.replace(/^\//, ''), 'start', false)
-        }
+        url = slash(origin, 'end', true) + slash(url.replace(/^\//, ''), 'start', false)
     }
 
     return url
