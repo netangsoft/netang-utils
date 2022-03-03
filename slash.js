@@ -1,8 +1,8 @@
-import _isString from 'lodash/isString'
-import _isNumber from 'lodash/isNumber'
-import _trim from 'lodash/trim'
-import _trimStart from 'lodash/trimStart'
-import _trimEnd from 'lodash/trimEnd'
+const _isString = require('lodash/isString')
+const _isNumber = require('lodash/isNumber')
+const _trim = require('lodash/trim')
+const _trimStart = require('lodash/trimStart')
+const _trimEnd = require('lodash/trimEnd')
 
 /**
  * 添加或去除首尾反斜杠
@@ -58,4 +58,4 @@ function slash(value, position, isAddSlash = true) {
     return ''
 }
 
-export default slash
+module.exports = slash

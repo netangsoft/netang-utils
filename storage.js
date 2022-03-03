@@ -1,7 +1,7 @@
-import isFillObject from './isFillObject'
-import isFillString from './isFillString'
-import toNumberDeep from './toNumberDeep'
-import json from './json'
+const isFillObject = require('./isFillObject')
+const isFillString = require('./isFillString')
+const toNumberDeep = require('./toNumberDeep')
+const json = require('./json')
 
 // storage 默认设置
 const _storageSettings = {
@@ -278,4 +278,4 @@ const storage = {
     settings: storageSettings,
 }
 
-export default storage
+module.exports = storage

@@ -15,4 +15,4 @@ const on = document.addEventListener ?
         }
     }
 
-export default on
+module.exports = on

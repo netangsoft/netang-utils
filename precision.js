@@ -1,6 +1,6 @@
-import _isNil from 'lodash/isNil'
-import _toNumber from 'lodash/toNumber'
-import isNumeric from './isNumeric'
+const _isNil = require('lodash/isNil')
+const _toNumber = require('lodash/toNumber')
+const isNumeric = require('./isNumeric')
 
 /**
  * 格式化数字精度
@@ -27,4 +27,4 @@ function precision(value, precision, toFixed) {
     return toFixed ? res.toFixed(precision) : _toNumber(res)
 }
 
-export default precision
+module.exports = precision

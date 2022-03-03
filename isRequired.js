@@ -1,9 +1,9 @@
-import _isNull from 'lodash/isNull'
-import _isString from 'lodash/isString'
-import _trim from 'lodash/trim'
-import _isNumber from 'lodash/isNumber'
-import isFillArray from './isFillArray'
-import isFillObject from './isFillObject'
+const _isNull = require('lodash/isNull')
+const _isString = require('lodash/isString')
+const _trim = require('lodash/trim')
+const _isNumber = require('lodash/isNumber')
+const isFillArray = require('./isFillArray')
+const isFillObject = require('./isFillObject')
 
 /**
  * 是否有值
@@ -21,4 +21,4 @@ function isRequired(value) {
         || isFillObject(value)
 }
 
-export default isRequired
+module.exports = isRequired

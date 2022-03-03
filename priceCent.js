@@ -1,5 +1,5 @@
-import _toNumber from 'lodash/toNumber'
-import isNumeric from './isNumeric'
+const _toNumber = require('lodash/toNumber')
+const isNumeric = require('./isNumeric')
 
 /**
  * 价格(元转分)
@@ -15,4 +15,4 @@ function priceCent(val) {
     return val
 }
 
-export default priceCent
+module.exports = priceCent

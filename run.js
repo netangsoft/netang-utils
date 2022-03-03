@@ -1,4 +1,4 @@
-import _isFunction from 'lodash/isFunction'
+const _isFunction = require('lodash/isFunction')
 
 /**
  * 运行函数
@@ -13,4 +13,4 @@ function run(func, thisArg) {
     } : function() {}
 }
 
-export default run
+module.exports = run

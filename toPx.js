@@ -1,4 +1,4 @@
-import isNumeric from './isNumeric'
+const isNumeric = require('./isNumeric')
 
 /**
  * 数字转像素
@@ -10,4 +10,4 @@ function toPx(val) {
     return isNumeric(val) ? val + 'px' : val
 }
 
-export default toPx
+module.exports = toPx

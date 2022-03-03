@@ -1,6 +1,6 @@
-import _isNumber from 'lodash/isNumber'
-import _round from 'lodash/round'
-import toNumberDeep from './toNumberDeep'
+const _isNumber = require('lodash/isNumber')
+const _round = require('lodash/round')
+const toNumberDeep = require('./toNumberDeep')
 
 /**
  * 获取文件大小
@@ -26,4 +26,4 @@ function getFileSize(value, defaultValue = '') {
     return _round(value, 2) + ['B', 'K', 'M', 'G'][index]
 }
 
-export default getFileSize
+module.exports = getFileSize

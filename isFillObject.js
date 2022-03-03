@@ -1,4 +1,4 @@
-import _isPlainObject from 'lodash/isPlainObject'
+const _isPlainObject = require('lodash/isPlainObject')
 
 /**
  * 检查是否为非空对象
@@ -22,4 +22,4 @@ function isFillObject(value) {
     return false
 }
 
-export default isFillObject
+module.exports = isFillObject

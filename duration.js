@@ -1,4 +1,4 @@
-import _padStart from 'lodash/padStart'
+const _padStart = require('lodash/padStart')
 
 /**
  * 音频/视频长度
@@ -49,4 +49,4 @@ function duration(time, type = 1, isSecond = true, defaultValue = '') {
     }
 }
 
-export default duration
+module.exports = duration

@@ -1,5 +1,5 @@
-import _isNumber from 'lodash/isNumber'
-import _isString from 'lodash/isString'
+const _isNumber = require('lodash/isNumber')
+const _isString = require('lodash/isString')
 
 /**
  * 检查是否为数字(包括字符串数字)
@@ -15,4 +15,4 @@ function isNumeric(value) {
     )
 }
 
-export default isNumeric
+module.exports = isNumeric

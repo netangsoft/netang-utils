@@ -1,7 +1,7 @@
-import _toNumber from 'lodash/toNumber'
-import _has from 'lodash/has'
-import isFillString from './isFillString'
-import isNumeric from './isNumeric'
+const _toNumber = require('lodash/toNumber')
+const _has = require('lodash/has')
+const isFillString = require('./isFillString')
+const isNumeric = require('./isNumeric')
 
 /**
  * 保存 cookie
@@ -119,4 +119,4 @@ const cookie = {
     delete: deleteCookie,
 }
 
-export default cookie
+module.exports = cookie

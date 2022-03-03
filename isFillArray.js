@@ -1,4 +1,4 @@
-import _isArray from 'lodash/isArray'
+const _isArray = require('lodash/isArray')
 
 /**
  * isFillArray
@@ -11,4 +11,4 @@ function isFillArray(value) {
     return _isArray(value) && value.length > 0
 }
 
-export default isFillArray
+module.exports = isFillArray

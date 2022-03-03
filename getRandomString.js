@@ -1,4 +1,4 @@
-import _sample from 'lodash/sample'
+const _sample = require('lodash/sample')
 
 /**
  * 获取随机字符串
@@ -14,4 +14,4 @@ function getRandomString(length = 16) {
     return str
 }
 
-export default getRandomString
+module.exports = getRandomString

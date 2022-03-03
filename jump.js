@@ -1,4 +1,4 @@
-import isFillString from './isFillString'
+const isFillString = require('./isFillString')
 
 /**
  * 跳转
@@ -26,4 +26,4 @@ function jump(url, replace = false) {
     }
 }
 
-export default jump
+module.exports = jump

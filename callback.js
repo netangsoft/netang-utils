@@ -1,5 +1,5 @@
-import run from './run'
-import isRequired from './isRequired'
+const run = require('./run')
+const isRequired = require('./isRequired')
 
 /**
  * callback
@@ -13,4 +13,4 @@ function callback(data, callback) {
     return run(callback)(data, isRequired(data))
 }
 
-export default callback
+module.exports = callback

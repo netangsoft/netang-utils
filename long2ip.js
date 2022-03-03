@@ -1,4 +1,4 @@
-import _toNumber from 'lodash/toNumber'
+const _toNumber = require('lodash/toNumber')
 
 /**
  * 数字转 ip
@@ -12,4 +12,4 @@ function long2ip(ip) {
     return `${(ip >>> 24) >>> 0}.${((ip << 8) >>> 24) >>> 0}.${(ip << 16) >>> 24}.${(ip << 24) >>> 24}`
 }
 
-export default long2ip
+module.exports = long2ip

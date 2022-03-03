@@ -1,8 +1,8 @@
-import _isNumber from 'lodash/isNumber'
-import _trim from 'lodash/trim'
-import _isNil from 'lodash/isNil'
-import _isObjectLike from 'lodash/isObjectLike'
-import isNumeric from './isNumeric'
+const _isNumber = require('lodash/isNumber')
+const _trim = require('lodash/trim')
+const _isNil = require('lodash/isNil')
+const _isObjectLike = require('lodash/isObjectLike')
+const isNumeric = require('./isNumeric')
 
 /**
  * 转换为数字
@@ -78,4 +78,4 @@ function toNumberDeep(value, defaultValue, isBeginZero2String = false) {
     return numberHandle(value, defaultValue, isBeginZero2String)
 }
 
-export default toNumberDeep
+module.exports = toNumberDeep

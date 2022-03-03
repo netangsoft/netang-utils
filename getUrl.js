@@ -1,5 +1,5 @@
-import isFillString from './isFillString'
-import slash from './slash'
+const isFillString = require('./isFillString')
+const slash = require('./slash')
 
 /**
  * 获取当前 url
@@ -25,4 +25,4 @@ function getUrl(url, origin = '/') {
     return url
 }
 
-export default getUrl
+module.exports = getUrl

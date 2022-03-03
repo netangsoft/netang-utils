@@ -1,5 +1,5 @@
-import _isObject from 'lodash/isObject'
-import _isFunction from 'lodash/isFunction'
+const _isObject = require('lodash/isObject')
+const _isFunction = require('lodash/isFunction')
 
 /**
  * 检查是否为 Promise
@@ -13,4 +13,4 @@ function isPromise(value) {
         && _isFunction(value.catch)
 }
 
-export default isPromise
+module.exports = isPromise

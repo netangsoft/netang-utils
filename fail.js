@@ -11,4 +11,4 @@ function fail(msg = '', data = null) {
     }
 }
 
-export default fail
+module.exports = fail

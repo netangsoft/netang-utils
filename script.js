@@ -1,4 +1,4 @@
-import getThrowMessage from './getThrowMessage'
+const getThrowMessage = require('./getThrowMessage')
 
 /**
  * 加载单个资源文件
@@ -161,4 +161,4 @@ function script(urls) {
     })
 }
 
-export default script
+module.exports = script

@@ -1,8 +1,8 @@
-import _toNumber from 'lodash/toNumber'
-import _isNumber from 'lodash/isNumber'
-import _split from 'lodash/split'
-import isNumeric from './isNumeric'
-import precision from './precision'
+const _toNumber = require('lodash/toNumber')
+const _isNumber = require('lodash/isNumber')
+const _split = require('lodash/split')
+const isNumeric = require('./isNumeric')
+const precision = require('./precision')
 
 /**
  * 价格(元)
@@ -40,4 +40,4 @@ function price(value, toFixed, isAddComma) {
     return value
 }
 
-export default price
+module.exports = price

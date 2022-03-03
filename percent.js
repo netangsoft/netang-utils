@@ -1,5 +1,5 @@
-import _isNumber from 'lodash/isNumber'
-import toNumberDeep from './toNumberDeep'
+const _isNumber = require('lodash/isNumber')
+const toNumberDeep = require('./toNumberDeep')
 
 /**
  * 计算百分比
@@ -32,4 +32,4 @@ function percent(val, isSign) {
     return val
 }
 
-export default percent
+module.exports = percent

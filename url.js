@@ -1,7 +1,7 @@
-import _isEmpty from 'lodash/isEmpty'
-import _get from 'lodash/get'
-import slash from './slash'
-import { parse } from 'qs'
+const _isEmpty = require('lodash/isEmpty')
+const _get = require('lodash/get')
+const slash = require('./slash')
+const { parse } = require('qs')
 
 /**
  * 解构 url 参数
@@ -118,4 +118,4 @@ function url(href, path, defaultValue = '') {
     throw new Error('url is error')
 }
 
-export default url
+module.exports = url

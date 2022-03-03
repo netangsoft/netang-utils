@@ -44,4 +44,4 @@ function debounceSleep() {
     return debounceSleeped
 }
 
-export default debounceSleep
+module.exports = debounceSleep

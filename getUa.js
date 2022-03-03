@@ -1,5 +1,5 @@
-import isFillArray from './isFillArray'
-import isFillString from './isFillString'
+const isFillArray = require('./isFillArray')
+const isFillString = require('./isFillString')
 
 /**
  * 获取 ua
@@ -124,4 +124,4 @@ function getUa() {
     }
 }
 
-export default getUa
+module.exports = getUa

@@ -11,4 +11,4 @@ function offResize(element, handler) {
     }
 }
 
-export default offResize
+module.exports = offResize

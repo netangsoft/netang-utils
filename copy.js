@@ -16,4 +16,4 @@ function copy(data) {
     document.execCommand('Copy')
 }
 
-export default copy
+module.exports = copy

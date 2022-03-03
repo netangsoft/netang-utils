@@ -15,4 +15,4 @@ const off = document.removeEventListener ?
         }
     }
 
-export default off
+module.exports = off

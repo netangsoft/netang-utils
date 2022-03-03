@@ -1,5 +1,5 @@
-import _has from 'lodash/has'
-import isFillArray from './isFillArray'
+const _has = require('lodash/has')
+const isFillArray = require('./isFillArray')
 
 /**
  * 数组转对象
@@ -46,4 +46,4 @@ function toObject(lists = [], type = 'all', idKey = 'id', pidKey = 'pid') {
     return {}
 }
 
-export default toObject
+module.exports = toObject

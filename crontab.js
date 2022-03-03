@@ -1,4 +1,4 @@
-import _isFunction from 'lodash/isFunction'
+const _isFunction = require('lodash/isFunction')
 
 /**
  * 定时执行
@@ -30,4 +30,4 @@ function crontab(func, timeout = 0) {
     next()
 }
 
-export default crontab
+module.exports = crontab

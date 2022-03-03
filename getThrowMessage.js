@@ -20,4 +20,4 @@ function getThrowMessage(e, defaultValue = 'Operation Failed') {
     return message || defaultValue
 }
 
-export default getThrowMessage
+module.exports = getThrowMessage

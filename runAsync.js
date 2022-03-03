@@ -1,5 +1,5 @@
-import _isFunction from 'lodash/isFunction'
-import isPromise from './isPromise'
+const _isFunction = require('lodash/isFunction')
+const isPromise = require('./isPromise')
 
 /**
  * 运行函数
@@ -26,4 +26,4 @@ function runAsync(func, thisArg = null) {
     } : async function() {}
 }
 
-export default runAsync
+module.exports = runAsync

@@ -1,4 +1,4 @@
-import _trim from 'lodash/trim'
+const _trim = require('lodash/trim')
 
 /**
  * 截取字符串
@@ -56,4 +56,4 @@ function substring(value, start= 0, length = 0, other = '', isReverse = false) {
     return res
 }
 
-export default substring
+module.exports = substring

@@ -1,6 +1,6 @@
-import _isNil from 'lodash/isNil'
-import isFillArray from './isFillArray'
-import run from './run'
+const _isNil = require('lodash/isNil')
+const isFillArray = require('./isFillArray')
+const run = require('./run')
 
 /**
  * 获取树数据
@@ -114,4 +114,4 @@ function tree(p) {
     }
 }
 
-export default tree
+module.exports = tree
