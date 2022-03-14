@@ -6,7 +6,7 @@ const _isFunction = require('lodash/isFunction')
 
 function crontab(func, timeout = 0) {
 
-    if (_isFunction(func)) {
+    if (! _isFunction(func)) {
         throw new TypeError('Expected a function')
     }
 
