@@ -10,24 +10,39 @@ function crontab(func, timeout = 0) {
         throw new TypeError('Expected a function')
     }
 
-    let timerId
+    let _timerId
 
-    function next() {
+    let _stop = false
+
+    function start() {
 
         // 清除定时任务
-        if (timerId !== undefined) {
-            clearTimeout(timerId)
+        if (_timerId !== undefined) {
+            clearTimeout(_timerId)
         }
 
-        timerId = setTimeout(function() {
+        if (_stop) {
+            return
+        }
+
+        _timerId = setTimeout(function() {
+
+            if (_stop) {
+                return
+            }
 
             // 继续执行定时任务
-            func.call(this, next)
+            func.call(this, start)
 
         }, timeout)
     }
 
-    next()
+    return {
+        start,
+        stop() {
+            _stop = true
+        },
+    }
 }
 
 module.exports = crontab

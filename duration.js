@@ -1,51 +1,69 @@
 const _padStart = require('lodash/padStart')
 
 /**
- * 音频/视频长度
+ * 时间长度
  */
-function duration(time, type = 1, isSecond = true, defaultValue = '') {
+function duration(time) {
 
-    if (! time || time <= 0) {
-        return defaultValue
-    }
-
+    // 天
+    let d = 0
     // 时
     let h = 0
     // 分
     let m = 0
     // 秒
-    let s = parseInt(time)
+    let s = 0
 
-    // 如果秒数大于60, 将秒数转换成整数
-    if (s > 60) {
-        // 获取分钟，除以60取整数，得到整数分钟
-        m = parseInt(s / 60)
+    if (time >= 0) {
 
-        // 获取秒数，秒数取佘，得到整数秒数
-        s = parseInt(s % 60)
+        s = parseInt(time)
 
-        // 如果分钟大于60，将分钟转换成小时
-        if (m > 60) {
-            //获取小时，获取分钟除以60，得到整数小时
-            h = parseInt(m / 60)
+        // 如果秒数大于60, 将秒数转换成整数
+        if (s > 60) {
 
-            //获取小时后取佘的分，获取分钟除以60取佘的分
-            m = parseInt(m % 60)
+            // 获取分钟，除以60取整数，得到整数分钟
+            m = parseInt(String(s / 60))
+
+            // 获取秒数，秒数取佘，得到整数秒数
+            s = parseInt(String(s % 60))
+
+            // 如果分钟大于60，将分钟转换成小时
+            if (m > 60) {
+
+                //获取小时，获取分钟除以60，得到整数小时
+                h = parseInt(String(m / 60))
+
+                //获取小时后取佘的分，获取分钟除以60取佘的分
+                m = parseInt(String(m % 60))
+
+                // 如果小时大于24，将小时转换成天
+                if (h > 24) {
+
+                    //获取小时，获取分钟除以60，得到整数小时
+                    d = parseInt(String(h / 24))
+
+                    //获取天后取佘的小时，获取小时除以24取佘的
+                    h = parseInt(String(h % 24))
+                }
+
+            }
         }
     }
 
-    switch (type) {
-        case 1:
-            return `${h ? _padStart(h, 2, '0') + ':' : ''}${m ? _padStart(m, 2, '0') : '00'}${isSecond ? ':' + _padStart(s, 2, '0') : ''}`
-
-        case 2:
-            return `${h ? h + '小时' : ''}${m ? m + '分钟' : ''}${isSecond ? s + '秒' : ''}`
-    }
+    const dd = _padStart(d, 2, '0')
+    const hh = _padStart(h, 2, '0')
+    const mm = _padStart(m, 2, '0')
+    const ss = _padStart(s, 2, '0')
 
     return {
+        d,
         h,
         m,
-        s
+        s,
+        dd,
+        hh,
+        mm,
+        ss,
     }
 }
 
