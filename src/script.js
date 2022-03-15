@@ -112,7 +112,7 @@ function script(urls) {
 
         const promises = []
 
-        for (let url of urls) {
+        for (const url of urls) {
 
             // 如果为字符串
             if (typeof url === 'string') {
@@ -123,7 +123,7 @@ function script(urls) {
 
                 if (! has(url, 'key') || ! has(window, url.key)) {
 
-                    for (let item of url.urls) {
+                    for (const item of url.urls) {
                         if (typeof item === 'String') {
                             promises.push(runScript(item))
                         } else if (Array.isArray(item) && item.length) {

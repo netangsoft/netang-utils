@@ -10,7 +10,7 @@ function isFillObject(value) {
 
     if (_isPlainObject(value)) {
 
-        for (let key in value) {
+        for (const key in value) {
 
             if (Object.prototype.hasOwnProperty.call(value, key)) {
 

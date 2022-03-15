@@ -64,7 +64,7 @@ function numberHandle(value, defaultValue, isBeginZero2String = false) {
  */
 function toNumberDeep(value, defaultValue, isBeginZero2String = false) {
     if (_isObjectLike(value)) {
-        for (let key in value) {
+        for (const key in value) {
             if (Object.prototype.hasOwnProperty.call(value, key)) {
                 if (_isObjectLike(value[key])) {
                     toNumberDeep(value[key], defaultValue, isBeginZero2String)
