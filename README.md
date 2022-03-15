@@ -1,7 +1,7 @@
 ## Installation
 
 ```bash
-npm install @netang/utils
+npm install @netang/utils --dev
 ```
 
 ## License
