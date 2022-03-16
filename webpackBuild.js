@@ -1,12 +1,15 @@
 const { promisify } = require('util')
 const webpack = require('webpack')
 const webpackPromisify = promisify(webpack)
-const webpackDevServer = require('webpack-dev-server-ssr')
+let webpackDevServer = null
 
 async function webpackServerWatch(webpackConfig) {
+    if (webpackDevServer === null) {
+        webpackDevServer = require('webpack-dev-server-ssr')
+    }
     return await new Promise(function(resolve) {
         const compiler = webpack(webpackConfig)
-        const server = new webpackDevServer(compiler, {
+        new webpackDevServer(compiler, {
             // sockPort: configData.webPort,
             // port: configData.webPort,
             host: '0.0.0.0',
@@ -48,7 +51,8 @@ async function webpackServerWatch(webpackConfig) {
 /**
  * 【node】webpack 打包
  */
-const webpackBuild = async (options, callback) => {
+
+const webpackBuild = async (options) => {
 
     const promises = []
 
@@ -60,7 +64,7 @@ const webpackBuild = async (options, callback) => {
         }
     }
 
-    await Promise.all(promises).finally(callback)
+    await Promise.all(promises)
 }
 
 module.exports = webpackBuild
