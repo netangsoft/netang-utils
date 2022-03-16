@@ -24,9 +24,9 @@ function conditionCompile(data, env, first, end) {
     first = regExp2String(first)
     end = regExp2String(end)
 
-    return data.replace(new RegExp(`(\\n?)([ \\t]*)(${first}\\s*\]if.*${end})\\n?([\\s\\S]*?)\\n?(${first}\\s*\]endif.*${end})\\n?`, 'gi'), function(match) {
+    return data.replace(new RegExp(`(\\n?)([ \\t]*)(${first}\\s*\@if.*${end})\\n?([\\s\\S]*?)\\n?(${first}\\s*\@endif.*${end})\\n?`, 'gi'), function(match) {
 
-        const str = match.match(new RegExp(`${first}\\s*\]if(.*)${end}`))
+        const str = match.match(new RegExp(`${first}\\s*\@if(.*)${end}`))
         if (str && Array.isArray(str) && str[1]) {
             let condition = trim(str[1])
             if (!condition) {
