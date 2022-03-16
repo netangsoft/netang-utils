@@ -1,10 +1,10 @@
-const _ = require('lodash')
+const _indexOf = require('lodash/indexOf')
 
 /**
  * 【node】是否有命令
  */
 function hasArgv(argv) {
-    return _.indexOf(process.argv, argv) > -1
+    return _indexOf(process.argv, argv) > -1
 }
 
 module.exports = hasArgv

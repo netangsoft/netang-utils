@@ -1,4 +1,6 @@
+const path = require('path')
 const fs = require('fs')
+const _concat = require('lodash/concat')
 const getFileType = require('./getFileType')
 
 /**
@@ -22,7 +24,7 @@ function traverseFiles(filePath) {
             if (childType === 'dir') {
 
                 // 遍历文件
-                lists = _.concat(lists, traverseFiles(childPath))
+                lists = _concat(lists, traverseFiles(childPath))
 
             } else if (childType === 'file') {
 

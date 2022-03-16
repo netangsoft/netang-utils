@@ -1,5 +1,5 @@
 const process = require('process')
-const _ = require('lodash')
+const _assign = require('lodash/assign')
 const hasArgv = require('./hasArgv')
 
 /**
@@ -37,7 +37,7 @@ function getEnv(newEnv) {
         env.IS_TEST = false
     }
 
-    _.assign(env, newEnv)
+    _assign(env, newEnv)
 
     return env
 }

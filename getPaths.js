@@ -1,6 +1,8 @@
 const fs = require('fs')
 const path = require('path')
-const _ = require('lodash')
+const _startsWith = require('lodash/startsWith')
+const _toUpper = require('lodash/toUpper')
+const _snakeCase = require('lodash/snakeCase')
 const ROOT_PATH = require('./_rootPath')
 
 /**
@@ -12,8 +14,8 @@ function getPaths() {
     }
     const files = fs.readdirSync(ROOT_PATH)
     for (let file of files) {
-        if (! _.startsWith(file, '.')) {
-            const fileKey = _.toUpper(_.snakeCase(file)) + '_PATH'
+        if (! _startsWith(file, '.')) {
+            const fileKey = _toUpper(_snakeCase(file)) + '_PATH'
             const filePath = path.join(ROOT_PATH, file)
             paths[fileKey] = filePath
         }

@@ -1,5 +1,6 @@
+const path = require('path')
 const fs = require('fs')
-const _ = require('lodash')
+const _indexOf = require('lodash/indexOf')
 const getFileType = require('./getFileType')
 
 /*
@@ -13,7 +14,7 @@ function delFile(filePath, ignore) {
     if (fileType === 'dir') {
 
         const files = fs.readdirSync(filePath)
-        for (let file of files) {
+        for (const file of files) {
 
             const childPath = path.join(filePath, file)
             const childType = getFileType(childPath)
@@ -26,20 +27,20 @@ function delFile(filePath, ignore) {
             } else if (childType === 'file') {
 
                 // 删除文件
-                if (! ignore || _.indexOf(ignore, childPath) === -1) {
+                if (! ignore || _indexOf(ignore, childPath) === -1) {
                     fs.unlinkSync(childPath)
                 }
             }
         }
 
         // 删除文件夹
-        if (! ignore || _.indexOf(ignore, filePath) === -1) {
+        if (! ignore || _indexOf(ignore, filePath) === -1) {
             fs.rmdirSync(filePath)
         }
 
     // 删除文件
     } else if (fileType === 'file') {
-        if (! ignore || _.indexOf(ignore, filePath) === -1) {
+        if (! ignore || _indexOf(ignore, filePath) === -1) {
             fs.unlinkSync(filePath)
         }
     }
