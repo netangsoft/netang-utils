@@ -46,4 +46,4 @@ function delFile(filePath, ignore) {
     }
 }
 
-module.exports = getFileType
+module.exports = delFile
