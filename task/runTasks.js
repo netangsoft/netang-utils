@@ -1,10 +1,12 @@
 const fs = require('fs')
 const path = require('path')
-const _ = require('lodash')
-const getFileType = require('./getFileType')
-const dirExists = require('./dirExists')
-const fileExists = require('./fileExists')
-const ROOT_PATH = require('./_rootPath')
+const _startsWith = require('lodash/startsWith')
+const _has = require('lodash/has')
+
+const getFileType = require('../getFileType')
+const dirExists = require('../dirExists')
+const fileExists = require('../fileExists')
+const ROOT_PATH = require('../_rootPath')
 
 const TASK_PATH = path.join(ROOT_PATH, 'task')
 
@@ -32,8 +34,8 @@ function runTasks() {
 
         const tasks = {}
         const files = fs.readdirSync(TASK_PATH)
-        for (let file of files) {
-            if (_.startsWith(file, 'task-')) {
+        for (const file of files) {
+            if (_startsWith(file, 'task-')) {
                 const childPath = path.join(TASK_PATH, file)
                 const childType = getFileType(childPath)
                 if (childType === 'dir') {
@@ -47,9 +49,9 @@ function runTasks() {
             }
         }
 
-        for (let key of process.argv) {
+        for (const key of process.argv) {
             const taskKey = `task${key}`
-            if (_.has(tasks, taskKey)) {
+            if (_has(tasks, taskKey)) {
                 await tasks[taskKey]()
             }
         }
