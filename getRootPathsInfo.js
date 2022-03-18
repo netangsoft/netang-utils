@@ -8,7 +8,7 @@ const ROOT_PATH = require('./_rootPath')
 /**
  * 【node】获取所有根目录的路径详细
  */
-function getPathsInfo() {
+function getRootPathsInfo() {
     const pathsInfo = {}
     const files = fs.readdirSync(ROOT_PATH)
     for (let file of files) {
@@ -25,4 +25,4 @@ function getPathsInfo() {
     return pathsInfo
 }
 
-module.exports = getPathsInfo
+module.exports = getRootPathsInfo

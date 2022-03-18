@@ -2,9 +2,9 @@ const fs = require('fs')
 const minimatch = require('minimatch')
 const _concat = require('lodash/concat')
 const _has = require('lodash/has')
-const traverseFiles = require('../traverseFiles')
-const isFillObject = require('../isFillObject')
-const delFile = require('../delFile')
+const traverseFiles = require('./traverseFiles')
+const isFillObject = require('./isFillObject')
+const delFile = require('./delFile')
 
 function checkMath(filePath, fileName, conditions) {
     for (const condition of conditions) {

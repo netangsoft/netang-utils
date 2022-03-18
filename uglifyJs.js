@@ -1,7 +1,7 @@
 const _isNil = require('lodash/isNil')
 const gulp = require('gulp')
 const uglify = require('gulp-terser')
-const pumps = require('../pumps')
+const pumps = require('./pumps')
 
 let gulpIgnore = null
 

@@ -8,7 +8,7 @@ const ROOT_PATH = require('./_rootPath')
 /**
  * 【node】获取所有根目录的路径
  */
-function getPaths() {
+function getRootPaths() {
     const paths = {
         ROOT_PATH,
     }
@@ -23,4 +23,4 @@ function getPaths() {
     return paths
 }
 
-module.exports = getPaths
+module.exports = getRootPaths

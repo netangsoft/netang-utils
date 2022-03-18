@@ -3,10 +3,10 @@ const path = require('path')
 const _startsWith = require('lodash/startsWith')
 const _has = require('lodash/has')
 
-const getFileType = require('../getFileType')
-const dirExists = require('../dirExists')
-const fileExists = require('../fileExists')
-const ROOT_PATH = require('../_rootPath')
+const getFileType = require('./getFileType')
+const dirExists = require('./dirExists')
+const fileExists = require('./fileExists')
+const ROOT_PATH = require('./_rootPath')
 
 const TASK_PATH = path.join(ROOT_PATH, 'task')
 
