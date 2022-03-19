@@ -1,18 +1,18 @@
 ## Installation
 
 ```bash
-npm install @netang/utils --dev
+npm install @netang/utils --save-dev
 ```
 
 Install mandatory peer dependencies
 ```bash
-npm install lodash --dev
+npm install lodash --save-dev
 ```
 
 Optional Dependencies
 ```bash
-npm install qs --dev
-npm install resize-observer-polyfill --dev
+npm install qs --save-dev
+npm install resize-observer-polyfill --save-dev
 ```
 
 ## License

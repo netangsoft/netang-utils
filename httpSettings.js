@@ -5,7 +5,7 @@ const httpSettingsObj = {
 
     // 请求类型
     method: 'post',
-    // 基础域名
+    // 基础 url
     baseUrl: '',
     // 请求的 url
     url: '',
@@ -50,25 +50,11 @@ const httpSettingsObj = {
     toNumberDeep: true,
     // axios 配置
     settings: {},
-    // 取消请求调用函数
-    onCancel: null,
-    // 获取上传进度调用函数
-    onUploadProgress: null,
     // 获取缓存
     storage: {
         get: null,
         set: null,
     },
-    // 错误执行
-    onError: null,
-    // 处理业务错误
-    onBusinessError: null,
-    // 请求前执行
-    onRequestBefore: null,
-    //判断是否错误重连
-    onCheckReConnect: null,
-    // 请求
-    request: null,
     // code 字典
     dicts: {
         /** 状态码 - 成功 - 200 */
@@ -92,6 +78,20 @@ const httpSettingsObj = {
         /** 状态码 - 服务器未知错误 - 500 */
         CODE__SERVER_ERROR: 500,
     },
+    // 取消请求调用函数
+    onCancel: null,
+    // 获取上传进度调用函数
+    onUploadProgress: null,
+    // 请求前执行
+    onRequestBefore: null,
+    //判断是否错误重连
+    onCheckReConnect: null,
+    // 处理请求
+    onRequest: null,
+    // 处理业务错误
+    onBusinessError: null,
+    // 处理错误
+    onError: null,
 }
 
 function httpSettings(params = null) {

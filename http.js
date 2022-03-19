@@ -120,7 +120,7 @@ async function httpAsync(params) {
             // 传参配置(post: data, get: params)
             if (isFillObject(para.data)) {
 
-                if (options.method === 'get') {
+                if (options.method === 'GET') {
                     data = stringify(para.data)
                     options.params = data
 
@@ -238,7 +238,7 @@ async function httpAsync(params) {
                 }
 
                 // 发起请求
-                const r = await runAsync(para.request)({ para, options, onError })
+                const r = await para.onRequest({ para, options, onError })
                 if (r === false) {
                     return
                 }
