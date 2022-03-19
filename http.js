@@ -232,8 +232,7 @@ async function httpAsync(params) {
             // 请求成功
             try {
                 // 请求前执行
-                const res = await runAsync(para.onRequestBefore)({ para, options, onError })
-                if (res === false) {
+                if (await runAsync(para.onRequestBefore)({ para, options, onError }) === false) {
                     return
                 }
 
@@ -268,8 +267,7 @@ async function httpAsync(params) {
                     if (data.code !== dicts.CODE__SUCCESS) {
 
                         // 处理业务错误
-                        const r = await runAsync(para.onBusinessError)({ data, r, options, para, onError })
-                        if (r === false) {
+                        if (await runAsync(para.onBusinessError)({ data, r, options, para, onError }) === false) {
                             return
                         }
 
