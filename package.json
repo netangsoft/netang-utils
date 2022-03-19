@@ -1,6 +1,6 @@
 {
   "name": "@netang/utils",
-  "version": "0.2.43",
+  "version": "0.2.44",
   "description": "netang-utils",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -17,10 +17,5 @@
   "bugs": {
     "url": "https://github.com/netangsoft/netang-utils/issues"
   },
-  "homepage": "https://github.com/netangsoft/netang-utils#readme",
-  "dependencies": {
-    "lodash": "^4.17.21",
-    "qs": "^6.10.3",
-    "resize-observer-polyfill": "^1.5.1"
-  }
+  "homepage": "https://github.com/netangsoft/netang-utils#readme"
 }
