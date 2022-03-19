@@ -1,6 +1,6 @@
 {
   "name": "@netang/utils",
-  "version": "0.2.42",
+  "version": "0.2.43",
   "description": "netang-utils",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,9 +14,6 @@
   ],
   "author": "Netang",
   "license": "MIT",
-  "bin": {
-    "task": "./bin/task"
-  },
   "bugs": {
     "url": "https://github.com/netangsoft/netang-utils/issues"
   },
