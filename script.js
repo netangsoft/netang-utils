@@ -2,8 +2,9 @@ const getThrowMessage = require('./getThrowMessage')
 
 /**
  * 加载单个资源文件
- * @param {string} url 资源文件地址
- * @returns {Promise}
+ * @param object
+ * @param key
+ * @returns {boolean}
  */
 
 function has(object, key) {

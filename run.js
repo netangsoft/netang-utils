@@ -2,8 +2,8 @@ const _isFunction = require('lodash/isFunction')
 
 /**
  * 运行函数
- * @param {Function} fn
- * @param _this
+ * @param {Function} func
+ * @param thisArg
  * @returns {Function}
  */
 

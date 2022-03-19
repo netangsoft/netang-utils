@@ -3,6 +3,7 @@ const _trim = require('lodash/trim')
 /**
  * 截取字符串
  * @param {string} value 字符串
+ * @param {number} start
  * @param {number} length 截取的长度, 中文为 2 位, 英文为 1 位
  * @param {string} other 截取后字符串的后缀, 如：...
  * @param {boolean} isReverse 截取顺序(空:顺序截取, true:逆序截取)
