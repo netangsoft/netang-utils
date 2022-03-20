@@ -10,7 +10,7 @@ const isFillString = require('./isFillString')
  */
 const langSettings = {
     lists: [],
-    package: null,
+    package: require('./locale/zh-cn'),
 }
 
 /**
