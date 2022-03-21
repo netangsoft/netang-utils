@@ -83,21 +83,12 @@ function getStoragePrefix(key) {
 }
 
 /**
- * 获取 storage 过期时间
- * @param {number} expires 过期时间(默认:7天)
- * @returns {number}
- */
-function getStorageExpires(expires) {
-    return expires > 0 ? expires : (_storageSettings.expires || 0)
-}
-
-/**
  * 保存缓存
  * @param {string} key 键名
  * @param {any} value 值
  * @param {number} expires 过期时间
  */
-function setStorage(key, value, expires = 0) {
+function setStorage(key, value, expires) {
 
     if (! isFillString(key) || _.isNil(value)) {
         return
@@ -110,8 +101,9 @@ function setStorage(key, value, expires = 0) {
     const info = getStorageKeys()
 
     // 获取过期时间
-    expires = getStorageExpires(expires)
-    // 当前时间戳(秒)
+    if (_.isNil(expires)) {
+        expires = _storageSettings.expires
+    }
     expires = expires > 0 ? new Date().getTime() + expires : 0
     if (
         ! _.has(info, key)
