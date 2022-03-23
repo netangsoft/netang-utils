@@ -16,6 +16,7 @@ const run = require('./run')
 const getUrl = require('./getUrl')
 const getThrowMessage = require('./getThrowMessage')
 const stringify = require('./stringify')
+const parse = require('./parse')
 const runAsync = require('./runAsync')
 const $json = require('./json')
 
@@ -209,12 +210,18 @@ async function httpAsync(params) {
                 options.headers['Content-Type'] = `application/${para.responseJson ? 'json' : 'x-www-form-urlencoded'};charset=utf-8`
             }
 
-            // 传参配置(post: data, get: params)
+            // 传参配置(post: data, get: 合并参数至 url 中)
             if (isFillObject(para.data)) {
 
                 if (options.method === 'GET') {
-                    data = stringify(para.data)
-                    options.params = data
+
+                    // 如果 url 中包含参数
+                    if (options.url.indexOf('?') > -1) {
+                        const arr = options.url.split('?')
+                        options.url = `${arr[0]}?${stringify(_assign({}, parse(arr[1]), para.data))}`
+                    } else {
+                        options.url += `?${stringify(para.data)}`
+                    }
 
                 } else {
                     data = para.responseJson ? $json.stringify(para.data) : stringify(para.data)
