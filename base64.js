@@ -6,44 +6,6 @@ module.exports = {
      * @param input
      * @returns {string}
      */
-    decode(input) {
-        input = String(input).replace(/[\t\n\f\r ]/g, '')
-
-        let length = input.length
-
-        if (length % 4 === 0) {
-            input = input.replace(/==?$/, '')
-            length = input.length
-        }
-
-        if (
-            length % 4 === 1
-            || /[^+a-zA-Z0-9/]/.test(input)
-        ) {
-            throw new TypeError('Invalid character')
-        }
-
-        let bitCounter = 0
-        let bitStorage
-        let buffer
-        let output = ''
-        let position = -1
-        while (++position < length) {
-            buffer = TABLE.indexOf(input.charAt(position));
-            bitStorage = bitCounter % 4 ? bitStorage * 64 + buffer : buffer
-            if (bitCounter++ % 4) {
-                output += String.fromCharCode(
-                    0xFF & bitStorage >> (-2 * bitCounter & 6)
-                )
-            }
-        }
-        return output
-    },
-    /**
-     * 解码
-     * @param input
-     * @returns {string}
-     */
     encode(input) {
         input = String(input)
         if (/[^\0-\xFF]/.test(input)) {
@@ -90,6 +52,45 @@ module.exports = {
             )
         }
 
+        return output
+    },
+
+    /**
+     * 解码
+     * @param input
+     * @returns {string}
+     */
+    decode(input) {
+        input = String(input).replace(/[\t\n\f\r ]/g, '')
+
+        let length = input.length
+
+        if (length % 4 === 0) {
+            input = input.replace(/==?$/, '')
+            length = input.length
+        }
+
+        if (
+            length % 4 === 1
+            || /[^+a-zA-Z0-9/]/.test(input)
+        ) {
+            throw new TypeError('Invalid character')
+        }
+
+        let bitCounter = 0
+        let bitStorage
+        let buffer
+        let output = ''
+        let position = -1
+        while (++position < length) {
+            buffer = TABLE.indexOf(input.charAt(position));
+            bitStorage = bitCounter % 4 ? bitStorage * 64 + buffer : buffer
+            if (bitCounter++ % 4) {
+                output += String.fromCharCode(
+                    0xFF & bitStorage >> (-2 * bitCounter & 6)
+                )
+            }
+        }
         return output
     },
 }

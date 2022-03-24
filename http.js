@@ -335,61 +335,62 @@ async function httpAsync(params) {
                     return
                 }
 
-                // 发起请求
-                const r = await para.onRequest({ para, options, onError })
-                if (r === false) {
-                    return
-                }
+                // 下一步
+                async function next(r) {
 
-                // 是否将请求结果深度转换为数字(如果开头为 0 的数字, 则认为是字符串)
-                let data = para.toNumberDeep ? toNumberDeep(r.data, null, true) : r.data
+                    // 是否将请求结果深度转换为数字(如果开头为 0 的数字, 则认为是字符串)
+                    let data = para.toNumberDeep ? toNumberDeep(r.data, null, true) : r.data
 
-                // 判断是否业务出错
-                if (
-                    para.responseType === 'json'
-                    && para.checkCode
-                ) {
-                    // 如果数据格式不正确
+                    // 判断是否业务出错
                     if (
-                        ! isFillObject(data)
-                        || ! _has(data, 'code')
+                        para.responseType === 'json'
+                        && para.checkCode
                     ) {
-                        return onError({
-                            // 错误码
-                            code: dicts.CODE__FAIL,
-                            // 错误信息
-                            msg: 'Data error',
-                        }, r)
-                    }
-
-                    // 如果业务代码不正确
-                    if (data.code !== dicts.CODE__SUCCESS) {
-
-                        // 处理业务错误
-                        const resBusinessError = await runAsync(para.onBusinessError)({ data, r, options, para, onError, onHttp })
-                        if (! _isNil(resBusinessError)) {
-                            return resBusinessError
+                        // 如果数据格式不正确
+                        if (
+                            ! isFillObject(data)
+                            || ! _has(data, 'code')
+                        ) {
+                            return onError({
+                                // 错误码
+                                code: dicts.CODE__FAIL,
+                                // 错误信息
+                                msg: 'Data error',
+                            }, r)
                         }
 
-                        // 返回失败数据
-                        return onError(data, r)
+                        // 如果业务代码不正确
+                        if (data.code !== dicts.CODE__SUCCESS) {
+
+                            // 处理业务错误
+                            const resBusinessError = await runAsync(para.onBusinessError)({ data, r, options, para, onError, onHttp })
+                            if (! _isNil(resBusinessError)) {
+                                return resBusinessError
+                            }
+
+                            // 返回失败数据
+                            return onError(data, r)
+                        }
+
+                        data = data.data
                     }
 
-                    data = data.data
+                    // 如果开启保存缓存
+                    if (isCache) {
+                        // 保存缓存
+                        await runAsync(para.storage.set)(cacheName, data, para.cacheTime)
+                    }
+
+                    // 返回成功数据
+                    return {
+                        status: true,
+                        data,
+                        response: r,
+                    }
                 }
 
-                // 如果开启保存缓存
-                if (isCache) {
-                    // 保存缓存
-                    await runAsync(para.storage.set)(cacheName, data, para.cacheTime)
-                }
-
-                // 返回成功数据
-                return {
-                    status: true,
-                    data,
-                    response: r,
-                }
+                // 发起请求
+                return await para.onRequest({ para, options, onError, next })
 
             // 请求失败
             } catch (e) {
