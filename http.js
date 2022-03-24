@@ -366,7 +366,7 @@ async function httpAsync(params) {
                     if (data.code !== dicts.CODE__SUCCESS) {
 
                         // 处理业务错误
-                        if (await runAsync(para.onBusinessError)({ data, r, options, para, onError }) === false) {
+                        if (await runAsync(para.onBusinessError)({ data, r, options, para, onError, onHttp }) === false) {
                             return
                         }
 
