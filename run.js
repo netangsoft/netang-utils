@@ -6,8 +6,7 @@ const _isFunction = require('lodash/isFunction')
  * @param thisArg
  * @returns {Function}
  */
-
-function run(func, thisArg) {
+function run(func, thisArg = null) {
     return _isFunction(func) ? function(...args) {
         return func.call(thisArg, ...args)
     } : function() {}
