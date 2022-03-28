@@ -408,6 +408,11 @@ async function httpAsync(params) {
                     // 重连次数 + 1
                     reConnectedNum++
 
+                    // 开发模式
+                    if (process.env.NODE_ENV !== 'production') {
+                        console.log(`http reconnect - ${reConnectedNum}`, e)
+                    }
+
                     // 延迟执行
                     await sleep(300)
 
@@ -440,10 +445,11 @@ async function httpAsync(params) {
         return resHttp
 
     } catch (e) {
+
         return onError({
             code: dicts.CODE__SERVER_ERROR,
             msg: getThrowMessage(e),
-        })
+        }, e)
     }
 }
 
