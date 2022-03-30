@@ -58,10 +58,10 @@ const httpSettings = {
     cache: false,
     // 缓存名
     cacheName(options, para, data) {
-        return `${options.method}:${_toUpper(options.url)}:${data}`
+        return `${options.method}:${stringify(options.url)}:${data}`
     },
-    // 缓存时间
-    cacheTime: 300,
+    // 缓存时间(5分钟)
+    cacheTime: 300000,
     // 是否错误重连
     reConnect: false,
     // 重连次数
