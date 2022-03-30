@@ -60,6 +60,8 @@ const httpSettings = {
     cacheName(options, para, data) {
         return `${options.method}:${stringify(options.url)}:${data}`
     },
+    // 保存缓存前执行
+    setCacheBefore: null,
     // 缓存时间(5分钟)
     cacheTime: 300000,
     // 是否错误重连
@@ -376,7 +378,14 @@ async function httpAsync(params) {
                     }
 
                     // 如果开启保存缓存
-                    if (isCache) {
+                    if (
+                        isCache
+                        // 保存缓存前执行
+                        && (
+                            ! _isFunction(para.setCacheBefore)
+                            || para.setCacheBefore({ data, r, cacheName, options, para }) !== false
+                        )
+                    ) {
                         // 保存缓存
                         await runAsync(para.storage.set)(cacheName, data, para.cacheTime)
                     }
