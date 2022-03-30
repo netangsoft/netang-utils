@@ -58,7 +58,7 @@ const httpSettings = {
     cache: false,
     // 缓存名
     cacheName(options, para, data) {
-        return `${options.method}:${stringify(options.url)}:${data}`
+        return `${options.method}:${encodeURIComponent(_toUpper(options.url))}:${data}`
     },
     // 保存缓存前执行
     setCacheBefore: null,
