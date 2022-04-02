@@ -19,6 +19,7 @@ const stringify = require('./stringify')
 const parse = require('./parse')
 const runAsync = require('./runAsync')
 const $json = require('./json')
+const encode = require('./encode')
 
 // http 设置
 const httpSettings = {
@@ -58,7 +59,7 @@ const httpSettings = {
     cache: false,
     // 缓存名
     cacheName(options, para, data) {
-        return `${options.method}:${encodeURIComponent(_toUpper(options.url))}:${data}`
+        return `${options.method}:${encode(_toUpper(options.url))}:${data}`
     },
     // 保存缓存前执行
     setCacheBefore: null,
