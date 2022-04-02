@@ -6,6 +6,9 @@ const dayjs = require('dayjs')
  */
 dayjs.extend(function(o, { prototype }) {
 
+    /**
+     * toObject
+     */
     prototype.toObject = function() {
 
         const YYYY = this.$y
@@ -32,6 +35,14 @@ dayjs.extend(function(o, { prototype }) {
             ss: _padStart(s, 2, '0'),
             SSS: _padStart(this.$ms, 3, '0'),
         }
+    }
+
+    /**
+     * 覆盖 isValid
+     */
+    const oldIsValid = prototype.isValid
+    prototype.isValid = function(args) {
+        return oldIsValid.bind(this)(args)
     }
 })
 
