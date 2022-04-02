@@ -21,12 +21,7 @@ function isDate(val) {
         return length === 13 || length === 10
     }
 
-    // 如果为字符串
-    if (_isString(val)) {
-        val = val.replace(/-/g, '/')
-    }
-
-    return ! isNaN(new Date(val).getTime())
+    return ! isNaN(new Date(_isString(val) ? val.replace(/-/g, '/') : val).getTime())
 }
 
 module.exports = isDate

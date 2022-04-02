@@ -7,37 +7,36 @@ const isNumeric = require('./isNumeric')
  */
 function toDate(val) {
 
-    if (_isNil(val) || Array.isArray(val)) {
-        return new Date()
-    }
+    if (! _isNil(val) && ! Array.isArray(val)) {
 
-    // 如果为数字
-    if (isNumeric(val)) {
+        // 如果为数字
+        if (isNumeric(val)) {
 
-        let length
-        if (_isString(val)) {
-            length = val.length
-            val = Number(val)
+            let length
+            if (_isString(val)) {
+                length = val.length
+                val = Number(val)
+            } else {
+                length = String(val).length
+            }
+
+            // 如果为毫秒时间戳
+            if (length === 13) {
+                return new Date(val)
+            }
+
+            // 如果为普通时间戳
+            if (length === 10) {
+                return new Date(val * 1000)
+            }
+
         } else {
-            length = String(val).length
-        }
 
-        // 如果为毫秒时间戳
-        if (length === 13) {
-            return new Date(val)
-        }
+            val = new Date(_isString(val) ? val.replace(/-/g, '/') : val)
 
-        // 如果为普通时间戳
-        if (length === 10) {
-            return new Date(val * 1000)
-        }
-
-    } else if (_isString(val)) {
-
-        val = val.replace(/-/g, '/')
-
-        if (! isNaN(new Date(val).getTime())) {
-            return new Date(val)
+            if (! isNaN(val.getTime())) {
+                return val
+            }
         }
     }
 
