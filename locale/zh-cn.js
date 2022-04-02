@@ -79,13 +79,13 @@ module.exports = {
         'url': formatInvalid,
 
         // 自定义
-        // 'chs': ':attribute只能包含汉字',
-        // 'chs_alpha': ':attribute只能包含汉字和字母',
-        // 'chs_alpha_dash': ':attribute只能包含汉字、字母、数字、中划线或下划线',
-        // 'chs_alpha_num': ':attribute只能包含汉字、字母和数字',
-        // 'chs_between': ':attribute的长度必须在 :min 到 :max 个字之间',
-        // 'natural': ':attribute必须是自然数',
-        // 'natural_no_zero': ':attribute必须大于 0',
+        'chs': ':attribute只能包含汉字',
+        'chs_alpha': ':attribute只能包含汉字和字母',
+        'chs_alpha_dash': ':attribute只能包含汉字、字母、数字、中划线或下划线',
+        'chs_alpha_num': ':attribute只能包含汉字、字母和数字',
+        'chs_between': ':attribute的长度必须在 :min 到 :max 个字之间',
+        'natural': valueInvalid, // ':attribute必须是自然数'
+        'natural_no_zero': valueInvalid, // ':attribute必须大于 0'
         'mobile': formatInvalid,
 
         // 常用

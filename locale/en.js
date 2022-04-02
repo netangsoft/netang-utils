@@ -84,8 +84,8 @@ module.exports = {
         'chs_alpha_dash': 'The :attribute may only contain chinese, letters, numbers, and dashes.',
         'chs_alpha_num': 'The :attribute may only contain chinese, letters and numbers.',
         'chs_between': 'The :attribute must be between :min and :max characters.',
-        'natural': 'The :attribute must be a natural number.',
-        'natural_no_zero': 'The :attribute must be a positive integer.',
+        'natural': valueInvalid, // 'The :attribute must be a natural number.'
+        'natural_no_zero': valueInvalid, // 'The :attribute must be a positive integer.'
         'mobile': formatInvalid,
 
         /*
