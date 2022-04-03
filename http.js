@@ -267,6 +267,9 @@ async function httpAsync(params) {
 
         // 【判断 loading 状态】==========================================================================================
 
+        // 创建防抖睡眠方法
+        const sleep = debounceSleep()
+
         /**
          * loading 状态
          */
@@ -296,9 +299,6 @@ async function httpAsync(params) {
             isLoading = true
             isLoadingRef = true
         }
-
-        // 创建防抖睡眠方法
-        const sleep = debounceSleep()
 
         // 如果开启 loading
         if (isLoading) {
@@ -443,6 +443,7 @@ async function httpAsync(params) {
 
         // 关闭 loading
         if (isLoading) {
+            sleep.cancel()
             onLoading(false)
         }
 
