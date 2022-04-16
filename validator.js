@@ -556,7 +556,7 @@ const ruleMethods = {
      * 字段必须为: 有效的手机号码
      */
     mobile(value) {
-        return /^(13[0-9]|14[56789]|15[012356789]|16[6]|17[01235678]|18[0-9]|19[89])\d{8}$/.test(typeof value === 'number' ? String(value) : value)
+        return /^1[1-9]\d{9}$/.test(typeof value === 'number' ? String(value) : value)
     }
 
     // /**
