@@ -8,7 +8,6 @@ const _isFunction = require('lodash/isFunction')
 const _trim = require('lodash/trim')
 const _toLower = require('lodash/toLower')
 const _get = require('lodash/get')
-const _split = require('lodash/split')
 const _assign = require('lodash/assign')
 const _isEmpty = require('lodash/isEmpty')
 const _join = require('lodash/join')
@@ -17,6 +16,7 @@ const _cloneDeep = require('lodash/cloneDeep')
 const _toPairs = require('lodash/toPairs')
 // const _toNumber = require('lodash/toNumber')
 
+const split = require('./split')
 const isNumeric = require('./isNumeric')
 const isFillArray = require('./isFillArray')
 const isFillObject = require('./isFillObject')
@@ -678,7 +678,7 @@ function checkRule(data, key, oldValue, ruleKey, ruleValue, valueType, formatMes
         const value = toNumberDeep(oldValue)
 
         // 将规则值转为数组
-        const ruleValues = toNumberDeep(_isString(ruleValue) ? _split(ruleValue, ',') : [ruleValue])
+        const ruleValues = toNumberDeep(_isString(ruleValue) ? split(ruleValue, ',') : [ruleValue])
 
         // 替换错误信息的对象
         const replace = {}
@@ -840,7 +840,7 @@ function validator(data, rules, messages = null, attributes = null) {
     const formatMessages = {}
     if (isFillObject(messages)) {
         for (const key in messages) {
-            const keys = _split(key, '.')
+            const keys = split(key, '.')
             if (keys.length >= 2) {
                 if (!_has(formatMessages, keys[0])) {
                     formatMessages[keys[0]] = {}
@@ -866,7 +866,7 @@ function validator(data, rules, messages = null, attributes = null) {
 
             // 如果为字符串, 则格式化为数组
             if (_isString(ruleArray)) {
-                ruleArray = _split(ruleArray, '|')
+                ruleArray = split(ruleArray, '|')
             }
 
             // 如果为数组
@@ -878,7 +878,7 @@ function validator(data, rules, messages = null, attributes = null) {
 
                     // 如果为字符串
                     if (_isString(value)) {
-                        const vals = _split(value, ':')
+                        const vals = split(value, ':')
                         const isLen1 = vals.length === 1
                         if (isLen1 || vals.length === 2) {
                             const obj = {}

@@ -1,3 +1,4 @@
+const _isNumber = require('lodash/isNumber')
 const isFillString = require('./isFillString')
 
 /*
@@ -8,9 +9,15 @@ const isFillString = require('./isFillString')
  * @returns {array}
  */
 function split(str = '', separator, limit) {
+
+    if (_isNumber(str)) {
+        str = String(str)
+    }
+
     if (isFillString(str)) {
         return str.split(separator, limit)
     }
+
     return []
 }
 

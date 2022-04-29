@@ -1,6 +1,6 @@
 const _toNumber = require('lodash/toNumber')
 const _isNumber = require('lodash/isNumber')
-const _split = require('lodash/split')
+const split = require('./split')
 const isNumeric = require('./isNumeric')
 const precision = require('./precision')
 
@@ -24,7 +24,7 @@ function price(value, toFixed, isAddComma) {
 
             // 如果加逗号隔开
             if (isAddComma === true) {
-                const arr = _split(String(price), '.')
+                const arr = split(price, '.')
                 if (arr.length) {
                     price = String(arr[0]).replace(/\B(?=(\d{3})+$)/g,',')
                     if (arr.length > 1) {
