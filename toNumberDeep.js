@@ -12,7 +12,7 @@ const isNumeric = require('./isNumeric')
  * @returns {number|any}
  */
 
-function numberHandle(value, defaultValue, isBeginZero2String = false) {
+function numberHandle(value, defaultValue = null, isBeginZero2String = false) {
 
     // 如果为数字
     if (_isNumber(value)) {
@@ -62,7 +62,7 @@ function numberHandle(value, defaultValue, isBeginZero2String = false) {
  * @param {boolean} isBeginZero2String 如果开头为 0 的数字, 则转为字符串
  * @returns {number|*}
  */
-function toNumberDeep(value, defaultValue, isBeginZero2String = false) {
+function toNumberDeep(value, defaultValue = null, isBeginZero2String = false) {
     if (_isObjectLike(value)) {
         for (const key in value) {
             if (Object.prototype.hasOwnProperty.call(value, key)) {
