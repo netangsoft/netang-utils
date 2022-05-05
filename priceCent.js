@@ -7,12 +7,12 @@ const isNumeric = require('./isNumeric')
  * @returns {number|*}
  */
 
-function priceCent(val) {
-    if (val && isNumeric(val)) {
-        const price = _toNumber(val)
+function priceCent(value) {
+    if (value && isNumeric(value)) {
+        const price = _toNumber(value)
         return price > 0 ? price * 100 : 0
     }
-    return val
+    return value
 }
 
 module.exports = priceCent

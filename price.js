@@ -12,7 +12,7 @@ const precision = require('./precision')
  * @returns {number}
  */
 
-function price(value, toFixed, isAddComma) {
+function price(value, toFixed = false, isAddComma = false) {
 
     if (isNumeric(value)) {
 
@@ -20,7 +20,7 @@ function price(value, toFixed, isAddComma) {
 
         if (_isNumber(price)) {
 
-            price = precision(price, 2, toFixed !== false)
+            price = precision(price / 100, 2, toFixed)
 
             // 如果加逗号隔开
             if (isAddComma === true) {
