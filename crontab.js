@@ -10,15 +10,16 @@ function crontab(func, timeout = 0) {
         throw new TypeError('Expected a function')
     }
 
-    let _timerId
+    let _timerId = null
 
     let _stop = false
 
     function start() {
 
         // 清除定时任务
-        if (_timerId !== undefined) {
+        if (_timerId) {
             clearTimeout(_timerId)
+            _timerId = null
         }
 
         if (_stop) {
@@ -41,6 +42,10 @@ function crontab(func, timeout = 0) {
         start,
         stop() {
             _stop = true
+
+            if (_timerId) {
+                clearTimeout(_timerId)
+            }
         },
     }
 }
