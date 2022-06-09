@@ -9,6 +9,7 @@ const _isArray = require('lodash/isArray')
 const _isFunction = require('lodash/isFunction')
 
 const isFillString = require('./isFillString')
+const isNumeric = require('./isNumeric')
 const isFillObject = require('./isFillObject')
 const debounceSleep = require('./debounceSleep')
 const toNumberDeep = require('./toNumberDeep')
@@ -230,6 +231,9 @@ async function httpAsync(params) {
                     data = para.responseJson ? $json.stringify(para.data) : stringify(para.data)
                     options.data = data
                 }
+
+            } else if (isFillString(para.data) || isNumeric(para.data)) {
+                options.data = para.data
             }
         }
 

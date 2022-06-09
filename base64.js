@@ -1,6 +1,7 @@
 const TABLE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
 
 module.exports = {
+
     /**
      * 编码
      * @param input
