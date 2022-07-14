@@ -1,4 +1,5 @@
 const _isString = require('lodash/isString')
+const _trim = require('lodash/trim')
 
 /**
  * 检查是否为非空字符串
@@ -8,7 +9,7 @@ const _isString = require('lodash/isString')
 
 function isFillString(value) {
 
-    return _isString(value) && value.length > 0
+    return _isString(value) && _trim(value).length > 0
 }
 
 module.exports = isFillString
