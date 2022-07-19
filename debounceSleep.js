@@ -4,31 +4,35 @@
  */
 function debounceSleep() {
 
-    let timerId
-
-    function pending() {
-        return timerId !== undefined
+    const keys = {
+        // 默认
+        default: undefined,
     }
 
-    function cancel() {
-        if (pending()) {
-            clearTimeout(timerId)
+    function pending(key = 'default') {
+        return keys[key] !== undefined
+    }
+
+    function cancel(key = 'default') {
+        if (pending(key)) {
+            clearTimeout(keys[key])
+            delete(keys[key])
         }
     }
 
-    function debounceSleeped(timeout = 0) {
+    function debounceSleeped(timeout = 0, key = 'default') {
 
-        cancel()
+        cancel(key)
 
         return new Promise(function(resolve) {
 
             if (timeout > 0) {
 
-                timerId = setTimeout(function() {
+                keys[key] = setTimeout(function() {
 
                     resolve()
 
-                    cancel()
+                    cancel(key)
 
                 }, timeout)
 
