@@ -52,7 +52,7 @@ function debounceSleep() {
 
     debounceSleeped.pending = pending
     debounceSleeped.cancel = cancel
-    debounceSleeped.cancel = flush
+    debounceSleeped.flush = flush
 
     return debounceSleeped
 }
