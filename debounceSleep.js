@@ -1,6 +1,5 @@
 /**
  * 防抖延迟执行
- * @returns {function(*=): Promise<unknown>}
  */
 function debounceSleep() {
 
@@ -9,14 +8,23 @@ function debounceSleep() {
         default: undefined,
     }
 
+    // 是否存在
     function pending(key = 'default') {
         return keys[key] !== undefined
     }
 
+    // 取消单个延迟执行
     function cancel(key = 'default') {
         if (pending(key)) {
             clearTimeout(keys[key])
             delete(keys[key])
+        }
+    }
+
+    // 取消所有延迟执行
+    function flush() {
+        for (let key in keys) {
+            cancel(key)
         }
     }
 
@@ -42,8 +50,9 @@ function debounceSleep() {
         })
     }
 
-    debounceSleeped.cancel = cancel
     debounceSleeped.pending = pending
+    debounceSleeped.cancel = cancel
+    debounceSleeped.cancel = flush
 
     return debounceSleeped
 }
