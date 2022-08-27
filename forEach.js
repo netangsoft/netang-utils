@@ -14,7 +14,7 @@ function forEach(data, func) {
         if (length > 0) {
             for (let i = 0; i < length; i++) {
                 if (func(data[i], i, data) === false) {
-                    return
+                    return false
                 }
             }
         }
@@ -24,7 +24,7 @@ function forEach(data, func) {
         for (const key in data) {
             if (Object.prototype.hasOwnProperty.call(data, key)) {
                 if (! func(data[key], isNumeric(key) ? Number(key) : key, data) === false) {
-                    return
+                    return false
                 }
             }
         }
