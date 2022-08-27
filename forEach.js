@@ -22,10 +22,11 @@ function forEach(data, func) {
     // 如果是对象
     } else if (_isPlainObject(data)) {
         for (const key in data) {
-            if (Object.prototype.hasOwnProperty.call(data, key)) {
-                if (! func(data[key], isNumeric(key) ? Number(key) : key, data) === false) {
-                    return false
-                }
+            if (
+                Object.prototype.hasOwnProperty.call(data, key)
+                && func(data[key], isNumeric(key) ? Number(key) : key, data) === false
+            ) {
+                return false
             }
         }
     }
