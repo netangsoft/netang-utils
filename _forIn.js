@@ -7,11 +7,11 @@ const isNumeric = require('./isNumeric')
  */
 function forIn(data, func) {
     for (const key in data) {
-        if (
-            Object.prototype.hasOwnProperty.call(data, key)
-            && func(data[key], isNumeric(key) ? Number(key) : key, data) === false
-        ) {
-            return false
+        if (Object.prototype.hasOwnProperty.call(data, key)) {
+            const res = func(data[key], isNumeric(key) ? Number(key) : key, data)
+            if (res !== undefined) {
+                return res
+            }
         }
     }
 }
