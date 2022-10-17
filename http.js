@@ -43,6 +43,8 @@ const httpSettings = {
     warn: true,
     // 是否开启上传
     upload: false,
+    // 自定义上传表单数据
+    uploadFormData: false,
     // 是否包含头部鉴权认证
     token: true,
     // 头部数据
@@ -198,8 +200,12 @@ async function httpAsync(params) {
                 }
             }
 
-            // 获取上传文件数据
-            if (isFillObject(para.data)) {
+            // 如果自定义上传表单数据
+            if (para.uploadFormData) {
+                options.data = para.data
+
+            // 否则获取上传文件数据
+            } else if (isFillObject(para.data)) {
                 const fileData = new FormData()
                 _forEach(para.data, function(value, key) {
                     fileData.append(key, value)
