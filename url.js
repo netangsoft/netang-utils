@@ -1,5 +1,5 @@
-const _isEmpty = require('lodash/isEmpty')
 const _get = require('lodash/get')
+const _isFillString = require('./isFillString')
 const slash = require('./slash')
 const { parse } = require('qs')
 
@@ -22,7 +22,10 @@ const { parse } = require('qs')
 
 function url(href, path, defaultValue = '') {
 
-    if (_isEmpty(href)) {
+    if (! _isFillString(href)) {
+        if (typeof window === 'undefined') {
+            throw new Error('url is error')
+        }
         href = window.location.href
     }
 
