@@ -17,7 +17,7 @@ function slash(value, position, isAddSlash = true) {
     if (_isString(value) || _isNumber(value)) {
 
         // 去除前后空格
-        value = _trim(value + '')
+        value = _trim(String(value))
 
         // 如果不为空
         if (value.length) {
@@ -55,7 +55,7 @@ function slash(value, position, isAddSlash = true) {
         }
     }
 
-    return ''
+    return isAddSlash ? '/' : ''
 }
 
 module.exports = slash

@@ -10,14 +10,14 @@ function getThrowMessage(e, defaultValue = 'Operation Failed') {
 
     if (e) {
         if (typeof e === 'object') {
-            message = e.message
+            message = e.errMsg || e.message
 
         } else if (typeof e === 'string') {
             message = e
         }
     }
 
-    return message || defaultValue
+    return String(message || defaultValue)
 }
 
 module.exports = getThrowMessage
