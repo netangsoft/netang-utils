@@ -8,7 +8,6 @@ const _isFunction = require('lodash/isFunction')
 const _trim = require('lodash/trim')
 const _toLower = require('lodash/toLower')
 const _get = require('lodash/get')
-const _assign = require('lodash/assign')
 const _isEmpty = require('lodash/isEmpty')
 const _join = require('lodash/join')
 const _map = require('lodash/map')
@@ -750,7 +749,7 @@ function checkRule(data, key, oldValue, ruleKey, ruleValue, valueType, formatMes
         }
 
         // 执行参数
-        const params = _assign({
+        const params = Object.assign({
             data,
             key,
             oldValue,

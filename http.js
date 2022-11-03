@@ -1,6 +1,5 @@
 const _get = require('lodash/get')
 const _merge = require('lodash/merge')
-const _assign = require('lodash/assign')
 const _toUpper = require('lodash/toUpper')
 const _forEach = require('lodash/forEach')
 const _has = require('lodash/has')
@@ -176,7 +175,7 @@ async function httpAsync(params) {
     try {
         // 【请求设置】=================================================================================================
 
-        const options = _assign({
+        const options = Object.assign({
             method: _toUpper(para.method),
             url: getUrl(para.url, para.baseUrl),
             headers: para.headers,
@@ -227,7 +226,7 @@ async function httpAsync(params) {
                     // 如果 url 中包含参数
                     if (options.url.indexOf('?') > -1) {
                         const arr = options.url.split('?')
-                        options.url = `${arr[0]}?${stringify(_assign({}, parse(arr[1]), para.data))}`
+                        options.url = `${arr[0]}?${stringify(Object.assign({}, parse(arr[1]), para.data))}`
                     } else {
                         options.url += `?${stringify(para.data)}`
                     }

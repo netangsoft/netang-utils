@@ -1,6 +1,5 @@
 const _toLower = require('lodash/toLower')
 const _get = require('lodash/get')
-const _assign = require('lodash/assign')
 
 const isFillObject = require('./isFillObject')
 const isFillString = require('./isFillString')
@@ -36,7 +35,7 @@ function trans(key, replace = null) {
 }
 
 function settings(params) {
-    _assign(langSettings, params)
+    Object.assign(langSettings, params)
 }
 
 module.exports = {
