@@ -15,8 +15,8 @@ function runScript(url) {
 
     return new Promise(function(resolve, reject) {
 
-        if (typeof url !== 'string' || ! /^(http|https):/.test(url)) {
-            reject('资源地址不正确3')
+        if (typeof url !== 'string' || ! /^http(s)?:\/\//i.test(url)) {
+            reject(`[${url}]格式不正确`)
             return;
         }
 
@@ -103,40 +103,61 @@ function runScripts(urls) {
  * @returns {Promise}
  */
 function script(urls) {
-
     return new Promise(function(resolve, reject) {
 
-        if (! Array.isArray(urls)) {
-            reject('资源地址不正确1')
-            return
+        function fail() {
+            reject('资源地址格式不正确')
         }
 
         const promises = []
 
-        for (const url of urls) {
+        if (typeof urls === 'string') {
+            promises.push(runScript(urls))
 
-            // 如果为字符串
-            if (typeof url === 'string') {
-                promises.push(runScript(url))
-
-            // 否则如果为对象
-            } else if (typeof url === 'object' && has(url, 'urls') && Array.isArray(url.urls)) {
-
-                if (! has(url, 'key') || ! has(window, url.key)) {
-
-                    for (const item of url.urls) {
-                        if (typeof item === 'String') {
-                            promises.push(runScript(item))
-                        } else if (Array.isArray(item) && item.length) {
-                            promises.push(runScripts(item))
-                        }
-                    }
-                }
-
-            // 否则错误
-            } else {
-                reject('资源地址不正确2')
+        } else {
+            if (! Array.isArray(urls)) {
+                fail()
                 return
+            }
+
+            for (const url of urls) {
+
+                // 如果为数组
+                if (Array.isArray(url)) {
+                    promises.push(runScripts(url))
+
+                // 如果为对象
+                } else if (typeof url === 'object') {
+                    if (
+                        has(url, 'urls')
+                        && has(url, 'key')
+                        && !! url.key
+                        && Array.isArray(url.urls)
+                    ) {
+                        if (! has(window, url.key)) {
+                            for (const item of url.urls) {
+                                if (typeof item === 'String') {
+                                    promises.push(runScript(item))
+
+                                } else if (Array.isArray(item) && item.length) {
+                                    promises.push(runScripts(item))
+                                }
+                            }
+                        }
+                    } else {
+                        fail()
+                        return
+                    }
+
+                // 如果为字符串
+                } else if (typeof url === 'string') {
+                    promises.push(runScript(url))
+
+                // 否则错误
+                } else {
+                    fail()
+                    return
+                }
             }
         }
 
@@ -148,9 +169,7 @@ function script(urls) {
         const windowDefine = has(window, 'define') ? window.define : null
 
         Promise.all(promises)
-            .then(function() {
-                resolve()
-            })
+            .then(resolve)
             .catch(function(e) {
                 reject(getThrowMessage(e))
             })
