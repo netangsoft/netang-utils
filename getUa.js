@@ -6,7 +6,7 @@ const isBrowser = require('./isBrowser')
 function getUa() {
 
     // 如果是浏览器
-    if (isBrowser) {
+    if (isBrowser()) {
 
         const ua = navigator.userAgent.toLowerCase()
         const ie = /msie|trident/.test(ua)
