@@ -6,8 +6,6 @@ const isJson = require('./isJson')
 const toNumberDeep = require('./toNumberDeep')
 const fail = require('./fail')
 
-let socketHandler
-
 /**
  * WebSocket 类
  */
@@ -550,9 +548,4 @@ class Socket {
     }
 }
 
-module.exports = function(params) {
-    if (! socketHandler) {
-        socketHandler = new Socket(params)
-    }
-    return socketHandler
-}
+module.exports = Socket
