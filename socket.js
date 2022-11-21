@@ -1,10 +1,12 @@
 const _has = require('lodash/has')
 const _findIndex = require('lodash/findIndex')
+const _isNil = require('lodash/isNil')
 const run = require('./run')
 const getThrowMessage = require('./getThrowMessage')
 const isJson = require('./isJson')
 const toNumberDeep = require('./toNumberDeep')
 const fail = require('./fail')
+const runAsync = require('./runAsync')
 
 /**
  * WebSocket 类
@@ -14,32 +16,30 @@ class Socket {
     /**
      * 构造
      */
-    constructor(params) {
+    constructor() {
 
-        this.o = Object.assign({
-            // 角色类型
-            roleType: 0,
-            // 字典
-            dicts: {
-                /** 状态码 - 成功 - 200 */
-                CODE__SUCCESS: 200,
-                /** 状态码 - 错误 - 400 */
-                CODE__FAIL: 400,
-                /** 状态码 - token 过期需要重新鉴权 - 410 */
-                CODE__TOKEN_EXPIRED: 410,
-                /** 状态码 - 强制退出 - 411 */
-                CODE__LOGOUT: 411,
-                /** 消息类型(100:参数错误) */
-                SOCKET_MESSAGE_TYPE__PARAMS_ERROR: 100,
-            },
-            // 请求前执行
-            onConnectBefore: null,
-        }, params)
+        // 角色类型
+        this.roleType = 0
+
+        // 字典常量
+        this.dicts = {
+            /** 状态码 - 成功 - 200 */
+            CODE__SUCCESS: 200,
+            /** 状态码 - 错误 - 400 */
+            CODE__FAIL: 400,
+            /** 状态码 - token 过期需要重新鉴权 - 410 */
+            CODE__TOKEN_EXPIRED: 410,
+            /** 状态码 - 强制退出 - 411 */
+            CODE__LOGOUT: 411,
+            /** 消息类型(100:参数错误) */
+            SOCKET_MESSAGE_TYPE__PARAMS_ERROR: 100,
+        }
 
         // socket 实例
         this.socket = null
         // 发送数据队列
         this.query = []
+
         // 计数器
         this._num = 1
         // 是否连接中
@@ -55,7 +55,27 @@ class Socket {
     }
 
     /**
-     * 连接(Promise 化)
+     * 请求前执行
+     */
+    onConnectBefore() {}
+
+    /**
+     * 处理业务错误
+     */
+    onBusinessError() {}
+
+    /**
+     * 退出
+     */
+    logout() {}
+
+    /**
+     * 获取鉴权 token
+     */
+    getAuthToken() {}
+
+    /**
+     * 连接
      */
     connect() {
         if (this._connecting) {
@@ -65,12 +85,6 @@ class Socket {
 
         // 清空更新鉴权认证次数
         this._updatedAuthTokenNum = 0
-
-        const { o } = this
-
-        const {
-            dicts,
-        } = o
 
         return new Promise((resolve) => {
 
@@ -82,7 +96,7 @@ class Socket {
             }
 
             // 请求前执行
-            if (run(o.onConnectBefore)() === false) {
+            if (this.onConnectBefore() === false) {
                 this._connecting = false
                 resolve(false)
                 return
@@ -109,21 +123,26 @@ class Socket {
             /**
              * 连接 WebSocket
              */
-            this.socket = o.socket.onConnect({
-                // 角色类型
-                role_type: this.o.roleType,
-                // 登录鉴权
-                token: this.o.getAuthToken(),
-            }, ()=>{
-                if (! isCompleted) {
-                    _complete(false)
+            this.socket = this.$socket.onConnect.call(this,
+                // 参数
+                {
+                    // 角色类型
+                    role_type: this.roleType,
+                    // 登录鉴权
+                    token: this.getAuthToken(),
+                },
+                // 失败回调
+                function() {
+                    if (! isCompleted) {
+                        _complete(false)
+                    }
                 }
-            })
+            )
 
             /**
              * 监听错误事件
              */
-            o.socket.onError(async (e) => {
+            this.$socket.onError.call(this, async (e) => {
 
                 // 【调试模式】
                 /* #if IS_DEBUG */
@@ -135,32 +154,26 @@ class Socket {
                     return
                 }
 
-                const result = {
+                run(this._onMessage)({
                     status: false,
                     msg: getThrowMessage(e, '操作失败'),
                     data: null,
 
                     message_id: '',
-                    message_type: dicts.SOCKET_MESSAGE_TYPE__PARAMS_ERROR,
-                }
+                    message_type: this.dicts.SOCKET_MESSAGE_TYPE__PARAMS_ERROR,
+                })
 
-                // 执行错误执行
-                const res = run(o.onError)(result)
-                if (res === false) {
-                    return
-                }
-
-                run(this._onMessage)(result)
                 await this.close()
             })
 
             /**
              * 监听消息事件
              */
-            o.socket.onMessage(async ({ data }) => {
+            this.$socket.onMessage.call(this, async ({ data }) => {
 
                 // 返回结果
-                const onResult = (status, result) => {
+                const _result = (status, result) => {
+
                     const {
                         data,
                     } = result
@@ -169,12 +182,12 @@ class Socket {
                         status,
                         data: null,
                         message_id: '',
-                        message_type: status ? '' : dicts.SOCKET_MESSAGE_TYPE__PARAMS_ERROR,
+                        message_type: status ? '' : this.dicts.SOCKET_MESSAGE_TYPE__PARAMS_ERROR,
                     }, result, data)
                 }
 
                 // 错误
-                const onError = async (data)=>{
+                const _error = async (data)=>{
 
                     // 【调试模式】
                     /* #if IS_DEBUG */
@@ -186,13 +199,7 @@ class Socket {
                         return
                     }
 
-                    const result = onResult(false, data)
-
-                    // 执行错误执行
-                    const res = run(o.onError)(result)
-                    if (res === false) {
-                        return
-                    }
+                    const result = _result(false, data)
 
                     // 如果有唯一消息 id
                     if (_has(data, 'data.message_id')) {
@@ -244,17 +251,22 @@ class Socket {
                             isCompleted = true
 
                             // 执行退出
-                            run(o.onLogout)()
+                            this.logout(data)
                         }
 
                         // 如果业务代码不正确
-                        if (data.code !== dicts.CODE__SUCCESS) {
+                        if (data.code !== this.dicts.CODE__SUCCESS) {
 
                             // 410: token 过期需要重新鉴权
-                            if (data.code === dicts.CODE__TOKEN_EXPIRED) {
+                            if (data.code === this.dicts.CODE__TOKEN_EXPIRED) {
 
-                                // 如果更新鉴权认证次数超过上限, 说明需要强制退出 || 没有鉴权方法
-                                if (this._updatedAuthTokenNum > 3 || ! _.has(this.o, 'onUpdateAuthToken')) {
+                                const {
+                                    // 更新鉴权认证
+                                    updateAuthToken,
+                                } = this
+
+                                // 如果更新鉴权认证次数超过上限, 说明需要强制退出 || 没有更新鉴权认证方法
+                                if (this._updatedAuthTokenNum > 3 || ! updateAuthToken) {
                                     return await logout()
                                 }
 
@@ -262,7 +274,7 @@ class Socket {
                                 this._updatedAuthTokenNum++
 
                                 // 如果更新鉴权认证成功
-                                if (await this.o.onUpdateAuthToken()) {
+                                if (await updateAuthToken()) {
 
                                     // 【调试模式】
                                     // --------------------------------------------------
@@ -276,13 +288,13 @@ class Socket {
                                         // 消息id
                                         message_id: this.getMessageId(),
                                         // 聊天消息类型(1:更新鉴权认证)
-                                        message_type: dicts.SOCKET_MESSAGE_TYPE__UPDATE_AUTH,
+                                        message_type: this.dicts.SOCKET_MESSAGE_TYPE__UPDATE_AUTH,
                                         // 消息数据
                                         data: {
                                             // 角色类型
-                                            role_type: this.o.roleType,
+                                            role_type: this.roleType,
                                             // 登录鉴权
-                                            token: this.o.getAuthToken(),
+                                            token: this.getAuthToken(),
                                         },
                                     })) {
                                         return await logout()
@@ -295,11 +307,17 @@ class Socket {
                                 }
 
                             // 411: 强制退出(当前用户账号在另一台设备上登录)
-                            } else if (data.code === dicts.CODE__LOGOUT) {
+                            } else if (data.code === this.dicts.CODE__LOGOUT) {
                                 return await logout()
                             }
 
-                            return await onError(data)
+                            // 处理业务错误
+                            const resBusinessError = await runAsync(this.onBusinessError, this)({ data, onError: _error })
+                            if (! _isNil(resBusinessError)) {
+                                return resBusinessError
+                            }
+
+                            return await _error(data)
                         }
 
                         // 返回成功
@@ -320,7 +338,7 @@ class Socket {
                         // 聊天消息类型(1:更新鉴权认证)
                         if (
                             _has(data, 'data.message_type')
-                            && data.data.message_type === dicts.SOCKET_MESSAGE_TYPE__UPDATE_AUTH
+                            && data.data.message_type === this.dicts.SOCKET_MESSAGE_TYPE__UPDATE_AUTH
                         ) {
                             // 此时继续发送队列中的数据
                             if (this.query.length) {
@@ -331,8 +349,8 @@ class Socket {
                                 for (const item of newQuery) {
                                     if (! await this._send(item.data)) {
                                         // this.deleteQuery(item.data.message_id)
-                                        item.resolve(onResult(false, {
-                                            code: dicts.CODE__FAIL,
+                                        item.resolve(_result(false, {
+                                            code: this.dicts.CODE__FAIL,
                                             msg: '发送失败',
                                             data: item.data,
                                         }))
@@ -353,12 +371,12 @@ class Socket {
                                 if (index > -1) {
                                     const item = this.query[index]
                                     this.query.splice(index, 1)
-                                    item.resolve(onResult(true, {data: data.data}))
+                                    item.resolve(_result(true, {data: data.data}))
                                     return
                                 }
                             }
 
-                            run(this._onMessage)(onResult(true, {data: data.data}))
+                            run(this._onMessage)(_result(true, {data: data.data}))
                         }
                         return
                     }
@@ -371,13 +389,13 @@ class Socket {
                 // #endif
                 // --------------------------------------------------
 
-                await onError({
+                await _error({
                     // 错误码
-                    code: dicts.CODE__FAIL,
+                    code: this.dicts.CODE__FAIL,
                     // 错误信息
                     msg: 'Data error',
                     data: {
-                        message_type: dicts.SOCKET_MESSAGE_TYPE__PARAMS_ERROR,
+                        message_type: this.dicts.SOCKET_MESSAGE_TYPE__PARAMS_ERROR,
                     },
                 })
             })
@@ -385,7 +403,7 @@ class Socket {
             /**
              * 监听关闭事件
              */
-            o.socket.onClose(() => {
+            this.$socket.onClose.call(this, () => {
 
                 // 【调试模式】
                 /* #if IS_DEBUG */
@@ -434,7 +452,7 @@ class Socket {
      * 获取消息 id
      */
     getMessageId() {
-        return `${this.o.roleType}-${this._num++}`
+        return `${this.roleType}-${this._num++}`
     }
 
     /**
@@ -459,7 +477,7 @@ class Socket {
                 message_type: 0,
                 // 消息数据
                 data: {},
-            },params)
+            }, params)
 
             // 发送数据
             const messageData = {
@@ -480,7 +498,7 @@ class Socket {
             })
 
             // 失败事件
-            const error = () => {
+            const _error = () => {
                 this._sending = false
                 this.deleteQuery(messageData.message_id)
                 resolve(fail('发送失败'))
@@ -488,7 +506,7 @@ class Socket {
 
             // 如果连接失败
             if (! await this.connect()) {
-                return error()
+                return _error()
             }
 
             // 清空更新鉴权认证次数
@@ -498,7 +516,7 @@ class Socket {
             if (! await this._send(messageData)) {
                 // 如果重新连接又失败
                 if (! await this.reconnect()) {
-                    return error()
+                    return _error()
                 }
 
                 // 清空更新鉴权认证次数
@@ -506,7 +524,7 @@ class Socket {
 
                 // 如果重新发送又失败
                 if (! await this._send(messageData)) {
-                    return error()
+                    return _error()
                 }
             }
 
@@ -515,12 +533,12 @@ class Socket {
     }
 
     /**
-     * 关闭 WebSocket
+     * 关闭
      */
     close() {
         return new Promise((resolve) => {
             if (this.socket) {
-                this.o.socket.onClose(()=>{
+                this.$socket.onClose.call(this, ()=>{
                     this.socket = null
                     resolve()
                 })
@@ -535,12 +553,12 @@ class Socket {
      */
 
     /**
-     * 发送消息(Promise 化)
+     * 发送消息
      */
     _send(data) {
         return new Promise((resolve) => {
             if (this.socket) {
-                this.o.socket.send(JSON.stringify(data), resolve)
+                this.$socket.send.call(this, JSON.stringify(data), resolve)
             } else {
                 resolve(false)
             }
