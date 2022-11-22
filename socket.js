@@ -503,7 +503,7 @@ class Socket {
                 // 消息数据
                 data: messageData,
             }
-            if (message_id !== 0) {
+            if (message_id !== null) {
                 // promise 提交事件
                 query.resolve = resolve
             }
@@ -542,7 +542,7 @@ class Socket {
 
             this._sending = false
 
-            if (message_id === 0) {
+            if (message_id === null) {
                 resolve(success())
             }
         })
