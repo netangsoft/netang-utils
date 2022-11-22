@@ -218,7 +218,9 @@ class Socket {
                             this.query.splice(index, 1)
 
                             // 执行异步 resolve 事件
-                            item.resolve(result)
+                            if (_has(item, 'resolve')) {
+                                item.resolve(result)
+                            }
                             return
                         }
                     }
@@ -352,11 +354,13 @@ class Socket {
                                 for (const item of newQuery) {
                                     if (! await this._send(item.data)) {
                                         // this.deleteQuery(item.data.message_id)
-                                        item.resolve(_result(false, {
-                                            code: this.dicts.CODE__FAIL,
-                                            msg: '发送失败',
-                                            data: item.data,
-                                        }))
+                                        if (_has(item, 'resolve')) {
+                                            item.resolve(_result(false, {
+                                                code: this.dicts.CODE__FAIL,
+                                                msg: '发送失败',
+                                                data: item.data,
+                                            }))
+                                        }
                                     }
                                 }
                             }
@@ -374,7 +378,9 @@ class Socket {
                                 if (index > -1) {
                                     const item = this.query[index]
                                     this.query.splice(index, 1)
-                                    item.resolve(_result(true, {data: data.data}))
+                                    if (_has(item, 'resolve')) {
+                                        item.resolve(_result(true, {data: data.data}))
+                                    }
                                     return
                                 }
                             }
@@ -493,14 +499,15 @@ class Socket {
             }
 
             // 添加至消息队列
-            if (message_id !== 0) {
-                this.query.push({
-                    // 消息数据
-                    data: messageData,
-                    // promise 提交事件
-                    resolve,
-                })
+            const query = {
+                // 消息数据
+                data: messageData,
             }
+            if (message_id !== 0) {
+                // promise 提交事件
+                query.resolve = resolve
+            }
+            this.query.push(query)
 
             // 失败事件
             const _error = () => {
