@@ -5,6 +5,7 @@ const run = require('./run')
 const getThrowMessage = require('./getThrowMessage')
 const isJson = require('./isJson')
 const toNumberDeep = require('./toNumberDeep')
+const success = require('./success')
 const fail = require('./fail')
 const runAsync = require('./runAsync')
 
@@ -474,7 +475,7 @@ class Socket {
                 data,
             } = Object.assign({
                 // 消息 id
-                message_id: 0,
+                message_id: undefined,
                 // 消息类型
                 message_type: 0,
                 // 消息数据
@@ -492,12 +493,14 @@ class Socket {
             }
 
             // 添加至消息队列
-            this.query.push({
-                // 消息数据
-                data: messageData,
-                // promise 提交事件
-                resolve,
-            })
+            if (message_id !== 0) {
+                this.query.push({
+                    // 消息数据
+                    data: messageData,
+                    // promise 提交事件
+                    resolve,
+                })
+            }
 
             // 失败事件
             const _error = () => {
@@ -531,6 +534,10 @@ class Socket {
             }
 
             this._sending = false
+
+            if (message_id === 0) {
+                resolve(success())
+            }
         })
     }
 
