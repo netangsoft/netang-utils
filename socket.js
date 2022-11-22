@@ -31,6 +31,8 @@ class Socket {
             CODE__TOKEN_EXPIRED: 410,
             /** 状态码 - 强制退出 - 411 */
             CODE__LOGOUT: 411,
+            /** 消息类型(1:更新鉴权认证) */
+            SOCKET_MESSAGE_TYPE__UPDATE_AUTH: 1,
             /** 消息类型(100:参数错误) */
             SOCKET_MESSAGE_TYPE__PARAMS_ERROR: 100,
         }
