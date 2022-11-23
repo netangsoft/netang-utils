@@ -549,12 +549,12 @@ class Socket {
     }
 
     /**
-     * 关闭
+     * 关闭连接
      */
     close() {
         return new Promise((resolve) => {
             if (this.socket) {
-                this.$socket.onClose.call(this, ()=>{
+                this.$socket.close.call(this, ()=>{
                     this.socket = null
                     resolve()
                 })
