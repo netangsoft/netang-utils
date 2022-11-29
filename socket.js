@@ -179,20 +179,19 @@ class Socket {
 
                     const res = {
                         status,
+                        data: null,
                         message_id: '',
                         message_type: status ? '' : this.dicts.SOCKET_MESSAGE_TYPE__PARAMS_ERROR,
                     }
 
                     // 如果成功
                     if (status) {
-                        return Object.assign(res, {
-                            data: result.data,
-                            response: {
-                                data: result,
-                            }
-                        })
+                        const {
+                            data
+                        } = result
+                        return Object.assign(res, result, data)
                     }
-                    
+
                     // 否则失败
                     return Object.assign(res, {
                         data: result,
