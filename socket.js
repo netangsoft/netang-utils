@@ -229,8 +229,8 @@ class Socket {
                             // 执行异步 resolve 事件
                             if (_has(item, 'resolve')) {
                                 item.resolve(result)
+                                return
                             }
-                            return
                         }
                     }
 
@@ -389,8 +389,8 @@ class Socket {
                                     this.query.splice(index, 1)
                                     if (_has(item, 'resolve')) {
                                         item.resolve(_result(true, {data: data.data}))
+                                        return
                                     }
-                                    return
                                 }
                             }
 
@@ -550,7 +550,7 @@ class Socket {
             }
 
             this._sending = false
-
+            
             if (! message_id) {
                 resolve(success())
             }
