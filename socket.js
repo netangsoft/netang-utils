@@ -490,7 +490,7 @@ class Socket {
                 data,
             } = Object.assign({
                 // 消息 id
-                message_id: null,
+                message_id: '',
                 // 消息类型
                 message_type: 0,
                 // 消息数据
@@ -512,7 +512,7 @@ class Socket {
                 // 消息数据
                 data: messageData,
             }
-            if (message_id !== null) {
+            if (message_id) {
                 // promise 提交事件
                 query.resolve = resolve
             }
@@ -551,7 +551,7 @@ class Socket {
 
             this._sending = false
 
-            if (message_id === null) {
+            if (! message_id) {
                 resolve(success())
             }
         })
