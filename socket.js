@@ -362,7 +362,7 @@ class Socket {
                                 }
                                 for (const item of newQuery) {
                                     if (! await this._send(item.data)) {
-                                        // this.deleteQuery(item.data.message_id)
+                                        this.deleteQuery(item.data.message_id)
                                         if (_has(item, 'resolve')) {
                                             item.resolve(_result(false, {
                                                 code: this.dicts.CODE__FAIL,
@@ -470,7 +470,7 @@ class Socket {
      * 获取消息 id
      */
     getMessageId() {
-        return `${this.roleType}-${this._num++}`
+        return `${this.roleType}-${this._num++}-${Date.now()}`
     }
 
     /**
@@ -490,7 +490,7 @@ class Socket {
                 data,
             } = Object.assign({
                 // 消息 id
-                message_id: undefined,
+                message_id: null,
                 // 消息类型
                 message_type: 0,
                 // 消息数据
