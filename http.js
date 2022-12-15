@@ -314,7 +314,7 @@ async function httpAsync(params) {
             // 如果开启请求之后延迟开启 loading, 可保证如果请求速度快, 则 loading 不会出现, 让用户没有 loading 的感觉
             if (para.loadingType === 'after') {
 
-                sleep(_isNil(para.loadingTime) ? dicts.CODE__SERVER_ERROR : para.loadingTime)
+                sleep(_isNil(para.loadingTime) ? 1000 : para.loadingTime)
                     .then(function() {
                         // 开启 loading
                         onLoading(true)
@@ -329,7 +329,7 @@ async function httpAsync(params) {
                 // 如果开启请求之前提前开启 loading 并延迟结束, 让用户有 loading 的感觉
                 // 否则就是正常的 loading
                 if (para.loadingType === 'before') {
-                    await sleep(_isNil(para.loadingTime) ? 1500 : para.loadingTime)
+                    await sleep(_isNil(para.loadingTime) ? 1000 : para.loadingTime)
                 }
             }
         }

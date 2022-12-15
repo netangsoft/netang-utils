@@ -15,9 +15,11 @@ function setCookie(key, value, options = {}) {
         return
     }
 
+    // 如果为数字, 则为过期时间
     if (isNumeric(options)) {
         options = {
-            expires: _toNumber(options)
+            // 过期时间
+            expires: _toNumber(options),
         }
     }
 
@@ -96,7 +98,6 @@ function getCookie(key = '') {
 
     return isFillString(key) ? (_has(res, key) ? res[key] : null) : res
 }
-
 
 /**
  * 删除 cookie
