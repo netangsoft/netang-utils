@@ -442,7 +442,7 @@ async function httpAsync(params) {
                 return onError({
                     code: dicts.CODE__SERVER_ERROR,
                     msg,
-                })
+                }, e)
             }
         }
 
