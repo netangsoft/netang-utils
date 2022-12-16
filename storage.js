@@ -4,7 +4,7 @@ const isFillObject = require('./isFillObject')
 const isFillString = require('./isFillString')
 const toNumberDeep = require('./toNumberDeep')
 const forIn = require('./forIn')
-const json = require('./json')
+const $json = require('./json')
 
 function storage(params) {
 
@@ -32,7 +32,7 @@ function storage(params) {
         let info = o.get(getStoragePrefix('keys'))
         if (! _isNil(info)) {
 
-            info = json.parse(info)
+            info = $json.parse(info)
 
             // 将已过期的缓存删除
             if (isFillObject(info)) {
@@ -72,7 +72,7 @@ function storage(params) {
      * @param info
      */
     function setStorageKeys(info) {
-        o.set(getStoragePrefix('keys'), json.stringify(info))
+        o.set(getStoragePrefix('keys'), $json.stringify(info))
     }
 
     /**
@@ -119,7 +119,7 @@ function storage(params) {
         }
 
         // 更新缓存数据
-        o.set(key, json.stringify(value))
+        o.set(key, $json.stringify(value))
     }
 
     /**
@@ -148,7 +148,7 @@ function storage(params) {
             if (! _isNil(res)) {
 
                 // 解析 json 数据
-                res = json.parse(res)
+                res = $json.parse(res)
                 if (res !== null) {
                     // 返回解析好的数据
                     return toNumberDeep(res, defaultValue)
