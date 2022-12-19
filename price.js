@@ -1,7 +1,7 @@
-import BigNumber from 'bignumber.js'
-import isNumeric from './isNumeric'
-import precision from './precision'
-import split from './split'
+const BigNumber = require('bignumber.js')
+const isNumeric = require('./isNumeric')
+const precision = require('./precision')
+const split = require('./split')
 
 /**
  * 换算金额(分转元)

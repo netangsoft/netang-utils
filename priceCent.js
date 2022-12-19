@@ -1,4 +1,4 @@
-import BigNumber from 'bignumber.js'
+const BigNumber = require('bignumber.js')
 const isNumeric = require('./isNumeric')
 
 /**

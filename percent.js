@@ -1,5 +1,5 @@
-import BigNumber from 'bignumber.js'
-import indexOf from './indexOf'
+const BigNumber = require('bignumber.js')
+const indexOf = require('./indexOf')
 
 /**
  * 转为百分比
@@ -15,7 +15,9 @@ function percent(value, onlyCheckPercentSign = false, defaultValue = 0) {
         // 去除所有百分号
         value = value.replaceAll('%', '')
 
-    } else if (! onlyCheckPercentSign) {
+    // 如果仅检查带有 % 的值
+    } else if (onlyCheckPercentSign) {
+        // 则无任何操作
         return
     }
 

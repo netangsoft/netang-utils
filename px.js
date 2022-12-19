@@ -1,5 +1,5 @@
-import isNumeric from './isNumeric'
-import indexOf from './indexOf'
+const isNumeric = require('./isNumeric')
+const indexOf = require('./indexOf')
 
 /**
  * 转为像素
