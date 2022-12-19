@@ -1,35 +1,29 @@
-const _isNumber = require('lodash/isNumber')
-const toNumberDeep = require('./toNumberDeep')
+import BigNumber from 'bignumber.js'
+import indexOf from './indexOf'
 
 /**
- * 计算百分比
- * @param {number|string} val
- * @param {boolean} isSign
- * @returns {string|number}
+ * 转为百分比
+ * @param value 值:
+ * @param onlyCheckPercentSign 是否仅检查带有 % 的值
+ * @param defaultValue 默认值
+ * 89% -> 0.89
  */
+function percent(value, onlyCheckPercentSign = false, defaultValue = 0) {
 
-function percent(val, isSign) {
+    // 如果有百分号
+    if (indexOf(value, '%') > -1) {
+        // 去除所有百分号
+        value = value.replaceAll('%', '')
 
-    val = toNumberDeep(val)
-
-    if (_isNumber(val) && val > 0) {
-
-        if (100 % val === 0) {
-            val = 100 / val
-
-        } else {
-            val = Number((100 / val).toFixed(10))
-        }
-
-    } else {
-        val = 0
+    } else if (! onlyCheckPercentSign) {
+        return
     }
 
-    if (isSign === true) {
-        return `${val}%`
-    }
+    // 转为 BigNumber 格式
+    value = new BigNumber(value)
 
-    return val
+    // 转为 1 以下的百分比值
+    return value.isGreaterThan(0) ? value.dividedBy(100).toNumber() : defaultValue
 }
 
 module.exports = percent

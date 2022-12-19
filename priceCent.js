@@ -1,18 +1,24 @@
-const _toNumber = require('lodash/toNumber')
+import BigNumber from 'bignumber.js'
 const isNumeric = require('./isNumeric')
 
 /**
- * 价格(元转分)
- * @param value
- * @returns {number|*}
+ * 换算金额(元转分)
  */
-
 function priceCent(value) {
-    if (value && isNumeric(value)) {
-        const price = _toNumber(value)
-        return price > 0 ? price * 100 : 0
+    if (
+        value
+        && isNumeric(value)
+    ) {
+        // 转为 BigNumber 格式
+        value = new BigNumber(value)
+
+        // 如果值 > 0
+        if (value.isGreaterThan(0)) {
+            return value.times(100).toNumber()
+        }
     }
-    return value
+
+    return 0
 }
 
 module.exports = priceCent
