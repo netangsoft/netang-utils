@@ -1,4 +1,3 @@
-const _isNil = require('lodash/isNil')
 const _isString = require('lodash/isString')
 const isNumeric = require('./isNumeric')
 
@@ -7,7 +6,7 @@ const isNumeric = require('./isNumeric')
  */
 function isDate(val) {
 
-    if (_isNil(val) || Array.isArray(val)) {
+    if (! val || Array.isArray(val)) {
         return false
     }
 
