@@ -24,11 +24,11 @@ function dateObject(date) {
         i,    // 分
         s,    // 秒
         // 补零字符串
-        mm: _padStart(m),
-        dd: _padStart(d),
-        hh: _padStart(h),
-        ii: _padStart(i),
-        ss: _padStart(s),
+        mm: _padStart(m, 2, '0'),
+        dd: _padStart(d, 2, '0'),
+        hh: _padStart(h, 2, '0'),
+        ii: _padStart(i, 2, '0'),
+        ss: _padStart(s, 2, '0'),
     }
 }
 
