@@ -1,4 +1,4 @@
-const _zero = require('lodash/zero')
+const _padStart = require('lodash/padStart')
 const toDate = require('./toDate')
 
 /**
@@ -24,11 +24,11 @@ function dateObject(date) {
         i,    // 分
         s,    // 秒
         // 补零字符串
-        mm: _zero(m),
-        dd: _zero(d),
-        hh: _zero(h),
-        ii: _zero(i),
-        ss: _zero(s),
+        mm: _padStart(m),
+        dd: _padStart(d),
+        hh: _padStart(h),
+        ii: _padStart(i),
+        ss: _padStart(s),
     }
 }
 
