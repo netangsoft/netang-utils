@@ -1,31 +1,51 @@
-const BigNumber = require('bignumber.js')
+const isNumeric = require('./isNumeric')
 const indexOf = require('./indexOf')
 
 /**
  * 转为百分比
- * @param value 值:
- * @param onlyCheckPercentSign 是否仅检查带有 % 的值
- * @param defaultValue 默认值
- * 89% -> 0.89
+ * @param {number|string} value
+ * @param {boolean} isSign
+ * 0.89 -> 89%
  */
-function percent(value, onlyCheckPercentSign = false, defaultValue = 0) {
+function percent(value, isSign) {
 
-    // 如果有百分号
-    if (indexOf(value, '%') > -1) {
-        // 去除所有百分号
-        value = value.replaceAll('%', '')
+    // 如果是数字
+    if (isNumeric(value)) {
 
-    // 如果仅检查带有 % 的值
-    } else if (onlyCheckPercentSign) {
-        // 则无任何操作
-        return
+        // 转为 BigNumber 格式
+        value = new BigNumber(value)
+
+        // 如果值 > 0
+        if (value.isGreaterThan(0)) {
+
+            // 如果值 >= 1
+            if (value.isGreaterThanOrEqualTo(1)) {
+                value = 100
+
+            } else {
+                // 值乘以 100
+                value = value.times(100)
+            }
+
+        } else {
+            value = 0
+        }
+
+    } else {
+
+        // 如果有百分号
+        if (indexOf(value, '%') > -1) {
+            return value
+        }
+
+        value = 0
     }
 
-    // 转为 BigNumber 格式
-    value = new BigNumber(value)
+    if (isSign) {
+        return `${value}%`
+    }
 
-    // 转为 1 以下的百分比值
-    return value.isGreaterThan(0) ? value.dividedBy(100).toNumber() : defaultValue
+    return value
 }
 
 module.exports = percent
