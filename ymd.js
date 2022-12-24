@@ -9,7 +9,7 @@ function toString(value, separator = '-', defaultValue = '') {
         value = String(value)
         const isLen8 = value.length === 8
         if (isLen8 || value.length === 6) {
-            let val = `${value.substr(0, 4)}${separator}${value.substr(4, 2)}${separator}${value.substr(6, 2)}`
+            let val = `${value.substr(0, 4)}${separator}${value.substr(4, 2)}`
             if (isLen8) {
                 val += `${separator}${value.substr(6, 2)}`
             }
