@@ -13,7 +13,7 @@ function tree(params) {
     const o = Object.assign({
         // 数据
         data: [],
-        // 是否存在根节点
+        // 是否开启根节点
         root: false,
         // 根节点名称
         rootTitle: '根目录',
@@ -63,7 +63,7 @@ function tree(params) {
             }
 
             // 格式化单个数据
-            run(o.format)(allTree[index], item, p)
+            run(o.format)(allTree[index], item, o)
         }
 
         // 获取 tree 数据
