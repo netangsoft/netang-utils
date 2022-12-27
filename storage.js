@@ -2,7 +2,7 @@ const _isNil = require('lodash/isNil')
 const _has = require('lodash/has')
 const isFillObject = require('./isFillObject')
 const isFillString = require('./isFillString')
-const toNumberDeep = require('./toNumberDeep')
+const numberDeep = require('./numberDeep')
 const forIn = require('./forIn')
 const $json = require('./json')
 
@@ -151,7 +151,7 @@ function storage(params) {
                 res = $json.parse(res)
                 if (res !== null) {
                     // 返回解析好的数据
-                    return toNumberDeep(res, defaultValue)
+                    return numberDeep(res, defaultValue)
                 }
             }
 

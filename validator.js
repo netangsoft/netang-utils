@@ -22,7 +22,7 @@ const isFillObject = require('./isFillObject')
 const isFillString = require('./isFillString')
 const isRequired = require('./isRequired')
 const size = require('./size')
-const toNumberDeep = require('./toNumberDeep')
+const numberDeep = require('./numberDeep')
 const replaceAll = require('./replaceAll')
 
 const { langSettings, trans } = require('./lang')
@@ -696,10 +696,10 @@ function checkRule(data, key, oldValue, ruleKey, ruleValue, valueType, formatMes
         || isRequired(oldValue)
     ) {
         // 格式化 number
-        const value = toNumberDeep(oldValue)
+        const value = numberDeep(oldValue)
 
         // 将规则值转为数组
-        const ruleValues = toNumberDeep(_isString(ruleValue) ? split(ruleValue, ',') : [ruleValue])
+        const ruleValues = numberDeep(_isString(ruleValue) ? split(ruleValue, ',') : [ruleValue])
 
         // 替换错误信息的对象
         const replace = {}
@@ -710,7 +710,7 @@ function checkRule(data, key, oldValue, ruleKey, ruleValue, valueType, formatMes
         let ohterValue
         if (isOther) {
             otherKey = ruleValues.shift()
-            ohterValue = _has(data, otherKey) ? toNumberDeep(data[otherKey]) : null
+            ohterValue = _has(data, otherKey) ? numberDeep(data[otherKey]) : null
         }
 
         // 如果有数据类型 && 如果存在比较条件
@@ -731,7 +731,7 @@ function checkRule(data, key, oldValue, ruleKey, ruleValue, valueType, formatMes
 
                 // 如果为数字
                 if (isNumeric(val)) {
-                    val = toNumberDeep(val)
+                    val = numberDeep(val)
 
                     // 如果为数组/字符串
                 } else if (_isArray(val) || _isString(val)) {

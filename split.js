@@ -1,5 +1,5 @@
 const _isNumber = require('lodash/isNumber')
-const toNumberDeep = require('./toNumberDeep')
+const numberDeep = require('./numberDeep')
 const isFillString = require('./isFillString')
 
 /*
@@ -17,7 +17,7 @@ function split(str = '', separator, limit, isToNumberDeep = true) {
 
     if (isFillString(str)) {
         const arr = str.split(separator, limit)
-        return isToNumberDeep ? toNumberDeep(arr) : arr
+        return isToNumberDeep ? numberDeep(arr) : arr
     }
 
     return []

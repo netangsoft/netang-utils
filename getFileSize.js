@@ -1,6 +1,6 @@
 const _isNumber = require('lodash/isNumber')
 const _round = require('lodash/round')
-const toNumberDeep = require('./toNumberDeep')
+const numberDeep = require('./numberDeep')
 
 /**
  * 获取文件大小
@@ -11,7 +11,7 @@ const toNumberDeep = require('./toNumberDeep')
 
 function getFileSize(value, defaultValue = '') {
 
-    value = toNumberDeep(value)
+    value = numberDeep(value)
     if (! _isNumber(value) || value === 0) {
         return defaultValue
     }

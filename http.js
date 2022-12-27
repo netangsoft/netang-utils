@@ -11,7 +11,7 @@ const isFillString = require('./isFillString')
 const isNumeric = require('./isNumeric')
 const isFillObject = require('./isFillObject')
 const debounceSleep = require('./debounceSleep')
-const toNumberDeep = require('./toNumberDeep')
+const numberDeep = require('./numberDeep')
 const run = require('./run')
 const getUrl = require('./getUrl')
 const getThrowMessage = require('./getThrowMessage')
@@ -74,7 +74,7 @@ function http(settings) {
         // 重连次数
         reConnectNum: 3,
         // 是否将请求结果深度转换为数字(如果开头为 0 的数字, 则认为是字符串)
-        toNumberDeep: true,
+        numberDeep: true,
         // axios 配置
         settings: {},
         // 获取缓存
@@ -352,7 +352,7 @@ function http(settings) {
                     async function next(r) {
 
                         // 是否将请求结果深度转换为数字(如果开头为 0 的数字, 则认为是字符串)
-                        let data = para.toNumberDeep ? toNumberDeep(r.data, null, true) : r.data
+                        let data = para.numberDeep ? numberDeep(r.data, null, true) : r.data
 
                         // 判断是否业务出错
                         if (

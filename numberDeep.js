@@ -62,12 +62,12 @@ function numberHandle(value, defaultValue = null, isBeginZero2String = false) {
  * @param {boolean} isBeginZero2String 如果开头为 0 的数字, 则转为字符串
  * @returns {number|*}
  */
-function toNumberDeep(value, defaultValue = null, isBeginZero2String = false) {
+function numberDeep(value, defaultValue = null, isBeginZero2String = false) {
     if (_isObjectLike(value)) {
         for (const key in value) {
             if (Object.prototype.hasOwnProperty.call(value, key)) {
                 if (_isObjectLike(value[key])) {
-                    toNumberDeep(value[key], defaultValue, isBeginZero2String)
+                    numberDeep(value[key], defaultValue, isBeginZero2String)
                 } else {
                     value[key] = numberHandle(value[key], defaultValue, isBeginZero2String)
                 }
@@ -78,4 +78,4 @@ function toNumberDeep(value, defaultValue = null, isBeginZero2String = false) {
     return numberHandle(value, defaultValue, isBeginZero2String)
 }
 
-module.exports = toNumberDeep
+module.exports = numberDeep

@@ -4,7 +4,7 @@ const _isNil = require('lodash/isNil')
 const run = require('./run')
 const getThrowMessage = require('./getThrowMessage')
 const isJson = require('./isJson')
-const toNumberDeep = require('./toNumberDeep')
+const numberDeep = require('./numberDeep')
 const success = require('./success')
 const fail = require('./fail')
 const runAsync = require('./runAsync')
@@ -254,7 +254,7 @@ class Socket {
                     if (_has(data, 'code')) {
 
                         // 将请求结果深度转换为数字(如果开头为 0 的数字, 则认为是字符串)
-                        data = toNumberDeep(data, null, true)
+                        data = numberDeep(data, null, true)
 
                         // 退出
                         const logout = async () => {
