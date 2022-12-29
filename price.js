@@ -18,10 +18,13 @@ function price(value, toFixed = false, defaultValue = 0, isAddComma = false, isC
 
             // 如果单位是分, 则除以 100
             if (isCent) {
-                value = new BigNumber(value).dividedBy(100)
+                value = value.dividedBy(100)
             }
+            value = value.toNumber()
 
-            value = precision(value, 2, toFixed)
+            if (toFixed) {
+                value = precision(value, 2, toFixed)
+            }
 
             // 如果加逗号隔开
             if (isAddComma) {

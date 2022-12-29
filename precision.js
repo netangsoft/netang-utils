@@ -20,7 +20,7 @@ function precision(value, precision, toFixed) {
         precision = 0
     }
 
-    value = Number(isNumeric(value) ? value : value.replace(/[^-\d.]/g, ''))
+    value = Number(isNumeric(value) ? value : String(value).replace(/[^-\d.]/g, ''))
 
     const res = parseFloat(String(Math.round(value * Math.pow(10, precision)) / Math.pow(10, precision)))
 
