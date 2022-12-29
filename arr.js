@@ -1,28 +1,7 @@
-/**
+/*
  * 操作数组
  */
 module.exports = {
-
-    /**
-     * 是否显示删除按钮
-     */
-    showDelete(children) {
-        return Array.isArray(children) && children.length
-    },
-
-    /**
-     * 是否显示上移按钮
-     */
-    showUp(children, index) {
-        return Array.isArray(children) && children.length && index > 0
-    },
-
-    /**
-     * 是否显示下移按钮
-     */
-    showDown(children, index) {
-        return Array.isArray(children) && children.length > index + 1
-    },
 
     /**
      * 增加
@@ -53,7 +32,7 @@ module.exports = {
             children.splice(index + 1, 1)
         }
     },
-
+    
     /**
      * 下移
      */
