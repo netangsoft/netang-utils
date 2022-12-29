@@ -45,10 +45,10 @@ module.exports = {
     /**
      * 上移
      */
-    up(children, index, item) {
+    up(children, index) {
         if (Array.isArray(children)) {
             // 在上一项插入该项
-            children.splice(index - 1, 0, item)
+            children.splice(index - 1, 0, children[index])
             // 删除后一项
             children.splice(index + 1, 1)
         }
@@ -57,10 +57,10 @@ module.exports = {
     /**
      * 下移
      */
-    down(children, index, item) {
+    down(children, index) {
         if (Array.isArray(children)) {
             // 在下一项插入该项
-            children.splice(index + 2, 0, item)
+            children.splice(index + 2, 0, children[index])
             // 删除前一项
             children.splice(index, 1)
         }
