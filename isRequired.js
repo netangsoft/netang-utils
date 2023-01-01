@@ -1,4 +1,4 @@
-const _isNull = require('lodash/isNull')
+const _isNil = require('lodash/isNil')
 const _isString = require('lodash/isString')
 const _trim = require('lodash/trim')
 const _isNumber = require('lodash/isNumber')
@@ -7,16 +7,20 @@ const isFillObject = require('./isFillObject')
 
 /**
  * 是否有值
- * @param value 字符串/数字/非空对象/非空数组
- * @returns {boolean}
+ * @param value
+ * @returns {boolean} true: 非空字符串/数字/非空对象/非空数组
  */
 function isRequired(value) {
-    return ! _isNull(value)
-        && (
-            _isString(value)
-            && _trim(value).length
-        )
-        || _isNumber(value)
+
+    if (_isNil(value)) {
+        return false
+    }
+
+    if (_isString(value)) {
+        return _trim(value).length
+    }
+
+    return _isNumber(value)
         || isFillArray(value)
         || isFillObject(value)
 }
