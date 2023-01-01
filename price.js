@@ -13,6 +13,11 @@ function price(value, toFixed = false, defaultValue = 0, isAddComma = false, isC
         // 转为 BigNumber 格式
         value = new BigNumber(value)
 
+        // 如果值 === 0
+        if (value.isEqualTo(0)) {
+            return 0
+        }
+
         // 如果值 > 0
         if (value.isGreaterThan(0)) {
 
