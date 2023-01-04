@@ -69,6 +69,8 @@ function http(settings) {
         setCacheBefore: null,
         // 缓存时间(5分钟)
         cacheTime: 300000,
+        // 是否开启防抖(防止重复请求)
+        debounce: true,
         // 是否错误重连
         reConnect: false,
         // 重连次数
@@ -213,7 +215,7 @@ function http(settings) {
                     options.data = fileData
                 }
 
-                // 否则为请求数据
+            // 否则为请求数据
             } else {
 
                 if (! _has(options.headers, 'Content-Type')) {
@@ -270,10 +272,12 @@ function http(settings) {
             // 【防止重复请求】================================================================================================
 
             // 如果当前请求为 loading 则停止往下执行(防止重复请求)
-            if (_get(loadingHandles, cacheName) === true) {
-                return
+            if (para.debounce) {
+                if (_get(loadingHandles, cacheName) === true) {
+                    return
+                }
+                loadingHandles[cacheName] = true
             }
-            loadingHandles[cacheName] = true
 
             // 【判断 loading 状态】==========================================================================================
 
@@ -322,7 +326,7 @@ function http(settings) {
                             onLoading(true)
                         })
 
-                    // 否则立即开启 loading
+                // 否则立即开启 loading
                 } else {
 
                     // 开启 loading
@@ -461,7 +465,9 @@ function http(settings) {
             reConnectedNum = 0
 
             // 删除 loading 句柄
-            delete loadingHandles[cacheName]
+            if (para.debounce) {
+                delete loadingHandles[cacheName]
+            }
 
             return resHttp
 
