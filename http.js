@@ -153,8 +153,11 @@ function http(settings) {
 
             // 执行错误执行
             const res = run(para.onError)({ data, r, para })
-            if (! _.isNil(res)) {
-                return res
+            if (! _isNil(res)) {
+                if (res === false) {
+                    return
+                }
+                data = res
             }
 
             return {
