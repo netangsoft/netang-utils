@@ -38,16 +38,14 @@ function http(settings) {
         responseType: 'json',
         // 是否将数据格式化为 json
         responseJson: true,
-        // 检查结果的 code 是否正确(前提数据类型必须为 json)
-        checkCode: true,
         // 是否开启错误提醒(true:普通方式/false:不开启/alert:对话框方式)
-        warn: true,
+        warn: false,
+        // 检查结果的 code 是否正确(前提数据类型必须为 json)
+        checkCode: false,
         // 是否开启上传
         upload: false,
         // 自定义上传表单数据
         uploadFormData: false,
-        // 是否包含头部鉴权认证
-        token: true,
         // 头部数据
         headers: {},
         // 是否开启 loading
@@ -70,7 +68,7 @@ function http(settings) {
         // 缓存时间(5分钟)
         cacheTime: 300000,
         // 是否开启防抖(防止重复请求)
-        debounce: true,
+        debounce: false,
         // 是否错误重连
         reConnect: false,
         // 重连次数
@@ -92,24 +90,14 @@ function http(settings) {
             CODE__FAIL: 400,
             /** 状态码 - 没有找到页面 - 404 */
             CODE__PAGE_NOT_FOUND: 404,
-            /** 状态码 - token 过期需要重新鉴权 - 410 */
-            CODE__TOKEN_EXPIRED: 410,
-            /** 状态码 - 强制退出 - 411 */
-            CODE__LOGOUT: 411,
-            /** 状态码 - 当前用户账号被禁用，需要退出并重新跳转至登录页面 - 412 */
-            CODE__ACCOUNT_DISABLED: 412,
-            /** 状态码 - 当前用户不是会员, 需要跳转至升级vip页面 - 413 */
-            CODE__NON_MEMBER: 413,
-            /** 状态码 - 没有权限访问当前页面 - 415 */
-            CODE__NO_PERMISSION: 415,
-            /** 状态码 - 业务自定义错误 - 420 */
-            CODE__BUSINESS_ERROR: 420,
             /** 状态码 - 服务器未知错误 - 500 */
             CODE__SERVER_ERROR: 500,
         },
-        // 取消请求调用函数
+        // 设置参数
+        onOptions: null,
+        // 取消请求调用函数(需要自己在 onOptions 方法中实现)
         onCancel: null,
-        // 获取上传进度调用函数
+        // 获取上传进度调用函数(需要自己在 onOptions 方法中实现)
         onUploadProgress: null,
         // 请求前执行
         onRequestBefore: null,
@@ -187,6 +175,14 @@ function http(settings) {
 
             // 【请求数据】===================================================================================================
 
+            // 设置参数
+            if (_isFunction(para.onOptions)) {
+                para.onOptions({
+                    options,
+                    para,
+                })
+            }
+
             // 如果开启上传
             let data = ''
             if (para.upload === true) {
@@ -194,19 +190,11 @@ function http(settings) {
                 // 如果开启上传, 则不可开启缓存
                 para.cache = false
 
-                // 获取上传进度
-                if (_isFunction(para.onUploadProgress)) {
-                    options.onUploadProgress = function (e) {
-                        const percent = Math.round(e.loaded * 100 / e.total)
-                        para.onUploadProgress(percent, e)
-                    }
-                }
-
                 // 如果自定义上传表单数据
                 if (para.uploadFormData) {
                     options.data = para.data
 
-                    // 否则获取上传文件数据
+                // 否则获取上传文件数据
                 } else if (isFillObject(para.data)) {
                     const fileData = new FormData()
                     _forEach(para.data, function(value, key) {
@@ -294,7 +282,7 @@ function http(settings) {
                     // 设置 ref loading 值
                     para.loading.value = status
 
-                    // 判断是是否为方法
+                // 判断是是否为方法
                 } else if (_isFunction(para.loading)) {
                     para.loading(status)
                 }
@@ -308,7 +296,7 @@ function http(settings) {
             if (para.loading === true || _isFunction(para.loading)) {
                 isLoading = true
 
-                // 如果是 vue ref 格式
+            // 如果是 vue ref 格式
             } else if (_get(para.loading, '__v_isRef') === true) {
                 isLoading = true
                 isLoadingRef = true
@@ -357,7 +345,7 @@ function http(settings) {
 
                         // 是否将请求结果深度转换为数字(如果开头为 0 的数字, 则认为是字符串)
                         let data = para.numberDeep ? numberDeep(r.data, null, true) : r.data
-
+                        
                         // 判断是否业务出错
                         if (
                             para.responseType === 'json'
