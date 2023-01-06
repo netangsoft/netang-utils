@@ -153,13 +153,10 @@ function http(settings) {
 
             // 执行错误执行
             const res = run(para.onError)({ data, r, para })
-            if (res === false) {
-                return
-            }
-            if (isFillObject(res)) {
+            if (! _.isNil(res)) {
                 return res
             }
-            
+
             return {
                 status: false,
                 data,
@@ -407,7 +404,7 @@ function http(settings) {
                     // 发起请求
                     return await para.onRequest({ para, options, onError, next })
 
-                    // 请求失败
+                // 请求失败
                 } catch (e) {
 
                     // 错误消息
