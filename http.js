@@ -156,7 +156,10 @@ function http(settings) {
             if (res === false) {
                 return
             }
-
+            if (isFillObject(res)) {
+                return res
+            }
+            
             return {
                 status: false,
                 data,
@@ -345,7 +348,7 @@ function http(settings) {
 
                         // 是否将请求结果深度转换为数字(如果开头为 0 的数字, 则认为是字符串)
                         let data = para.numberDeep ? numberDeep(r.data, null, true) : r.data
-                        
+
                         // 判断是否业务出错
                         if (
                             para.responseType === 'json'
