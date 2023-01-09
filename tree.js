@@ -40,7 +40,7 @@ function tree(params) {
     let tree = []
 
     // tree 默认展开id
-    const expand = []
+    const expanded = []
 
     const len = Array.isArray(o.data) ? o.data.length : 0
     if (len) {
@@ -114,12 +114,12 @@ function tree(params) {
         tree = [rootItem]
 
         // 展开根 id
-        expand.push(o.rootId)
+        expanded.push(o.rootId)
 
     } else {
         // 展开根 id
         for (const item of tree) {
-            expand.push(item[o.valueKey])
+            expanded.push(item[o.valueKey])
         }
     }
 
@@ -128,7 +128,7 @@ function tree(params) {
         all,
         allTree,
         tree,
-        expand,
+        expanded,
     }
 }
 
