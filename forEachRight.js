@@ -1,16 +1,16 @@
 const _forEach = require('./_forEach')
 
 /**
- * forEach
+ * forEachRight
  * @param data
  * @param func
  */
-function forEach(data, func) {
+function forEachRight(data, func) {
 
     // 如果是数组
     if (Array.isArray(data)) {
-        return _forEach(data, func, false)
+        return _forEach(data, func, true)
     }
 }
 
-module.exports = forEach
+module.exports = forEachRight

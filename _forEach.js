@@ -2,14 +2,24 @@
  * forEach
  * @param data
  * @param func
+ * @param reverse
  */
-function forEach(data, func) {
+function forEach(data, func, reverse) {
     const length = data.length
     if (length > 0) {
-        for (let i = 0; i < length; i++) {
-            const res = func(data[i], i, data)
-            if (res !== undefined) {
-                return res
+        if (reverse) {
+            for (let i = length; i >= 0; i--) {
+                const res = func(data[i], i, data)
+                if (res !== undefined) {
+                    return res
+                }
+            }
+        } else {
+            for (let i = 0; i < length; i++) {
+                const res = func(data[i], i, data)
+                if (res !== undefined) {
+                    return res
+                }
             }
         }
     }
