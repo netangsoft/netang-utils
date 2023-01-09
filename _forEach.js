@@ -8,7 +8,7 @@ function forEach(data, func, reverse) {
     const length = data.length
     if (length > 0) {
         if (reverse) {
-            for (let i = length; i >= 0; i--) {
+            for (let i = length - 1; i >= 0; i--) {
                 const res = func(data[i], i, data)
                 if (res !== undefined) {
                     return res
