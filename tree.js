@@ -100,6 +100,7 @@ function tree(params) {
 
                     item.level = parent.level + 1
 
+                    // 设置最大级别
                     if (item.level > maxLevel) {
                         maxLevel = item.level
                     }
@@ -113,8 +114,9 @@ function tree(params) {
 
             // 否则没有在 all 中找到对应的索引 id, 那么直接把 当前的item添加到 tree 结果集中, 作为顶级
             } else {
-                item.level = o.root ? 2 : 1
+                item.level = 1
 
+                // 设置最大级别
                 if (item.level > maxLevel) {
                     maxLevel = item.level
                 }
@@ -186,7 +188,7 @@ function tree(params) {
     // 是否存在根目录
     if (o.root) {
         const rootItem = {
-            level: 1,
+            level: 0,
         }
         rootItem[o.valueKey] = o.rootId
         rootItem[o.labelKey] = o.rootTitle
