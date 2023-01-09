@@ -1,5 +1,4 @@
 const _has = require('lodash/has')
-const _isNil = require('lodash/isNil')
 const run = require('./run')
 
 /**
@@ -84,7 +83,7 @@ function tree(params) {
                 if (! o.level || o.level > parent.level) {
 
                     item.level = parent.level + 1
-                    if (isFillArray(parent[o.childrenKey])) {
+                    if (_has(parent, o.childrenKey)) {
                         parent[o.childrenKey].push(item)
                     } else {
                         parent[o.childrenKey] = [item]
