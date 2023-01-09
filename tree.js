@@ -1,5 +1,4 @@
 const _has = require('lodash/has')
-
 const forEachRight = require('./forEachRight')
 const forIn = require('./forIn')
 const run = require('./run')
@@ -13,15 +12,21 @@ function tree(params) {
 
     const o = Object.assign({
         // 数据
-        data: [],
-        // 是否开启根节点
+        data: null,
+        // 是否显示根节点
         root: false,
-        // 根节点名称
-        rootTitle: '根目录',
         // 根节点 id
-        rootId: 0,
+        rootValue: 0,
+        // 根节点名称
+        rootLabel: '根目录',
         // 叶子节点是否含 children 字段
         leafHasChildren: true,
+        // 树层级(0: 不限)
+        level: 0,
+        // 是否移除空父级节点
+        removeEmptyParentNode: false,
+        // 格式化单个元素方法
+        format: null,
 
         // id 键值
         idKey: 'id',
@@ -39,169 +44,224 @@ function tree(params) {
         // 孩子节点键值
         childrenKey: 'children',
 
-        // 显示树层级(0: 不限)
-        level: 0,
-        // 是否移除空父级节点
-        removeEmptyParentNode: false,
-
-        // 格式化单个元素方法
-        format: null,
     }, params)
 
-    // 最大层级
-    let maxLevel = 0
-
+    // all 原始数据
     const all = {}
+
+    // all 树数据
     const allTree = {}
+
+    // 树列表
     let tree = []
 
     // tree 默认展开id
     const expanded = []
 
-    const len = Array.isArray(o.data) ? o.data.length : 0
-    if (len) {
+    // 数据是否为数组
+    const status = Array.isArray(o.data)
+    if (status) {
 
-        // 获取 all 数据
-        for (let i = 0; i < len; i++) {
-            const item = o.data[i]
-            const index = item[o.idKey]
-            all[index] = item
+        // 分组
+        const group = {}
 
+        // 最大层级
+        let maxLevel = 0
+
+        // 遍历列表
+        for (const rawItem of o.data) {
+
+            // 复制单个节点
+            const item = Object.assign({}, rawItem)
+
+            // 格式化单个节点
+            run(o.format)(item, o)
+
+            // 如果单个节点没有 pid 键值, 则初始化 pid 值为 0
             if (! _has(item, o.pidKey)) {
                 item[o.pidKey] = 0
             }
 
-            allTree[index] = {}
-            allTree[index][o.valueKey] = index
-            allTree[index][o.labelKey] = item[o.titleKey]
-            allTree[index][o.attrKey] = item
+            // 获取 id
+            const id = item[o.idKey]
 
+            // 设置 all 单个节点
+            all[id] = item
+
+            // 初始化分组单个节点
+            group[id] = []
+
+            // 设置 allTree 单个节点
+            allTree[id] = {}
+            allTree[id][o.valueKey] = id
+            allTree[id][o.labelKey] = item[o.titleKey]
+            allTree[id][o.attrKey] = item
+
+            // 如果叶子节点包含 children 字段
             if (o.leafHasChildren) {
-                allTree[index][o.childrenKey] = []
-            }
-
-            // 格式化单个数据
-            run(o.format)(allTree[index], item, o)
-        }
-
-        // 获取 tree 数据
-        for (let i = 0; i < len; i++) {
-
-            const item = allTree[o.data[i][o.idKey]]
-
-            // 以当前遍历项的 pid, 去 all 对象中找到索引的 id
-            const parent = item[o.attrKey][o.pidKey] > 0 ? allTree[item[o.attrKey][o.pidKey]] : null
-
-            // 如果找到索引, 那么说明此项不在顶级当中,那么需要把此项添加到, 他对应的父级中
-            if (parent) {
-
-                // 如果不限级别 || 限制级别 > 父级级别
-                if (! o.level || o.level > parent.level) {
-
-                    item.level = parent.level + 1
-
-                    // 设置最大级别
-                    if (item.level > maxLevel) {
-                        maxLevel = item.level
-                    }
-
-                    if (_has(parent, o.childrenKey)) {
-                        parent[o.childrenKey].push(item)
-                    } else {
-                        parent[o.childrenKey] = [item]
-                    }
-                }
-
-            // 否则没有在 all 中找到对应的索引 id, 那么直接把 当前的item添加到 tree 结果集中, 作为顶级
-            } else {
-                item.level = 1
-
-                // 设置最大级别
-                if (item.level > maxLevel) {
-                    maxLevel = item.level
-                }
-
-                tree.push(item)
+                // 初始化 children
+                allTree[id][o.childrenKey] = []
             }
         }
-    }
 
-    // 如果删除空父级节点
-    // --------------------------------------------------
-    if (o.removeEmptyParentNode) {
-
-        if (o.level) {
-            maxLevel = o.level
-        }
-
-        // 需删除的节点 id
-        const nodeIds = []
-
-        // 需删除的根节点 id
-        const rootNodeIds = []
-
-        // 向上遍历父级节点
-        function getParent(item) {
-
-            nodeIds.push(item[o.idKey])
+        forIn(allTree, function(item) {
 
             // 获取 pid
             const pid = item[o.attrKey][o.pidKey]
 
-            // 如果不是根节点
+            // 如果有绑定父级 id
             if (pid) {
-                getParent(allTree[pid])
+                group[pid].push(item)
 
-                // 否则是根节点
+            // 否则为根节点
             } else {
-                rootNodeIds.push(item[o.idKey])
-            }
-        }
-
-        forIn(allTree, function (item) {
-            // 获取所有没有子节点的父级节点
-            if (
-                item.level < maxLevel
-                && ! item.children.length
-            ) {
-                getParent(item)
+                // 添加至树列表
+                tree.push(item)
             }
         })
 
-        if (rootNodeIds.length) {
-            forEachRight(tree, function (item, index) {
-                if (rootNodeIds.indexOf(item[o.idKey]) > -1) {
-                    tree.splice(index, 1)
-                }
-            })
-        }
+        function getChildren(item, level) {
 
-        if (nodeIds.length) {
-            for (const nodeId of nodeIds) {
-                delete all[nodeId]
-                delete allTree[nodeId]
+            // 设置最大层级
+            if (level > maxLevel) {
+                maxLevel = level
+            }
+
+            // 设置节点层级
+            item.level = level
+
+            // 如果不限级别 || 限制级别 > 当前级别
+            if (! o.level || o.level > level) {
+
+                // 获取 pid
+                const pid = item[o.idKey]
+
+                // 如果有子节点
+                if (_has(group, pid) && group[pid].length) {
+
+                    item[o.childrenKey] = group[pid]
+
+                    for (const childItem of item[o.childrenKey]) {
+                        getChildren(childItem, level + 1)
+                    }
+                }
             }
         }
-    }
-    // --------------------------------------------------
 
-    // 是否存在根目录
+        for (const item of tree) {
+            getChildren(item, 1)
+        }
+
+        // 如果删除空父级节点
+        // --------------------------------------------------
+        if (o.removeEmptyParentNode) {
+
+            // 如果有树层级
+            if (o.level) {
+                maxLevel = o.level
+            }
+
+            if (maxLevel > 1) {
+
+                // 删除子节点
+                function delItem(item) {
+                    const id = item[o.idKey]
+                    delete all[id]
+                    delete allTree[id]
+                }
+
+                // 是否有子节点
+                function hasChildren(item) {
+                    return _has(item, o.childrenKey) && item[o.childrenKey].length
+                }
+
+                function getParent(level) {
+                    forIn(allTree, function (item) {
+                        if (
+                            // 如果为当前级别
+                            item.level === level
+                            // 如果有子节点
+                            && hasChildren(item)
+                        ) {
+                            // 子节点数量
+                            let hasChildNum = 0
+
+                            forEachRight(item[o.childrenKey], function (child, childKey) {
+
+                                // 如果有子节点
+                                if (hasChildren(child)) {
+                                    // 子节点数量++
+                                    hasChildNum++
+
+                                // 否则删除改节点
+                                } else {
+
+                                    // 删除子节点
+                                    delItem(child)
+
+                                    // 从列表中删除子节点
+                                    item[o.childrenKey].splice(childKey, 1)
+                                }
+                            })
+
+                            // 如果没有子节点
+                            if (! hasChildNum) {
+
+                                // 如果叶子节点包含 children 字段
+                                if (o.leafHasChildren) {
+                                    item[o.childrenKey] = []
+
+                                // 否则删除该孩子节点
+                                } else {
+                                    delete item[o.childrenKey]
+                                }
+
+                                // 删除节点
+                                delItem(item)
+                            }
+                        }
+                    })
+                    if (level) {
+                        getParent(level - 1)
+                    }
+                }
+                if (maxLevel > 2) {
+                    getParent(maxLevel - 2)
+                }
+
+                forEachRight(tree, function (item, key) {
+                    // 如果根节点没有子节点
+                    if (! hasChildren(item)) {
+
+                        // 删除节点
+                        delItem(item)
+
+                        // 从 tree 中删除该节点
+                        tree.splice(key, 1)
+                    }
+                })
+            }
+        }
+        // --------------------------------------------------
+    }
+
+    // 如果开启根目录
     if (o.root) {
         const rootItem = {
             level: 0,
         }
-        rootItem[o.valueKey] = o.rootId
-        rootItem[o.labelKey] = o.rootTitle
+        rootItem[o.valueKey] = o.rootValue
+        rootItem[o.labelKey] = o.rootLabel
 
         rootItem[o.attrKey] = {}
-        rootItem[o.attrKey][o.idKey] = o.rootId
-        rootItem[o.attrKey][o.titleKey] = o.rootTitle
+        rootItem[o.attrKey][o.idKey] = o.rootValue
+        rootItem[o.attrKey][o.titleKey] = o.rootLabel
         rootItem[o.childrenKey] = tree
 
         tree = [rootItem]
 
         // 展开根 id
-        expanded.push(o.rootId)
+        expanded.push(o.rootValue)
 
     } else {
         for (const item of tree) {
@@ -211,7 +271,7 @@ function tree(params) {
     }
 
     return {
-        status: len > 0,
+        status,
         all,
         allTree,
         tree,
