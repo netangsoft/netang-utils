@@ -1,5 +1,5 @@
+const _has = require('lodash/has')
 const _isNil = require('lodash/isNil')
-const isFillArray = require('./isFillArray')
 const run = require('./run')
 
 /**
@@ -17,6 +17,8 @@ function tree(params) {
         root: false,
         // 根节点名称
         rootTitle: '根目录',
+        // 根节点 id
+        rootId: 0,
         // 叶子是否含 children 字段
         leafHasChildren: true,
 
@@ -28,6 +30,7 @@ function tree(params) {
         textKey: 'label',
         attrKey: 'attr',
         childrenKey: 'children',
+        level: 0,
 
         // 格式化单个元素
         format: null,
@@ -40,7 +43,7 @@ function tree(params) {
     // tree 默认展开id
     const expand = []
 
-    const len = isFillArray(o.data) ? o.data.length : 0
+    const len = Array.isArray(o.data) ? o.data.length : 0
     if (len) {
 
         // 获取 all 数据
@@ -49,7 +52,7 @@ function tree(params) {
             const index = item[o.idKey]
             all[index] = item
 
-            if (_isNil(item[o.pidKey])) {
+            if (! _has(item, o.pidKey)) {
                 item[o.pidKey] = 0
             }
 
@@ -68,21 +71,29 @@ function tree(params) {
 
         // 获取 tree 数据
         for (let i = 0; i < len; i++) {
+
             const item = allTree[o.data[i][o.idKey]]
 
             // 以当前遍历项的 pid, 去 all 对象中找到索引的 id
-            const parent = item[o.attrKey][o.pidKey] > 0 ? allTree[item[o.attrKey][o.pidKey]] : false
+            const parent = item[o.attrKey][o.pidKey] > 0 ? allTree[item[o.attrKey][o.pidKey]] : null
 
             // 如果找到索引, 那么说明此项不在顶级当中,那么需要把此项添加到, 他对应的父级中
             if (parent) {
-                if (isFillArray(parent[o.childrenKey])) {
-                    parent[o.childrenKey].push(item)
-                } else {
-                    parent[o.childrenKey] = [item]
+
+                // 如果不限级别 || 限制级别 > 父级级别
+                if (! o.level || o.level > parent.level) {
+
+                    item.level = parent.level + 1
+                    if (isFillArray(parent[o.childrenKey])) {
+                        parent[o.childrenKey].push(item)
+                    } else {
+                        parent[o.childrenKey] = [item]
+                    }
                 }
 
             // 否则没有在 all 中找到对应的索引 id, 那么直接把 当前的item添加到 tree 结果集中, 作为顶级
             } else {
+                item.level = o.root ? 2 : 1
                 tree.push(item)
             }
         }
@@ -90,26 +101,27 @@ function tree(params) {
 
     // 是否存在根目录
     if (o.root) {
-        const first = {}
-        first[o.valueKey] = 0
-        first[o.textKey] = o.rootTitle
+        const rootItem = {
+            level: 1,
+        }
+        rootItem[o.valueKey] = o.rootId
+        rootItem[o.textKey] = o.rootTitle
 
-        first[o.attrKey] = {}
-        first[o.attrKey][o.idKey] = 0
-        first[o.attrKey][o.titleKey] = o.rootTitle
+        rootItem[o.attrKey] = {}
+        rootItem[o.attrKey][o.idKey] = o.rootId
+        rootItem[o.attrKey][o.titleKey] = o.rootTitle
+        rootItem[o.childrenKey] = tree
 
-        first[o.childrenKey] = tree
+        tree = [rootItem]
 
-        tree = [first]
-
-        // 展开id
-        expand.push(0)
+        // 展开根 id
+        expand.push(o.rootId)
 
     } else {
-        // 展开id
-        tree.forEach((item) => {
+        // 展开根 id
+        for (const item of tree) {
             expand.push(item[o.valueKey])
-        })
+        }
     }
 
     return {
