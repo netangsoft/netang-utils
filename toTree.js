@@ -109,9 +109,12 @@ function toTree(params) {
             }
         }
 
-        forIn(nodes, function(item) {
+        for (const rawItem of o.data) {
 
-            // 获取 pid
+            // 获取 node 节点
+            const item = nodes[rawItem[o.idKey]]
+
+            // 获取节点 pid
             const pid = item[o.attrKey][o.pidKey]
 
             // 如果有绑定父级 id
@@ -123,7 +126,7 @@ function toTree(params) {
                 // 添加至树列表
                 tree.push(item)
             }
-        })
+        }
 
         function getChildren(item, level, ids, labels) {
 
