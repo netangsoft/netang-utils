@@ -1,5 +1,6 @@
 const _has = require('lodash/has')
 const _get = require('lodash/get')
+const _isFunction = require('lodash/isFunction')
 const forEachRight = require('./forEachRight')
 const forIn = require('./forIn')
 const run = require('./run')
@@ -78,9 +79,6 @@ function toTree(params) {
 
             // 复制单个节点
             const item = Object.assign({}, rawItem)
-
-            // 格式化单个节点
-            run(o.format)(item, o)
 
             // 如果单个节点没有 pid 键值, 则初始化 pid 值为 0
             if (! _has(item, o.pidKey)) {
@@ -172,9 +170,11 @@ function toTree(params) {
 
             // 如果有树层级
             if (o.level) {
+                // 设置最大层级
                 maxLevel = o.level
             }
 
+            // 如果最大层级 > 1
             if (maxLevel > 1) {
 
                 // 删除子节点
@@ -257,6 +257,13 @@ function toTree(params) {
             }
         }
         // --------------------------------------------------
+
+        // 格式化单个节点
+        if (_isFunction(o.format)) {
+            forIn(nodes, function(item) {
+                o.format(item)
+            })
+        }
     }
 
     // 如果开启根目录

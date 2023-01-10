@@ -1,3 +1,5 @@
+const _isFunction = require('lodash/isFunction')
+
 /*
  * 操作数组
  */
@@ -8,7 +10,7 @@ module.exports = {
      */
     add(children, index, newItem) {
         if (Array.isArray(children)) {
-            children.splice(index + 1, 0, newItem)
+            children.splice(index + 1, 0, _isFunction(newItem) ? newItem() : newItem)
         }
     },
 
@@ -32,7 +34,7 @@ module.exports = {
             children.splice(index + 1, 1)
         }
     },
-    
+
     /**
      * 下移
      */
