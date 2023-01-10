@@ -4,14 +4,14 @@ const forIn = require('./forIn')
 const run = require('./run')
 
 /**
- * 获取树数据
+ * 转树数据
  * @param {object} params
  * @returns {object}
  */
-function tree(params) {
+function toTree(params) {
 
     const o = Object.assign({
-        // 数据
+        // 数据(数组)
         data: null,
         // 是否显示根节点
         root: false,
@@ -41,16 +41,20 @@ function tree(params) {
         labelKey: 'label',
         // 属性键值
         attrKey: 'attr',
+        // 所有父级(含自己)值数组
+        valuesKey: 'ids',
+        // 所有父级(含自己)标签数组
+        labelsKey: 'labels',
         // 孩子节点键值
         childrenKey: 'children',
 
     }, params)
 
-    // all 原始数据
-    const all = {}
+    // attrs 原始数据
+    const attrs = {}
 
-    // all 树数据
-    const allTree = {}
+    // 树节点数据
+    const nodes = {}
 
     // 树列表
     let tree = []
@@ -85,26 +89,26 @@ function tree(params) {
             // 获取 id
             const id = item[o.idKey]
 
-            // 设置 all 单个节点
-            all[id] = item
+            // 设置 attrs 单个节点
+            attrs[id] = item
 
             // 初始化分组单个节点
             group[id] = []
 
-            // 设置 allTree 单个节点
-            allTree[id] = {}
-            allTree[id][o.valueKey] = id
-            allTree[id][o.labelKey] = item[o.titleKey]
-            allTree[id][o.attrKey] = item
+            // 设置 nodes 单个节点
+            nodes[id] = {}
+            nodes[id][o.valueKey] = id
+            nodes[id][o.labelKey] = item[o.titleKey]
+            nodes[id][o.attrKey] = item
 
             // 如果叶子节点包含 children 字段
             if (o.leafHasChildren) {
                 // 初始化 children
-                allTree[id][o.childrenKey] = []
+                nodes[id][o.childrenKey] = []
             }
         }
 
-        forIn(allTree, function(item) {
+        forIn(nodes, function(item) {
 
             // 获取 pid
             const pid = item[o.attrKey][o.pidKey]
@@ -120,7 +124,7 @@ function tree(params) {
             }
         })
 
-        function getChildren(item, level) {
+        function getChildren(item, level, ids, labels) {
 
             // 设置最大层级
             if (level > maxLevel) {
@@ -129,6 +133,12 @@ function tree(params) {
 
             // 设置节点层级
             item.level = level
+
+            // 所有父级(含自己)值数组
+            item[o.valuesKey] = [...ids, item[o.attrKey][o.idKey]]
+
+            // 所有父级(含自己)标签数组
+            item[o.labelsKey] = [...labels, item[o.attrKey][o.titleKey]]
 
             // 如果不限级别 || 限制级别 > 当前级别
             if (! o.level || o.level > level) {
@@ -142,14 +152,14 @@ function tree(params) {
                     item[o.childrenKey] = group[pid]
 
                     for (const childItem of item[o.childrenKey]) {
-                        getChildren(childItem, level + 1)
+                        getChildren(childItem, level + 1, item[o.valuesKey], item[o.labelsKey])
                     }
                 }
             }
         }
 
         for (const item of tree) {
-            getChildren(item, 1)
+            getChildren(item, 1, [], [])
         }
 
         // 如果删除空父级节点
@@ -166,8 +176,8 @@ function tree(params) {
                 // 删除子节点
                 function delItem(item) {
                     const id = item[o.idKey]
-                    delete all[id]
-                    delete allTree[id]
+                    delete attrs[id]
+                    delete nodes[id]
                 }
 
                 // 是否有子节点
@@ -176,7 +186,7 @@ function tree(params) {
                 }
 
                 function getParent(level) {
-                    forIn(allTree, function (item) {
+                    forIn(nodes, function (item) {
                         if (
                             // 如果为当前级别
                             item.level === level
@@ -271,12 +281,17 @@ function tree(params) {
     }
 
     return {
+        // 状态
         status,
-        all,
-        allTree,
+        // 所有属性
+        attrs,
+        // 所有节点
+        nodes,
+        // 树数组
         tree,
+        // 默认展开根节点
         expanded,
     }
 }
 
-module.exports = tree
+module.exports = toTree
