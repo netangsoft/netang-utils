@@ -9,10 +9,11 @@ const _isString = require('lodash/isString')
 
 function isNumeric(value) {
 
-    return _isNumber(value) || (
-        _isString(value)
-        && (value - parseFloat(value) + 1) >= 0
-    )
+    if (_isNumber(value)) {
+        return Number.isFinite(value)
+    }
+
+    return _isString(value) && (value - parseFloat(value) + 1) >= 0
 }
 
 module.exports = isNumeric
