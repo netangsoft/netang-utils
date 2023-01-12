@@ -178,7 +178,7 @@ function http(settings) {
 
             // 请求成功执行
             if (_isFunction(para.onRequestSuccess)) {
-                const res = para.onRequestSuccess(data, r)
+                const res = para.onRequestSuccess({ data, r, para })
                 if (! _isNil(res)) {
                     if (res === false) {
                         return
