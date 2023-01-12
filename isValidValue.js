@@ -1,19 +1,19 @@
 const _isNil = require('lodash/isNil')
 const _isString = require('lodash/isString')
 const _trim = require('lodash/trim')
-const _isNumber = require('lodash/isNumber')
 
 /**
  * 是否为有效值
- * @param value
+ * @param value 值
+ * @param allowEmptyString 是否允许空字符串
  * @returns {boolean} true: 非空字符串/有效数字
  */
-function isValidValue(value) {
+function isValidValue(value, allowEmptyString = false) {
     if (! _isNil(value)) {
         if (_isString(value)) {
-            return _trim(value).length
+            return allowEmptyString ? true : _trim(value).length
         }
-        return _isNumber(value) && Number.isFinite(value)
+        return Number.isFinite(value)
     }
     return false
 }

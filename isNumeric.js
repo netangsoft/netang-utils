@@ -1,4 +1,3 @@
-const _isNumber = require('lodash/isNumber')
 const _isString = require('lodash/isString')
 
 /**
@@ -8,12 +7,10 @@ const _isString = require('lodash/isString')
  */
 
 function isNumeric(value) {
-
-    if (_isNumber(value)) {
-        return Number.isFinite(value)
+    if (_isString(value)) {
+        return (value - parseFloat(value) + 1) >= 0
     }
-
-    return _isString(value) && (value - parseFloat(value) + 1) >= 0
+    return Number.isFinite(value)
 }
 
 module.exports = isNumeric
