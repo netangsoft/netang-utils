@@ -126,8 +126,54 @@ function getNums(key) {
 }
 
 /**
+ * whereIn / whereNotIn
+ */
+function whereInOrNotIn(key, values, isWhereIn) {
+    return this._init(function() {
+
+        // 如果没有查询字段
+        if (! isFillString(key)) {
+            throw new Error(`key cannot be empty`)
+        }
+
+        // 如果没有查询字段
+        if (! isFillArray(values)) {
+            throw new Error(`values cannot be empty`)
+        }
+
+        // 创建原始数据
+        const raw = this._createRaw()
+
+        // 如果集合不为空
+        if (this.isNotEmpty()) {
+            this._each((item, index) => {
+                if (
+                    // 如果存在查询字段
+                    itemHasKey(item, key)
+                    && (
+                        isWhereIn ?
+                            // 值在查询数组中
+                            indexOf(values, item[key]) > -1
+                            // 值不在查询数组中
+                            : indexOf(values, item[key]) === -1
+                    )
+                ) {
+                    this._setRaw(raw, item, index)
+                }
+            })
+        }
+
+        // 设置集合底层数据
+        this.set(raw)
+
+        // 返回
+        return this
+    })
+}
+
+/**
  * 集合
- * 参考文档: https://learnku.com/docs/laravel/9.x/collections/12225
+ * 参考文档: https://learnku.com/docs/laravel/8.x/collections/9390
  */
 class Collection {
 
@@ -294,41 +340,7 @@ class Collection {
      * @param values 查询数组
      */
     whereIn(key, values) {
-        return this._init(function() {
-
-            // 如果没有查询字段
-            if (! isFillString(key)) {
-                throw new Error('whereIn key cannot be empty')
-            }
-
-            // 如果没有查询字段
-            if (! isFillArray(values)) {
-                throw new Error('whereIn values cannot be empty')
-            }
-
-            // 创建原始数据
-            const raw = this._createRaw()
-
-            // 如果集合不为空
-            if (this.isNotEmpty()) {
-                this._each((item, index) => {
-                    if (
-                        // 如果存在查询字段
-                        itemHasKey(item, key)
-                        // 值在查询数组中
-                        && indexOf(values, item[key]) > -1
-                    ) {
-                        this._setRaw(raw, item, index)
-                    }
-                })
-            }
-
-            // 设置集合底层数据
-            this.set(raw)
-
-            // 返回
-            return this
-        })
+        return whereInOrNotIn.call(this, key, values, true)
     }
 
     /**
@@ -337,41 +349,7 @@ class Collection {
      * @param values 查询数组
      */
     whereNotIn(key, values) {
-        return this._init(function() {
-
-            // 如果没有查询字段
-            if (! isFillString(key)) {
-                throw new Error('whereNotIn key cannot be empty')
-            }
-
-            // 如果没有查询字段
-            if (! isFillArray(values)) {
-                throw new Error('whereNotIn values cannot be empty')
-            }
-
-            // 创建原始数据
-            const raw = this._createRaw()
-
-            // 如果集合不为空
-            if (this.isNotEmpty()) {
-                this._each((item, index) => {
-                    if (
-                        // 如果存在查询字段
-                        itemHasKey(item, key)
-                        // 如果值不在查询数组中
-                        && indexOf(values, item[key]) === -1
-                    ) {
-                        this._setRaw(raw, item, index)
-                    }
-                })
-            }
-
-            // 设置集合底层数据
-            this.set(raw)
-
-            // 返回
-            return this
-        })
+        return whereInOrNotIn.call(this, key, values, false)
     }
 
     /**
