@@ -101,7 +101,9 @@ function http(settings) {
         onUploadProgress: null,
         // 请求前执行
         onRequestBefore: null,
-        //判断是否错误重连
+        // 请求成功执行
+        onRequestSuccess: null,
+        // 判断是否错误重连
         onCheckReConnect: null,
         // 处理请求
         onRequest: null,
@@ -152,16 +154,41 @@ function http(settings) {
             }
 
             // 执行错误执行
-            const res = run(para.onError)({ data, r, para })
-            if (! _isNil(res)) {
-                if (res === false) {
-                    return
+            if (_isFunction(para.onError)) {
+                const res = para.onError({ data, r, para })
+                if (! _isNil(res)) {
+                    if (res === false) {
+                        return
+                    }
+                    data = res
                 }
-                data = res
             }
 
             return {
                 status: false,
+                data,
+                response: r,
+            }
+        }
+
+        /**
+         * 返回成功数据
+         */
+        function onSuccess(data, r) {
+
+            // 请求成功执行
+            if (_isFunction(para.onRequestSuccess)) {
+                const res = para.onRequestSuccess(data, r)
+                if (! _isNil(res)) {
+                    if (res === false) {
+                        return
+                    }
+                    data = res
+                }
+            }
+
+            return {
+                status: true,
                 data,
                 response: r,
             }
@@ -252,11 +279,7 @@ function http(settings) {
             if (isCache) {
                 const cacheData = await runAsync(para.storage.get)(cacheName)
                 if (! _isNil(cacheData)) {
-                    return {
-                        status: true,
-                        data: cacheData,
-                        response: {},
-                    }
+                    return onSuccess(cacheData, {})
                 }
             }
 
@@ -397,11 +420,7 @@ function http(settings) {
                         }
 
                         // 返回成功数据
-                        return {
-                            status: true,
-                            data,
-                            response: r,
-                        }
+                        return onSuccess(data, r)
                     }
 
                     // 发起请求
