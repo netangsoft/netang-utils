@@ -636,29 +636,29 @@ class Collection {
                     // 普通数组去重
                     this.set(_uniq(this.data))
 
-                // 否则为其他
-                } else {
-
-                    // 如果没有查询字段
-                    if (! isFillString(key)) {
-                        throw new Error('unique key cannot be empty')
-                    }
-
-                    // 已存在的值数组
-                    const existed = []
-
-                    this._each((item, index) => {
-                        if (
-                            // 如果存在查询字段
-                            itemHasKey(item, key)
-                            // 如果值不在已存在值数组中
-                            && indexOf(existed, item[key]) === -1
-                        ) {
-                            existed.push(item[key])
-                            this._setRaw(raw, item, index)
-                        }
-                    })
+                    // 返回
+                    return this
                 }
+
+                // 如果没有查询字段
+                if (! isFillString(key)) {
+                    throw new Error('unique key cannot be empty')
+                }
+
+                // 已存在的值数组
+                const existed = []
+
+                this._each((item, index) => {
+                    if (
+                        // 如果存在查询字段
+                        itemHasKey(item, key)
+                        // 如果值不在已存在值数组中
+                        && indexOf(existed, item[key]) === -1
+                    ) {
+                        existed.push(item[key])
+                        this._setRaw(raw, item, index)
+                    }
+                })
             }
 
             // 设置集合底层数据

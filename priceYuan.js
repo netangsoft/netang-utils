@@ -1,6 +1,6 @@
 const BigNumber = require('bignumber.js')
-const isNumeric = require('@netang/utils/isNumeric')
-const split = require('@netang/utils/split')
+const isNumeric = require('./isNumeric')
+const split = require('./split')
 
 /**
  * 换算金额(元)
