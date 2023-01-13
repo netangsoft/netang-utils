@@ -1,5 +1,5 @@
 const BigNumber = require('bignumber.js')
-const isNumeric = require('./isNumeric')
+const isNumeric = require('@netang/utils/isNumeric')
 
 /**
  * 换算金额(元转分)
