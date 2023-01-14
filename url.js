@@ -1,7 +1,9 @@
 const _get = require('lodash/get')
-const _isFillString = require('./isFillString')
-const slash = require('./slash')
 const { parse } = require('qs')
+
+const isFillString = require('./isFillString')
+const numberDeep = require('./numberDeep')
+const slash = require('./slash')
 
 /**
  * 解构 url 参数
@@ -22,7 +24,7 @@ const { parse } = require('qs')
 
 function url(href, path, defaultValue = '') {
 
-    if (! _isFillString(href)) {
+    if (! isFillString(href)) {
         if (typeof window === 'undefined') {
             throw new Error('url is error')
         }
@@ -100,7 +102,7 @@ function url(href, path, defaultValue = '') {
         if (len > 1) {
             u.url = hrefs[0]
             u.search = hrefs[len - 1]
-            u.query = parse(u.search)
+            u.query = numberDeep(parse(u.search))
         } else {
             u.url = href
             u.search = ''
