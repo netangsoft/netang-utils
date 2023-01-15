@@ -117,7 +117,9 @@ function toTree(params) {
 
             // 如果有绑定父级 id
             if (pid) {
-                group[pid].push(item)
+                if (_has(group, pid)) {
+                    group[pid].push(item)
+                }
 
             // 否则为根节点
             } else {
