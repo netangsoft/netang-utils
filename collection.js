@@ -42,7 +42,7 @@ function getItemData(item) {
 
     // 如果数据是集合类型
     if (typeof item === 'object' && _get(item, 'constructor.name') === 'Collection') {
-        return item.toArray()
+        return item._toValue()
     }
 
     // 否则为普通数据
@@ -236,37 +236,25 @@ class Collection {
     }
 
     /**
-     * 转换底层数据为 数组 / 对象
+     * 转换底层数据为数组
      */
     toArray() {
+        // 获取返回数据
+        const res = this._toValue()
+        return Array.isArray(res) ? res : []
+    }
 
-        // 如果数据格式是数组
-        if (Array.isArray(this.data)) {
-            const arr = []
-            for (const item of this.data) {
-                // 获取单个数据
-                arr.push(getItemData(item))
-            }
-            return arr
-        }
-
-        // 如果数据格式是对象
-        if (_isPlainObject(this.data)) {
-            const obj = {}
-            for (const key in this.data) {
-                // 获取单个数据
-                obj[key] = getItemData(this.data[key])
-            }
-            return obj
-        }
-
-        // 否则返回数据
-        return this.data
+    /**
+     转换底层数据为对象
+     */
+    toObject() {
+        // 获取返回数据
+        const res = this._toValue()
+        return _isPlainObject(res) ? res : {}
     }
 
     /**
      * 遍历集合中的项目并将每个项目传递给闭包
-     * @private
      */
     each(callback) {
         return this._init(function() {
@@ -1234,6 +1222,36 @@ class Collection {
      */
     _each(cb) {
         return this._isTypeofArray() ? forEach(this.data, cb) : forIn(this.data, cb)
+    }
+
+    /**
+     * 转换底层数据为 数组 / 对象
+     * @private
+     */
+    _toValue() {
+
+        // 如果数据格式是数组
+        if (Array.isArray(this.data)) {
+            const arr = []
+            for (const item of this.data) {
+                // 获取单个数据
+                arr.push(getItemData(item))
+            }
+            return arr
+        }
+
+        // 如果数据格式是对象
+        if (_isPlainObject(this.data)) {
+            const obj = {}
+            for (const key in this.data) {
+                // 获取单个数据
+                obj[key] = getItemData(this.data[key])
+            }
+            return obj
+        }
+
+        // 否则返回原始数据
+        return this.data
     }
 }
 
