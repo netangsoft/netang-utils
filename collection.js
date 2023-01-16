@@ -721,6 +721,19 @@ class Collection {
     }
 
     /**
+     * 格式化
+     */
+    format(callback) {
+        return this._init(function() {
+            if (_isFunction(callback)) {
+                return callback(this)
+            }
+            // 返回
+            return this
+        })
+    }
+
+    /**
      * 将一个项目附加到集合的末尾
      */
     push(...value) {
