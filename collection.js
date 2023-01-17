@@ -77,9 +77,9 @@ function operatorForWhere(operator, retrieved, value) {
         case '!==':
             return retrieved !== value
         case 'like':
-            return indexOf(retrieved, value) > -1
         case 'not like':
-            return indexOf(retrieved, value) === -1
+            const index = indexOf(_toLower(trimString(retrieved)), _toLower(trimString(value)))
+            return operator === 'like' ? index > -1 : index === -1
     }
 }
 
