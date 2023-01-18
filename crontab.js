@@ -14,6 +14,14 @@ function crontab(func, timeout = 0) {
 
     let _stop = false
 
+    function stop() {
+        _stop = true
+
+        if (_timerId) {
+            clearTimeout(_timerId)
+        }
+    }
+
     function start() {
 
         // 清除定时任务
@@ -33,20 +41,14 @@ function crontab(func, timeout = 0) {
             }
 
             // 继续执行定时任务
-            func.call(this, start)
+            func(start, stop)
 
         }, timeout)
     }
 
     return {
         start,
-        stop() {
-            _stop = true
-
-            if (_timerId) {
-                clearTimeout(_timerId)
-            }
-        },
+        stop,
     }
 }
 
