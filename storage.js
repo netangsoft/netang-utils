@@ -1,7 +1,7 @@
 const _isNil = require('lodash/isNil')
 const _has = require('lodash/has')
-const isFillObject = require('./isFillObject')
-const isFillString = require('./isFillString')
+const isValidObject = require('./isValidObject')
+const isValidString = require('./isValidString')
 const numberDeep = require('./numberDeep')
 const forIn = require('./forIn')
 const $json = require('./json')
@@ -35,7 +35,7 @@ function storage(params) {
             info = $json.parse(info)
 
             // 将已过期的缓存删除
-            if (isFillObject(info)) {
+            if (isValidObject(info)) {
 
                 // 删除次数
                 let delNum = 0
@@ -95,7 +95,7 @@ function storage(params) {
      */
     function setStorage(key, value, expires) {
 
-        if (! isFillString(key) || _isNil(value)) {
+        if (! isValidString(key) || _isNil(value)) {
             return
         }
 
@@ -130,7 +130,7 @@ function storage(params) {
      */
     function getStorage(key = '', defaultValue = null) {
 
-        if (! isFillString(key)) {
+        if (! isValidString(key)) {
             // 返回 null
             return defaultValue
         }
@@ -169,7 +169,7 @@ function storage(params) {
      */
     function deleteStorage(key) {
 
-        if (isFillString(key)) {
+        if (isValidString(key)) {
 
             // 获取 key
             key = getStoragePrefix(key)
@@ -218,7 +218,7 @@ function storage(params) {
      */
     function getStorageTtl(key = '') {
 
-        if (isFillString(key)) {
+        if (isValidString(key)) {
 
             // 获取 key
             key = getStoragePrefix(key)

@@ -1,5 +1,5 @@
 const _has = require('lodash/has')
-const isFillArray = require('./isFillArray')
+const isValidArray = require('./isValidArray')
 
 /**
  * 数组转对象
@@ -9,7 +9,7 @@ function toObject(lists = [], type = 'all', idKey = 'id', pidKey = 'pid') {
 
     const all = {}
 
-    const isLists = isFillArray(lists)
+    const isLists = isValidArray(lists)
     if (isLists) {
         for (const item of lists) {
             all[item[idKey]] = item

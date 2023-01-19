@@ -17,9 +17,9 @@ const _toPairs = require('lodash/toPairs')
 
 const split = require('./split')
 const isNumeric = require('./isNumeric')
-const isFillArray = require('./isFillArray')
-const isFillObject = require('./isFillObject')
-const isFillString = require('./isFillString')
+const isValidArray = require('./isValidArray')
+const isValidObject = require('./isValidObject')
+const isValidString = require('./isValidString')
 const isRequired = require('./isRequired')
 const size = require('./size')
 const numberDeep = require('./numberDeep')
@@ -102,7 +102,7 @@ function lte(value, {type, val}) {
  */
 function _in(value, {vals}) {
 
-    if (isFillArray(value)) {
+    if (isValidArray(value)) {
         for (let i = 0, len = value.length; i < len; i++) {
             if (_indexOf(vals, value[i]) === -1) {
                 return false
@@ -859,7 +859,7 @@ function validator(data, rules, messages = null, attributes = null) {
 
     // 格式化自定义错误
     const formatMessages = {}
-    if (isFillObject(messages)) {
+    if (isValidObject(messages)) {
         for (const key in messages) {
             const keys = split(key, '.')
             if (keys.length >= 2) {
@@ -873,13 +873,13 @@ function validator(data, rules, messages = null, attributes = null) {
 
     // 格式化自定义属性
     const formatAttributes = {}
-    if (isFillObject(attributes)) {
+    if (isValidObject(attributes)) {
         for (const key in attributes) {
             formatAttributes[key] = attributes[key]
         }
     }
 
-    if (isFillObject(rules)) {
+    if (isValidObject(rules)) {
         for (let key in rules) {
 
             // 获取单条规则
@@ -891,7 +891,7 @@ function validator(data, rules, messages = null, attributes = null) {
             }
 
             // 如果为数组
-            if (isFillArray(ruleArray)) {
+            if (isValidArray(ruleArray)) {
 
                 const arr = []
 
@@ -908,7 +908,7 @@ function validator(data, rules, messages = null, attributes = null) {
                         }
 
                     // 如果为对象
-                    } else if (isFillObject(value)) {
+                    } else if (isValidObject(value)) {
                         arr.push(value)
                     }
                 }
@@ -981,7 +981,7 @@ function validator(data, rules, messages = null, attributes = null) {
  */
 function validate(value, field = '', rule = '', message = '', attribute = null, data = null) {
 
-    if (!isFillObject(data)) {
+    if (!isValidObject(data)) {
         data = {}
         data[field] = value
     }
@@ -990,14 +990,14 @@ function validate(value, field = '', rule = '', message = '', attribute = null, 
     rules[field] = _isEmpty(rule) ? 'required|' + field : rule
 
     const messages = {}
-    if (isFillString(message)) {
+    if (isValidString(message)) {
         messages[field] = message
     }
 
     let attributes = {}
-    if (isFillString(attribute)) {
+    if (isValidString(attribute)) {
         attributes[field] = attribute
-    } else if (isFillObject(attribute)) {
+    } else if (isValidObject(attribute)) {
         attributes = attribute
     }
 
@@ -1038,7 +1038,7 @@ function validate(value, field = '', rule = '', message = '', attribute = null, 
 //                     if (res === true) {
 //                         callback()
 //
-//                     } else if (isFillString(res)) {
+//                     } else if (isValidString(res)) {
 //                         callback(res)
 //                     }
 //
@@ -1154,7 +1154,7 @@ function validate(value, field = '', rule = '', message = '', attribute = null, 
 //             name: [],
 //         }, params)
 //
-//         if (isFillArray(val) && para.name.length === val.length) {
+//         if (isValidArray(val) && para.name.length === val.length) {
 //             val.forEach((v, index)=>{
 //                 this[para.dataName][para.name[index]] = v
 //             })

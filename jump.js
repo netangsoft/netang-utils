@@ -1,4 +1,4 @@
-const isFillString = require('./isFillString')
+const isValidString = require('./isValidString')
 
 /**
  * 跳转
@@ -8,7 +8,7 @@ const isFillString = require('./isFillString')
 
 function jump(url, replace = false) {
 
-    if (! isFillString(url)) {
+    if (! isValidString(url)) {
         return
     }
 

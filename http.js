@@ -7,9 +7,9 @@ const _isNil = require('lodash/isNil')
 const _isArray = require('lodash/isArray')
 const _isFunction = require('lodash/isFunction')
 
-const isFillString = require('./isFillString')
+const isValidString = require('./isValidString')
 const isNumeric = require('./isNumeric')
-const isFillObject = require('./isFillObject')
+const isValidObject = require('./isValidObject')
 const debounceSleep = require('./debounceSleep')
 const numberDeep = require('./numberDeep')
 const run = require('./run')
@@ -225,7 +225,7 @@ function http(settings) {
                     options.data = para.data
 
                 // 否则获取上传文件数据
-                } else if (isFillObject(para.data)) {
+                } else if (isValidObject(para.data)) {
                     const fileData = new FormData()
                     _forEach(para.data, function(value, key) {
                         fileData.append(key, value)
@@ -241,7 +241,7 @@ function http(settings) {
                 }
 
                 // 传参配置(post: data, get: 合并参数至 url 中)
-                if (isFillObject(para.data)) {
+                if (isValidObject(para.data)) {
 
                     if (options.method === 'GET') {
 
@@ -258,7 +258,7 @@ function http(settings) {
                         options.data = data
                     }
 
-                } else if (isFillString(para.data) || isNumeric(para.data)) {
+                } else if (isValidString(para.data) || isNumeric(para.data)) {
                     options.data = para.data
                 }
             }
@@ -267,7 +267,7 @@ function http(settings) {
 
             // 获取缓存名称
             const cacheName = 'http:' + (
-                isFillString(para.cache) ?
+                isValidString(para.cache) ?
                     para.cache :
                     await runAsync(para.cacheName)(options, para, data)
             )
@@ -379,7 +379,7 @@ function http(settings) {
                         ) {
                             // 如果数据格式不正确
                             if (
-                                ! isFillObject(data)
+                                ! isValidObject(data)
                                 || ! _has(data, 'code')
                             ) {
                                 return onError({

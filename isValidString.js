@@ -7,9 +7,9 @@ const _trim = require('lodash/trim')
  * @returns {boolean}
  */
 
-function isFillString(value) {
+function isValidString(value) {
 
     return _isString(value) && _trim(value).length > 0
 }
 
-module.exports = isFillString
+module.exports = isValidString

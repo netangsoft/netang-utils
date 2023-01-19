@@ -1,6 +1,6 @@
 const _isNumber = require('lodash/isNumber')
 const numberDeep = require('./numberDeep')
-const isFillString = require('./isFillString')
+const isValidString = require('./isValidString')
 
 /*
  * 拆分字符串
@@ -15,7 +15,7 @@ function split(str = '', separator, limit, isToNumberDeep = true) {
         str = String(str)
     }
 
-    if (isFillString(str)) {
+    if (isValidString(str)) {
         const arr = str.split(separator, limit)
         return isToNumberDeep ? numberDeep(arr) : arr
     }

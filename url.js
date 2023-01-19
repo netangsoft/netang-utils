@@ -1,7 +1,7 @@
 const _get = require('lodash/get')
 const { parse } = require('qs')
 
-const isFillString = require('./isFillString')
+const isValidString = require('./isValidString')
 const numberDeep = require('./numberDeep')
 const slash = require('./slash')
 
@@ -24,7 +24,7 @@ const slash = require('./slash')
 
 function url(href, path, defaultValue = '') {
 
-    if (! isFillString(href)) {
+    if (! isValidString(href)) {
         if (typeof window === 'undefined') {
             throw new Error('url is error')
         }

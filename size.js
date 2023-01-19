@@ -1,7 +1,7 @@
 const _trim = require('lodash/trim')
 const _size = require('lodash/size')
 const isNumeric = require('./isNumeric')
-const isFillString = require('./isFillString')
+const isValidString = require('./isValidString')
 
 /**
  * 返回值的长度, 如果值是类数组或字符串, 返回其 length(汉字:长度为 2，英文/数字: 长度为 1); 如果值是对象, 返回其可枚举属性的个数
@@ -10,7 +10,7 @@ function size(value) {
 
     // 如果是数字/字符串
     const isNum = isNumeric(value)
-    if (isNum || isFillString(value)) {
+    if (isNum || isValidString(value)) {
 
         value = _trim(isNum ? String(value) : value)
         const count = value.length

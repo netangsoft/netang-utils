@@ -1,6 +1,6 @@
 const _toNumber = require('lodash/toNumber')
 const _has = require('lodash/has')
-const isFillString = require('./isFillString')
+const isValidString = require('./isValidString')
 const isNumeric = require('./isNumeric')
 
 /**
@@ -11,7 +11,7 @@ const isNumeric = require('./isNumeric')
  */
 function setCookie(key, value, options = {}) {
 
-    if (! isFillString(key)) {
+    if (! isValidString(key)) {
         return
     }
 
@@ -63,7 +63,7 @@ function setCookie(key, value, options = {}) {
  */
 function getCookie(key = '') {
 
-    if (! isFillString(key)) {
+    if (! isValidString(key)) {
         return
     }
 
@@ -96,7 +96,7 @@ function getCookie(key = '') {
         } catch (e) {}
     }
 
-    return isFillString(key) ? (_has(res, key) ? res[key] : null) : res
+    return isValidString(key) ? (_has(res, key) ? res[key] : null) : res
 }
 
 /**

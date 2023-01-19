@@ -1,8 +1,8 @@
 const _toLower = require('lodash/toLower')
 const _get = require('lodash/get')
 
-const isFillObject = require('./isFillObject')
-const isFillString = require('./isFillString')
+const isValidObject = require('./isValidObject')
+const isValidString = require('./isValidString')
 
 /**
  * 国际化设置
@@ -22,10 +22,10 @@ function trans(key, replace = null) {
         return key.substring(key.lastIndexOf('.') + 1)
     }
 
-    if (isFillObject(replace)) {
+    if (isValidObject(replace)) {
         for (const key in replace) {
             const value = replace[key]
-            if (isFillString(value)) {
+            if (isValidString(value)) {
                 str = str.replace(':' + key, value)
             }
         }

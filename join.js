@@ -1,4 +1,4 @@
-const isFillArray = require('./isFillArray')
+const isValidArray = require('./isValidArray')
 
 /*
  * 拆分字符串
@@ -9,7 +9,7 @@ const isFillArray = require('./isFillArray')
  */
 function join(arr = [], separator) {
 
-    if (isFillArray(arr)) {
+    if (isValidArray(arr)) {
         return arr.join(separator)
     }
 

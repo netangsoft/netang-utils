@@ -6,7 +6,7 @@ const _isPlainObject = require('lodash/isPlainObject')
  * @returns {boolean}
  */
 
-function isFillObject(value) {
+function isValidObject(value) {
 
     if (_isPlainObject(value)) {
 
@@ -22,4 +22,4 @@ function isFillObject(value) {
     return false
 }
 
-module.exports = isFillObject
+module.exports = isValidObject

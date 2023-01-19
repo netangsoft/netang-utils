@@ -1,5 +1,5 @@
-const isFillArray = require('./isFillArray')
-const isFillObject = require('./isFillObject')
+const isValidArray = require('./isValidArray')
+const isValidObject = require('./isValidObject')
 const isValidValue = require('./isValidValue')
 
 /**
@@ -9,8 +9,8 @@ const isValidValue = require('./isValidValue')
  */
 function isRequired(value) {
     return isValidValue(value)
-        || isFillArray(value)
-        || isFillObject(value)
+        || isValidArray(value)
+        || isValidObject(value)
 }
 
 module.exports = isRequired

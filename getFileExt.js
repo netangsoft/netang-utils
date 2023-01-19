@@ -1,10 +1,10 @@
-const isFillString = require('./isFillString')
+const isValidString = require('./isValidString')
 
 /**
  * 获取后缀
  */
-function getExt(fileName, separator = '.') {
-    if (isFillString(fileName)) {
+function getFileExt(fileName, separator = '.') {
+    if (isValidString(fileName)) {
         const index = fileName.lastIndexOf(separator)
         if (index > -1) {
             return fileName.substring(index + 1)
@@ -13,4 +13,4 @@ function getExt(fileName, separator = '.') {
     return ''
 }
 
-module.exports = getExt
+module.exports = getFileExt

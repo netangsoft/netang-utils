@@ -17,9 +17,9 @@ const forEach = require('./forEach')
 const forEachRight = require('./forEachRight')
 const forIn = require('./forIn')
 const isValidValue = require('./isValidValue')
-const isFillString = require('./isFillString')
-const isFillArray = require('./isFillArray')
-const isFillObject = require('./isFillObject')
+const isValidString = require('./isValidString')
+const isValidArray = require('./isValidArray')
+const isValidObject = require('./isValidObject')
 const indexOf = require('./indexOf')
 const isRequired = require('./isRequired')
 const toTree = require('./toTree')
@@ -105,7 +105,7 @@ function getNums(key) {
         } else {
 
             // 如果没有查询字段
-            if (! isFillString(key)) {
+            if (! isValidString(key)) {
                 throw new Error('key cannot be empty')
             }
 
@@ -132,12 +132,12 @@ function whereInOrNotIn(key, values, isWhereIn) {
     return this._init(function() {
 
         // 如果没有查询字段
-        if (! isFillString(key)) {
+        if (! isValidString(key)) {
             throw new Error(`key cannot be empty`)
         }
 
         // 如果没有查询字段
-        if (! isFillArray(values)) {
+        if (! isValidArray(values)) {
             throw new Error(`values cannot be empty`)
         }
 
@@ -204,7 +204,7 @@ class Collection {
 
         // 否则如果类型为对象
         if (_isPlainObject(this.data)) {
-            return isFillObject(this.data)
+            return isValidObject(this.data)
         }
 
         // 否则将值设为空数组
@@ -283,7 +283,7 @@ class Collection {
         return this._init(function() {
 
             // 如果没有查询字段
-            if (! isFillString(key)) {
+            if (! isValidString(key)) {
                 throw new Error('where key cannot be empty')
             }
 
@@ -348,7 +348,7 @@ class Collection {
         return this._init(function() {
 
             // 如果有查询字段
-            if (! isFillArray(keys)) {
+            if (! isValidArray(keys)) {
                 throw new Error('select keys cannot be empty')
             }
 
@@ -379,7 +379,7 @@ class Collection {
                     }
                 })
 
-                if (! isFillObject(alias)) {
+                if (! isValidObject(alias)) {
                     throw new Error('select keys cannot be empty')
                 }
 
@@ -439,7 +439,7 @@ class Collection {
                 // 如果是对象数组
                 if (isObjInArr) {
                     // 如果没有排序字段
-                    if (! isFillString(key)) {
+                    if (! isValidString(key)) {
                         throw new Error('orderBy key cannot be empty')
                     }
 
@@ -484,7 +484,7 @@ class Collection {
         return this._init(function() {
 
             // 如果没有查询字段
-            if (! isFillString(key)) {
+            if (! isValidString(key)) {
                 throw new Error('keyBy key cannot be empty')
             }
 
@@ -571,7 +571,7 @@ class Collection {
         return this._init(function() {
 
             // 如果没有查询字段
-            if (! isFillString(key)) {
+            if (! isValidString(key)) {
                 throw new Error('pluck key cannot be empty')
             }
 
@@ -629,7 +629,7 @@ class Collection {
                 }
 
                 // 如果没有查询字段
-                if (! isFillString(key)) {
+                if (! isValidString(key)) {
                     throw new Error('unique key cannot be empty')
                 }
 
@@ -1005,7 +1005,7 @@ class Collection {
             if (this._isTypeofArray() && ! this._isObjectInArray()) {
 
                 // 如果没有查询字段
-                if (! isFillString(key)) {
+                if (! isValidString(key)) {
                     throw new Error('implode separator cannot be empty')
                 }
 
@@ -1013,12 +1013,12 @@ class Collection {
             }
 
             // 如果没有查询字段
-            if (! isFillString(key)) {
+            if (! isValidString(key)) {
                 throw new Error('implode key cannot be empty')
             }
 
             // 如果没有 separator 字段
-            if (! isFillString(separator)) {
+            if (! isValidString(separator)) {
                 throw new Error('implode separator cannot be empty')
             }
 

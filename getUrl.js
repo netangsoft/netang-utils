@@ -1,4 +1,4 @@
-const isFillString = require('./isFillString')
+const isValidString = require('./isValidString')
 const slash = require('./slash')
 
 /**
@@ -10,14 +10,14 @@ const slash = require('./slash')
 
 function getUrl(url, origin = '/') {
 
-    if (! isFillString(url)) {
+    if (! isValidString(url)) {
         url = ''
     }
 
     if (
         ! /^(http|https|file):/i.test(url)
         && ! /javascript/.test(url)
-        && isFillString(origin)
+        && isValidString(origin)
     ) {
         url = slash(origin, 'end', true) + slash(url.replace(/^\//, ''), 'start', false)
     }

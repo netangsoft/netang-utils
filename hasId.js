@@ -1,12 +1,12 @@
 const _has = require('lodash/has')
 const isNumeric = require('./isNumeric')
-const isFillObject = require('./isFillObject')
-const isFillString = require('./isFillString')
+const isValidObject = require('./isValidObject')
+const isValidString = require('./isValidString')
 
 /*
- * 是否为编辑模式
+ * 是否是/含有 id
  */
-function isEdit(value = '', idKey = 'id', isString = false) {
+function hasId(value = '', idKey = 'id', isString = false) {
 
     if (! isString) {
 
@@ -14,18 +14,18 @@ function isEdit(value = '', idKey = 'id', isString = false) {
             return Number(value) > 0
         }
 
-        return isFillObject(value)
+        return isValidObject(value)
             && _has(value, idKey)
             && isNumeric(value[idKey])
             && Number(value[idKey]) > 0
     }
 
-    return isFillString(value)
+    return isValidString(value)
         || (
-            isFillObject(value)
+            isValidObject(value)
             && _has(value, idKey)
-            && isFillString(value[idKey])
+            && isValidString(value[idKey])
         )
 }
 
-module.exports = isEdit
+module.exports = hasId
