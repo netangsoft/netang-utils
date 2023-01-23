@@ -22,7 +22,7 @@ const slash = require('./slash')
  *      url: "http://192.168.1.120:9081/biz/user/index"
  */
 
-function url(href, path, defaultValue = '') {
+function url(href = null, path = null, defaultValue = '') {
 
     if (! isValidString(href)) {
         if (typeof window === 'undefined') {
@@ -117,7 +117,7 @@ function url(href, path, defaultValue = '') {
             u.url = u.url.replace('___HASH___', isFile ? '#/' : '/#/')
         }
 
-        return path == null ? u : _get(u, path, defaultValue)
+        return path === null ? u : _get(u, path, defaultValue)
     }
 
     throw new Error('url is error')
