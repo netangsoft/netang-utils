@@ -1,8 +1,8 @@
-const _get = require('lodash/get')
 const { parse } = require('qs')
 
 const isValidString = require('./isValidString')
 const numberDeep = require('./numberDeep')
+const isBrowser = require('./isBrowser')
 const slash = require('./slash')
 
 /**
@@ -22,12 +22,9 @@ const slash = require('./slash')
  *      url: "http://192.168.1.120:9081/biz/user/index"
  */
 
-function url(href = null, path = null, defaultValue = '') {
+function url(href = '') {
 
-    if (! isValidString(href)) {
-        if (typeof window === 'undefined') {
-            throw new Error('url is error')
-        }
+    if (! isValidString(href) && isBrowser()) {
         href = window.location.href
     }
 
@@ -78,7 +75,7 @@ function url(href = null, path = null, defaultValue = '') {
             if (isFile) {
                 href = href.replace('#/', '___HASH___')
 
-                // 否则是 http 模式
+            // 否则是 http 模式
             } else {
                 href = href.replace('/#/', '___HASH___')
             }
@@ -117,7 +114,7 @@ function url(href = null, path = null, defaultValue = '') {
             u.url = u.url.replace('___HASH___', isFile ? '#/' : '/#/')
         }
 
-        return path === null ? u : _get(u, path, defaultValue)
+        return u
     }
 
     throw new Error('url is error')
