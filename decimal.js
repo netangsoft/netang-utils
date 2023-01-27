@@ -5,8 +5,8 @@ const BigNumber = require('bignumber.js')
  */
 function getValue(value, o) {
 
-    // 精度格式类型
-    const roundingMode = o.roundDown ? BigNumber.ROUND_DOWN : BigNumber.ROUND_HALF_UP
+    // 精度舍入模式
+    const roundMode = o.roundDown ? BigNumber.ROUND_DOWN : BigNumber.ROUND_HALF_UP
 
     // 如果是分转元
     if (o.centToYuan && ! o.yuanToCent) {
@@ -17,7 +17,12 @@ function getValue(value, o) {
     // 如果有小数点位数
     if (o.decimalLength) {
         // 将元舍入 xx 位精度(如 68.345 -> 68.34)
-        value = value.dp(o.decimalLength, roundingMode)
+        value = value.dp(o.decimalLength, roundMode)
+
+    // 否则值为整数
+    } else {
+        // 将值取整
+        value = value.integerValue(roundMode)
     }
 
     // 如果是元转分
@@ -25,7 +30,7 @@ function getValue(value, o) {
         // 将元乘以 100
         value = value.times(100)
             // 再取整(分必须是整数)
-            .integerValue(roundingMode)
+            .integerValue(roundMode)
     }
 
     // 判断最大值
