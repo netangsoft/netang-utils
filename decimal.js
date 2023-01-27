@@ -3,10 +3,13 @@ const BigNumber = require('bignumber.js')
 /**
  * 获取值
  */
-function getValue(value, o, roundingMode) {
+function getValue(value, o) {
+
+    // 精度格式类型
+    const roundingMode = o.roundDown ? BigNumber.ROUND_DOWN : BigNumber.ROUND_HALF_UP
 
     // 如果是分转元
-    if (o.centToYuan) {
+    if (o.centToYuan && ! o.yuanToCent) {
         // 分 除以 100
         value = value.dividedBy(100)
     }
@@ -18,7 +21,7 @@ function getValue(value, o, roundingMode) {
     }
 
     // 如果是元转分
-    if (o.yuanToCent) {
+    if (o.yuanToCent && ! o.centToYuan) {
         // 将元乘以 100
         value = value.times(100)
             // 再取整(分必须是整数)
@@ -93,7 +96,7 @@ function decimal(value, params) {
         if (! value.isZero()) {
 
             // 获取值
-            value = getValue(value, o, o.roundDown ? BigNumber.ROUND_DOWN : BigNumber.ROUND_HALF_UP)
+            value = getValue(value, o)
 
             // 如果展开显示小数点位数
             let decimalValue = ''
