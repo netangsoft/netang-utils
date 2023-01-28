@@ -304,14 +304,14 @@ function toTree(params) {
         tree,
         // 默认展开根节点
         expanded,
-        // 是否有节点
-        hasNode(valueKey) {
-            return _has(nodes, valueKey)
-        },
-        // 获取节点
-        getNode(valueKey, defaultValue = null) {
-            return _get(nodes, valueKey, defaultValue)
-        },
+        // // 是否有节点
+        // hasNode(valueKey) {
+        //     return _has(nodes, valueKey)
+        // },
+        // // 获取节点
+        // getNode(valueKey, defaultValue = null) {
+        //     return _get(nodes, valueKey, defaultValue)
+        // },
     }
 }
 
