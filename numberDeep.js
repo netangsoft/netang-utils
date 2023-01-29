@@ -5,7 +5,7 @@ const _isObjectLike = require('lodash/isObjectLike')
 const isNumeric = require('./isNumeric')
 
 /**
- * 转换为数字
+ * 深度转换为数字
  * @param value 需转换的值
  * @param defaultValue 默认值
  * @param {boolean} isBeginZero2String 如果开头为 0 的数字, 则转为字符串
