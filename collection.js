@@ -775,19 +775,13 @@ class Collection {
     concat(value) {
         return this._init(function() {
 
-            // 不是有效值
-            if (! isRequired(value)) {
-                throw new Error('concat value cannot be empty')
-            }
+            // 如果是有效数组
+            if (isValidArray(value)) {
 
-            // 数据类型不为数组
-            if (! this._isTypeofArray()) {
-                throw new Error('data type is not an array')
+                // 设置集合底层数据
+                // 合并数据
+                this.set(_concat(this.data, value))
             }
-
-            // 设置集合底层数据
-            // 合并数据
-            this.set(_concat(this.data, value))
 
             // 返回
             return this

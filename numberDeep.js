@@ -1,6 +1,7 @@
 const _isNumber = require('lodash/isNumber')
 const _trim = require('lodash/trim')
 const _isNil = require('lodash/isNil')
+const _isBoolean = require('lodash/isBoolean')
 const _isObjectLike = require('lodash/isObjectLike')
 const isNumeric = require('./isNumeric')
 
@@ -14,8 +15,10 @@ const isNumeric = require('./isNumeric')
 
 function numberHandle(value, defaultValue = null, isBeginZero2String = false) {
 
-    // 如果为数字
-    if (_isNumber(value)) {
+    // 如果值为数字类型 || 布尔类型
+    if (_isNumber(value) || _isBoolean(value)) {
+
+        // 则直接返回值
         return value
     }
 
