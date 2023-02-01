@@ -466,7 +466,7 @@ const ruleMethods = {
      * 验证字段必须是一个字符串。
      */
     string(value, {oldValue}) {
-        return _isString(oldValue)
+        return isNumeric(oldValue) || _isString(oldValue)
     },
 
     /**

@@ -11,7 +11,7 @@ const _trim = require('lodash/trim')
 function isValidValue(value, allowEmptyString = false) {
     if (! _isNil(value)) {
         if (_isString(value)) {
-            return allowEmptyString ? true : _trim(value).length
+            return allowEmptyString ? true : _trim(value).length > 0
         }
         return Number.isFinite(value)
     }
