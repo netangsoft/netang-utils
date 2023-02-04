@@ -27,7 +27,7 @@ function runScript(url) {
         if (isCss) {
 
             if (document.querySelectorAll(`link[href="${url}"]`).length) {
-                resolve()
+                resolve(url)
                 return
             }
 
@@ -39,7 +39,7 @@ function runScript(url) {
         } else {
 
             if (document.querySelectorAll(`script[src="${url}"]`).length) {
-                resolve()
+                resolve(url)
                 return
             }
 
@@ -55,14 +55,14 @@ function runScript(url) {
         if (script.readyState) {
             script.onreadystatechange = function() {
                 if (script.readyState === 'loaded' || script.readyState === 'complete') {
-                    resolve()
+                    resolve(url)
                 }
             }
 
         // 其他浏览器
         } else {
             script.onload = function() {
-                resolve()
+                resolve(url)
             }
         }
 
@@ -76,24 +76,26 @@ function runScript(url) {
 }
 
 function runScripts(urls) {
-    return new Promise(function(resolve, reject) {
+    return new Promise( async function(resolve, reject) {
 
-        async function s(urls) {
+        async function run(urls) {
             try {
-                await runScript(urls[0])
-                resolve()
+                resolve(await runScript(urls[0]))
+
             } catch (e) {
-                urls.shift()
+                await urls.shift()
 
                 if (! urls.length) {
+
                     reject(getThrowMessage(e))
                     return
                 }
 
-                s(urls)
+                await run(urls)
             }
         }
-        s(urls)
+
+        await run(urls)
     })
 }
 
@@ -109,55 +111,50 @@ function script(urls) {
             reject('资源地址格式不正确')
         }
 
+        if (! Array.isArray(urls)) {
+            fail()
+            return
+        }
+
         const promises = []
 
-        if (typeof urls === 'string') {
-            promises.push(runScript(urls))
+        for (const url of urls) {
 
-        } else {
-            if (! Array.isArray(urls)) {
-                fail()
-                return
-            }
+            // 如果为数组
+            if (Array.isArray(url)) {
+                promises.push(runScripts(url))
 
-            for (const url of urls) {
+            // 如果为对象
+            } else if (typeof url === 'object') {
+                if (
+                    has(url, 'urls')
+                    && has(url, 'key')
+                    && !! url.key
+                    && Array.isArray(url.urls)
+                ) {
+                    if (! has(window, url.key)) {
+                        for (const item of url.urls) {
+                            if (typeof item === 'string') {
+                                promises.push(runScript(item))
 
-                // 如果为数组
-                if (Array.isArray(url)) {
-                    promises.push(runScripts(url))
-
-                // 如果为对象
-                } else if (typeof url === 'object') {
-                    if (
-                        has(url, 'urls')
-                        && has(url, 'key')
-                        && !! url.key
-                        && Array.isArray(url.urls)
-                    ) {
-                        if (! has(window, url.key)) {
-                            for (const item of url.urls) {
-                                if (typeof item === 'String') {
-                                    promises.push(runScript(item))
-
-                                } else if (Array.isArray(item) && item.length) {
-                                    promises.push(runScripts(item))
-                                }
+                            } else if (Array.isArray(item) && item.length) {
+                                promises.push(runScripts(item))
                             }
                         }
-                    } else {
-                        fail()
-                        return
                     }
-
-                // 如果为字符串
-                } else if (typeof url === 'string') {
-                    promises.push(runScript(url))
-
-                // 否则错误
                 } else {
                     fail()
                     return
                 }
+
+            // 如果为字符串
+            } else if (typeof url === 'string') {
+                promises.push(runScript(url))
+
+            // 否则错误
+            } else {
+                fail()
+                return
             }
         }
 
