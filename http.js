@@ -10,7 +10,7 @@ const _isFunction = require('lodash/isFunction')
 const isValidString = require('./isValidString')
 const isNumeric = require('./isNumeric')
 const isValidObject = require('./isValidObject')
-const debounceSleep = require('./debounceSleep')
+const $sleep = require('./sleep')
 const numberDeep = require('./numberDeep')
 const run = require('./run')
 const getUrl = require('./getUrl')
@@ -296,7 +296,7 @@ function http(settings) {
             // 【判断 loading 状态】==========================================================================================
 
             // 创建防抖睡眠方法
-            const sleep = debounceSleep()
+            const sleep = $sleep()
 
             /**
              * loading 状态

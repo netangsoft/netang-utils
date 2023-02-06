@@ -1,7 +1,7 @@
 /**
- * 防抖延迟执行
+ * 延迟执行
  */
-function debounceSleep() {
+function sleep() {
 
     const keys = {
         // 默认
@@ -28,7 +28,7 @@ function debounceSleep() {
         }
     }
 
-    function debounceSleeped(timeout = 0, key = 'default') {
+    function sleeped(timeout = 0, key = 'default') {
 
         cancel(key)
 
@@ -50,11 +50,11 @@ function debounceSleep() {
         })
     }
 
-    debounceSleeped.pending = pending
-    debounceSleeped.cancel = cancel
-    debounceSleeped.flush = flush
+    sleeped.pending = pending
+    sleeped.cancel = cancel
+    sleeped.flush = flush
 
-    return debounceSleeped
+    return sleeped
 }
 
-module.exports = debounceSleep
+module.exports = sleep
