@@ -22,7 +22,7 @@ const $json = require('./json')
 const encode = require('./encode')
 const storage = require('./storage')
 
-const { httpOptions } = require('./storageHandler')
+const { httpOptions } = require('./httpHandler')
 
 // http 初始设置
 const httpSettings = {
