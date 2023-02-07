@@ -3,8 +3,7 @@
  * @param value
  * @returns {boolean}
  */
-
-function isJson(value) {
+export default function isJson(value) {
     if (typeof value === 'string') {
         try {
             const obj = JSON.parse(value)
@@ -13,5 +12,3 @@ function isJson(value) {
     }
     return false
 }
-
-module.exports = isJson

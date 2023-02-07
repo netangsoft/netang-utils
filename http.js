@@ -1,28 +1,28 @@
-const _get = require('lodash/get')
-const _merge = require('lodash/merge')
-const _toUpper = require('lodash/toUpper')
-const _forEach = require('lodash/forEach')
-const _has = require('lodash/has')
-const _isNil = require('lodash/isNil')
-const _isArray = require('lodash/isArray')
-const _isFunction = require('lodash/isFunction')
+import { stringify, parse } from 'qs'
+import { encode } from 'qs/lib/utils'
 
-const isValidString = require('./isValidString')
-const isNumeric = require('./isNumeric')
-const isValidObject = require('./isValidObject')
-const $sleep = require('./sleep')
-const numberDeep = require('./numberDeep')
-const run = require('./run')
-const getUrl = require('./getUrl')
-const getThrowMessage = require('./getThrowMessage')
-const stringify = require('./stringify')
-const parse = require('./parse')
-const runAsync = require('./runAsync')
-const $json = require('./json')
-const encode = require('./encode')
-const storage = require('./storage')
+import $n_get from 'lodash/get'
+import $n_merge from 'lodash/merge'
+import $n_toUpper from 'lodash/toUpper'
+import $n_forEach from 'lodash/forEach'
+import $n_has from 'lodash/has'
+import $n_isNil from 'lodash/isNil'
+import $n_isArray from 'lodash/isArray'
+import $n_isFunction from 'lodash/isFunction'
 
-const { httpOptions } = require('./httpHandler')
+import $n_isValidString from './isValidString'
+import $n_isNumeric from './isNumeric'
+import $n_isValidObject from './isValidObject'
+import $n_sleep from './sleep'
+import $n_numberDeep from './numberDeep'
+import $n_run from './run'
+import $n_getUrl from './getUrl'
+import $n_getThrowMessage from './getThrowMessage'
+import $n_runAsync from './runAsync'
+import $n_json from './json'
+import $n_storage from './storage'
+
+import { httpOptions } from './httpHandler'
 
 // http 初始设置
 const httpSettings = {
@@ -62,7 +62,7 @@ const httpSettings = {
     cache: false,
     // 缓存名
     cacheName(options, para, data) {
-        return `${options.method}:${encode(_toUpper(options.url))}:${data}`
+        return `${options.method}:${encode($n_toUpper(options.url))}:${data}`
     },
     // 保存缓存前执行
     setCacheBefore: null,
@@ -118,7 +118,7 @@ const loadingHandles = {}
 async function httpAsync(params) {
 
     // 默认参数
-    const para = _merge({}, httpSettings, httpOptions, params)
+    const para = $n_merge({}, httpSettings, httpOptions, params)
 
     // 获取字典
     const { dicts } = para
@@ -150,9 +150,9 @@ async function httpAsync(params) {
         }
 
         // 执行错误执行
-        if (_isFunction(para.onError)) {
+        if ($n_isFunction(para.onError)) {
             const res = para.onError({ data, r, para })
-            if (! _isNil(res)) {
+            if (! $n_isNil(res)) {
                 if (res === false) {
                     return
                 }
@@ -173,9 +173,9 @@ async function httpAsync(params) {
     function onSuccess(data, r) {
 
         // 请求成功执行
-        if (_isFunction(para.onRequestSuccess)) {
+        if ($n_isFunction(para.onRequestSuccess)) {
             const res = para.onRequestSuccess({ data, r, para })
-            if (! _isNil(res)) {
+            if (! $n_isNil(res)) {
                 if (res === false) {
                     return
                 }
@@ -194,15 +194,15 @@ async function httpAsync(params) {
         // 【请求设置】=================================================================================================
 
         const options = Object.assign({
-            method: _toUpper(para.method),
-            url: getUrl(para.url, para.baseUrl),
+            method: $n_toUpper(para.method),
+            url: $n_getUrl(para.url, para.baseUrl),
             headers: para.headers,
         }, para.settings)
 
         // 【请求数据】===================================================================================================
 
         // 设置参数
-        if (_isFunction(para.onOptions)) {
+        if ($n_isFunction(para.onOptions)) {
             para.onOptions({
                 options,
                 para,
@@ -221,9 +221,9 @@ async function httpAsync(params) {
                 options.data = para.data
 
                 // 否则获取上传文件数据
-            } else if (isValidObject(para.data)) {
+            } else if ($n_isValidObject(para.data)) {
                 const fileData = new FormData()
-                _forEach(para.data, function(value, key) {
+                $n_forEach(para.data, function(value, key) {
                     fileData.append(key, value)
                 })
                 options.data = fileData
@@ -232,12 +232,12 @@ async function httpAsync(params) {
             // 否则为请求数据
         } else {
 
-            if (! _has(options.headers, 'Content-Type')) {
+            if (! $n_has(options.headers, 'Content-Type')) {
                 options.headers['Content-Type'] = `application/${para.responseJson ? 'json' : 'x-www-form-urlencoded'};charset=utf-8`
             }
 
             // 传参配置(post: data, get: 合并参数至 url 中)
-            if (isValidObject(para.data)) {
+            if ($n_isValidObject(para.data)) {
 
                 if (options.method === 'GET') {
 
@@ -250,11 +250,11 @@ async function httpAsync(params) {
                     }
 
                 } else {
-                    data = para.responseJson ? $json.stringify(para.data) : stringify(para.data)
+                    data = para.responseJson ? $n_json.stringify(para.data) : stringify(para.data)
                     options.data = data
                 }
 
-            } else if (isValidString(para.data) || isNumeric(para.data)) {
+            } else if ($n_isValidString(para.data) || $n_isNumeric(para.data)) {
                 options.data = para.data
             }
         }
@@ -263,9 +263,9 @@ async function httpAsync(params) {
 
         // 获取缓存名称
         const cacheName = 'http:' + (
-            isValidString(para.cache) ?
+            $n_isValidString(para.cache) ?
                 para.cache :
-                await runAsync(para.cacheName)(options, para, data)
+                await $n_runAsync(para.cacheName)(options, para, data)
         )
 
         // 是否开启缓存
@@ -273,8 +273,8 @@ async function httpAsync(params) {
 
         // 如果有缓存, 则直接返回成功的缓存数据
         if (isCache) {
-            const cacheData = await runAsync(storage.get)(cacheName)
-            if (! _isNil(cacheData)) {
+            const cacheData = await $n_runAsync($n_storage.get)(cacheName)
+            if (! $n_isNil(cacheData)) {
                 return onSuccess(cacheData, {})
             }
         }
@@ -283,7 +283,7 @@ async function httpAsync(params) {
 
         // 如果当前请求为 loading 则停止往下执行(防止重复请求)
         if (para.debounce) {
-            if (_get(loadingHandles, cacheName) === true) {
+            if ($n_get(loadingHandles, cacheName) === true) {
                 return
             }
             loadingHandles[cacheName] = true
@@ -292,7 +292,7 @@ async function httpAsync(params) {
         // 【判断 loading 状态】==========================================================================================
 
         // 创建防抖睡眠方法
-        const sleep = $sleep()
+        const sleep = $n_sleep()
 
         /**
          * loading 状态
@@ -305,7 +305,7 @@ async function httpAsync(params) {
                 para.loading.value = status
 
                 // 判断是是否为方法
-            } else if (_isFunction(para.loading)) {
+            } else if ($n_isFunction(para.loading)) {
                 para.loading(status)
             }
         }
@@ -315,11 +315,11 @@ async function httpAsync(params) {
         // 是否 loading ref 变量
         let isLoadingRef = false
 
-        if (para.loading === true || _isFunction(para.loading)) {
+        if (para.loading === true || $n_isFunction(para.loading)) {
             isLoading = true
 
             // 如果是 vue ref 格式
-        } else if (_get(para.loading, '__v_isRef') === true) {
+        } else if ($n_get(para.loading, '__v_isRef') === true) {
             isLoading = true
             isLoadingRef = true
         }
@@ -330,7 +330,7 @@ async function httpAsync(params) {
             // 如果开启请求之后延迟开启 loading, 可保证如果请求速度快, 则 loading 不会出现, 让用户没有 loading 的感觉
             if (para.loadingType === 'after') {
 
-                sleep(_isNil(para.loadingTime) ? 1000 : para.loadingTime)
+                sleep($n_isNil(para.loadingTime) ? 1000 : para.loadingTime)
                     .then(function() {
                         // 开启 loading
                         onLoading(true)
@@ -345,7 +345,7 @@ async function httpAsync(params) {
                 // 如果开启请求之前提前开启 loading 并延迟结束, 让用户有 loading 的感觉
                 // 否则就是正常的 loading
                 if (para.loadingType === 'before') {
-                    await sleep(_isNil(para.loadingTime) ? 1000 : para.loadingTime)
+                    await sleep($n_isNil(para.loadingTime) ? 1000 : para.loadingTime)
                 }
             }
         }
@@ -358,7 +358,7 @@ async function httpAsync(params) {
             // 请求成功
             try {
                 // 请求前执行
-                if (await runAsync(para.onRequestBefore)({ para, options, onError }) === false) {
+                if (await $n_runAsync(para.onRequestBefore)({ para, options, onError }) === false) {
                     return
                 }
 
@@ -366,7 +366,7 @@ async function httpAsync(params) {
                 async function next(r) {
 
                     // 是否将请求结果深度转换为数字(如果开头为 0 的数字, 则认为是字符串)
-                    let data = para.numberDeep ? numberDeep(r.data, null, true) : r.data
+                    let data = para.numberDeep ? $n_numberDeep(r.data, null, true) : r.data
 
                     // 判断是否业务出错
                     if (
@@ -375,8 +375,8 @@ async function httpAsync(params) {
                     ) {
                         // 如果数据格式不正确
                         if (
-                            ! isValidObject(data)
-                            || ! _has(data, 'code')
+                            ! $n_isValidObject(data)
+                            || ! $n_has(data, 'code')
                         ) {
                             return onError({
                                 // 错误码
@@ -390,8 +390,8 @@ async function httpAsync(params) {
                         if (data.code !== dicts.CODE__SUCCESS) {
 
                             // 处理业务错误
-                            const resBusinessError = await runAsync(para.onBusinessError)({ data, r, options, para, onError, onHttp })
-                            if (! _isNil(resBusinessError)) {
+                            const resBusinessError = await $n_runAsync(para.onBusinessError)({ data, r, options, para, onError, onHttp })
+                            if (! $n_isNil(resBusinessError)) {
                                 return resBusinessError
                             }
 
@@ -407,12 +407,12 @@ async function httpAsync(params) {
                         isCache
                         // 保存缓存前执行
                         && (
-                            ! _isFunction(para.setCacheBefore)
+                            ! $n_isFunction(para.setCacheBefore)
                             || para.setCacheBefore({ data, r, cacheName, options, para }) !== false
                         )
                     ) {
                         // 保存缓存
-                        await runAsync(storage.set)(cacheName, data, para.cacheTime)
+                        await $n_runAsync($n_storage.set)(cacheName, data, para.cacheTime)
                     }
 
                     // 返回成功数据
@@ -426,12 +426,12 @@ async function httpAsync(params) {
             } catch (e) {
 
                 // 错误消息
-                const msg = getThrowMessage(e, '')
+                const msg = $n_getThrowMessage(e, '')
 
                 // 如果开启重连, 则进行重新连接
                 if (
                     para.reConnect
-                    && run(para.onCheckReConnect)(e, msg) === true
+                    && $n_run(para.onCheckReConnect)(e, msg) === true
                     // 如果已重连次数 >= 最大重连次数, 则继续重连
                     && reConnectedNum <= para.reConnectNum
                 ) {
@@ -481,7 +481,7 @@ async function httpAsync(params) {
 
         return onError({
             code: dicts.CODE__SERVER_ERROR,
-            msg: getThrowMessage(e),
+            msg: $n_getThrowMessage(e),
         }, e)
     }
 }
@@ -490,15 +490,18 @@ function httpSingle(params) {
     return new Promise(function(resolve) {
         httpAsync(params)
             .then(function(res) {
-                if (! _isNil(res)) {
+                if (! $n_isNil(res)) {
                     resolve(res)
                 }
             })
     })
 }
 
-function http(params) {
-    if (_isArray(params)) {
+/**
+ * http 请求
+ */
+export default function http(params) {
+    if ($n_isArray(params)) {
         const arr = []
         for (let item of params) {
             arr.push(httpSingle(item))
@@ -507,5 +510,3 @@ function http(params) {
     }
     return httpSingle(params)
 }
-
-module.exports = http

@@ -4,9 +4,6 @@
  * @param value
  * @returns {boolean}
  */
-
-function isValidArray(value) {
+export default function isValidArray(value) {
     return Array.isArray(value) && value.length > 0
 }
-
-module.exports = isValidArray

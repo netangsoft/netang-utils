@@ -1,14 +1,9 @@
 // 默认配置
-const httpOptions = {}
+export const httpOptions = {}
 
 /**
  * http 处理者
  */
-function httpHandler (options) {
+export function httpHandler (options) {
     Object.assign(httpOptions, options)
-}
-
-module.exports = {
-    httpOptions,
-    httpHandler,
 }

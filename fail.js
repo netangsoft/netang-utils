@@ -1,7 +1,7 @@
 /*
  * 失败
  */
-function fail(msg = '', data = null) {
+export default function fail(msg = '', data = null) {
     return {
         status: false,
         data: {
@@ -10,5 +10,3 @@ function fail(msg = '', data = null) {
         },
     }
 }
-
-module.exports = fail

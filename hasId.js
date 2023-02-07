@@ -1,31 +1,29 @@
-const _has = require('lodash/has')
-const isNumeric = require('./isNumeric')
-const isValidObject = require('./isValidObject')
-const isValidString = require('./isValidString')
+import $n_has from 'lodash/has'
+import $n_isNumeric from './isNumeric'
+import $n_isValidObject from './isValidObject'
+import $n_isValidString from './isValidString'
 
 /*
  * 是否是/含有 id
  */
-function hasId(value = '', idKey = 'id', isString = false) {
+export default function hasId(value = '', idKey = 'id', isString = false) {
 
     if (! isString) {
 
-        if (isNumeric(value)) {
+        if ($n_isNumeric(value)) {
             return Number(value) > 0
         }
 
-        return isValidObject(value)
-            && _has(value, idKey)
-            && isNumeric(value[idKey])
+        return $n_isValidObject(value)
+            && $n_has(value, idKey)
+            && $n_isNumeric(value[idKey])
             && Number(value[idKey]) > 0
     }
 
-    return isValidString(value)
+    return $n_isValidString(value)
         || (
-            isValidObject(value)
-            && _has(value, idKey)
-            && isValidString(value[idKey])
+            $n_isValidObject(value)
+            && $n_has(value, idKey)
+            && $n_isValidString(value[idKey])
         )
 }
-
-module.exports = hasId

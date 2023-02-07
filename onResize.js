@@ -1,12 +1,12 @@
-const ResizeObserver = require('resize-observer-polyfill')
-const run = require('./run')
+import ResizeObserver from 'resize-observer-polyfill'
+import $n_run from './run'
 
 function resizeHandler(entries) {
     for (const entry of entries) {
         const listeners = entry.target.__resizeListeners__ || []
         if (listeners.length) {
             for (const handler of listeners) {
-                run(handler)()
+                $n_run(handler)()
             }
         }
     }
@@ -17,7 +17,7 @@ function resizeHandler(entries) {
  * @param element
  * @param {function} handler
  */
-function onResize(element, handler) {
+export default function onResize(element, handler) {
 
     if (! element) {
         return
@@ -31,5 +31,3 @@ function onResize(element, handler) {
 
     element.__resizeListeners__.push(handler)
 }
-
-module.exports = onResize

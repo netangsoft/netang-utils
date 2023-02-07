@@ -1,19 +1,19 @@
-const _isNil = require('lodash/isNil')
-const _isString = require('lodash/isString')
-const isNumeric = require('./isNumeric')
+import $n_isNil from 'lodash/isNil'
+import $n_isString from 'lodash/isString'
+import $n_isNumeric from './isNumeric'
 
 /**
  * 转换日期格式
  */
-function toDate(val) {
+export default function toDate(val) {
 
-    if (! _isNil(val) && ! Array.isArray(val)) {
+    if (! $n_isNil(val) && ! Array.isArray(val)) {
 
         // 如果为数字
-        if (isNumeric(val)) {
+        if ($n_isNumeric(val)) {
 
             let length
-            if (_isString(val)) {
+            if ($n_isString(val)) {
                 length = val.length
                 val = Number(val)
             } else {
@@ -32,7 +32,7 @@ function toDate(val) {
 
         } else {
 
-            val = new Date(_isString(val) ? val.replace(/-/g, '/') : val)
+            val = new Date($n_isString(val) ? val.replace(/-/g, '/') : val)
 
             if (! isNaN(val.getTime())) {
                 return val
@@ -43,5 +43,3 @@ function toDate(val) {
     // 否则为当前时间
     return new Date()
 }
-
-module.exports = toDate

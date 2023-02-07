@@ -3,7 +3,7 @@
  * 复制文字到剪切板
  * @param data
  */
-function copy(data) {
+export default function copy(data) {
     let $input = document.querySelector('#n-copy-input')
     if (! $input) {
         $input = document.createElement('input')
@@ -15,5 +15,3 @@ function copy(data) {
     $input.select()
     document.execCommand('Copy')
 }
-
-module.exports = copy

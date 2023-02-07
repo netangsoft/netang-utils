@@ -1,9 +1,6 @@
 /**
  * 是否浏览器
  */
-
-function isBrowser() {
+export default function isBrowser() {
     return typeof window !== 'undefined'
 }
-
-module.exports = isBrowser

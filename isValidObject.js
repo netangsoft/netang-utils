@@ -1,14 +1,13 @@
-const _isPlainObject = require('lodash/isPlainObject')
+import $n_isPlainObject from 'lodash/isPlainObject'
 
 /**
  * 检查是否为非空对象
  * @param value
  * @returns {boolean}
  */
+export default function isValidObject(value) {
 
-function isValidObject(value) {
-
-    if (_isPlainObject(value)) {
+    if ($n_isPlainObject(value)) {
 
         for (const key in value) {
 
@@ -21,5 +20,3 @@ function isValidObject(value) {
 
     return false
 }
-
-module.exports = isValidObject

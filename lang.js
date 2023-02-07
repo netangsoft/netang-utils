@@ -1,13 +1,13 @@
-const _toLower = require('lodash/toLower')
-const _get = require('lodash/get')
+import $n_toLower from 'lodash/toLower'
+import $n_get from 'lodash/get'
 
-const isValidObject = require('./isValidObject')
-const isValidString = require('./isValidString')
+import $n_isValidObject from './isValidObject'
+import $n_isValidString from './isValidString'
 
 /**
  * 国际化设置
  */
-const langSettings = {
+export const langSettings = {
     lists: [],
     package: require('./locale/zh-cn'),
 }
@@ -15,17 +15,17 @@ const langSettings = {
 /**
  * 翻译
  */
-function trans(key, replace = null) {
+export function trans(key, replace = null) {
 
-    let str = _get(langSettings.package, _toLower(key), '')
+    let str = $n_get(langSettings.package, $n_toLower(key), '')
     if (! str) {
         return key.substring(key.lastIndexOf('.') + 1)
     }
 
-    if (isValidObject(replace)) {
+    if ($n_isValidObject(replace)) {
         for (const key in replace) {
             const value = replace[key]
-            if (isValidString(value)) {
+            if ($n_isValidString(value)) {
                 str = str.replace(':' + key, value)
             }
         }
@@ -34,12 +34,6 @@ function trans(key, replace = null) {
     return str
 }
 
-function settings(params) {
+export function settings(params) {
     Object.assign(langSettings, params)
-}
-
-module.exports = {
-    langSettings,
-    trans,
-    settings,
 }

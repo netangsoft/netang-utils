@@ -1,12 +1,11 @@
-const _isFunction = require('lodash/isFunction')
+import $n_isFunction from 'lodash/isFunction'
 
 /**
  * 定时执行
  */
+export default function crontab(func, timeout = 0) {
 
-function crontab(func, timeout = 0) {
-
-    if (! _isFunction(func)) {
+    if (! $n_isFunction(func)) {
         throw new TypeError('Expected a function')
     }
 
@@ -51,5 +50,3 @@ function crontab(func, timeout = 0) {
         stop,
     }
 }
-
-module.exports = crontab

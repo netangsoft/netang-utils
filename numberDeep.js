@@ -1,9 +1,9 @@
-const _isNumber = require('lodash/isNumber')
-const _trim = require('lodash/trim')
-const _isNil = require('lodash/isNil')
-const _isBoolean = require('lodash/isBoolean')
-const _isObjectLike = require('lodash/isObjectLike')
-const isNumeric = require('./isNumeric')
+import $n_isNumber from 'lodash/isNumber'
+import $n_trim from 'lodash/trim'
+import $n_isNil from 'lodash/isNil'
+import $n_isBoolean from 'lodash/isBoolean'
+import $n_isObjectLike from 'lodash/isObjectLike'
+import $n_isNumeric from './isNumeric'
 
 /**
  * 深度转换为数字
@@ -12,21 +12,20 @@ const isNumeric = require('./isNumeric')
  * @param {boolean} isBeginZero2String 如果开头为 0 的数字, 则转为字符串
  * @returns {number|any}
  */
-
 function numberHandle(value, defaultValue = null, isBeginZero2String = false) {
 
     // 如果值为数字类型 || 布尔类型
-    if (_isNumber(value) || _isBoolean(value)) {
+    if ($n_isNumber(value) || $n_isBoolean(value)) {
 
         // 则直接返回值
         return value
     }
 
     // 如果为字符串数字
-    if (isNumeric(value)) {
+    if ($n_isNumeric(value)) {
 
         // 去除前后空白
-        value = _trim(value)
+        value = $n_trim(value)
 
         if (
             // 如果长度 > 15
@@ -50,7 +49,7 @@ function numberHandle(value, defaultValue = null, isBeginZero2String = false) {
     }
 
     // 如果有默认值, 则返回默认值
-    if (! _isNil(defaultValue)) {
+    if (! $n_isNil(defaultValue)) {
         return defaultValue
     }
 
@@ -65,11 +64,11 @@ function numberHandle(value, defaultValue = null, isBeginZero2String = false) {
  * @param {boolean} isBeginZero2String 如果开头为 0 的数字, 则转为字符串
  * @returns {number|*}
  */
-function numberDeep(value, defaultValue = null, isBeginZero2String = false) {
-    if (_isObjectLike(value)) {
+export default function numberDeep(value, defaultValue = null, isBeginZero2String = false) {
+    if ($n_isObjectLike(value)) {
         for (const key in value) {
             if (Object.prototype.hasOwnProperty.call(value, key)) {
-                if (_isObjectLike(value[key])) {
+                if ($n_isObjectLike(value[key])) {
                     numberDeep(value[key], defaultValue, isBeginZero2String)
                 } else {
                     value[key] = numberHandle(value[key], defaultValue, isBeginZero2String)
@@ -80,5 +79,3 @@ function numberDeep(value, defaultValue = null, isBeginZero2String = false) {
     }
     return numberHandle(value, defaultValue, isBeginZero2String)
 }
-
-module.exports = numberDeep

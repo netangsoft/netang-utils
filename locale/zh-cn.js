@@ -2,7 +2,7 @@ const valueInvalid = ':attribute不正确'
 const formatInvalid = ':attribute格式不正确'
 const required = ':attribute不能为空'
 
-module.exports = {
+export default {
 
     g: {},
 

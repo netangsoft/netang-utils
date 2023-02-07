@@ -1,7 +1,7 @@
 /**
  * URL 安全的 Base64编码
  */
-module.exports = {
+export default {
 
     /**
      * 编码

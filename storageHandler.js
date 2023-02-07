@@ -1,5 +1,5 @@
 // 默认配置
-const storageOptions = {
+export const storageOptions = {
     // 缓存前缀
     prefix: 'netang:',
     // 过期时间(7天)
@@ -12,11 +12,6 @@ const storageOptions = {
 /**
  * storage 处理者
  */
-function storageHandler (options) {
+export function storageHandler (options) {
     Object.assign(storageOptions, options)
-}
-
-module.exports = {
-    storageOptions,
-    storageHandler
 }

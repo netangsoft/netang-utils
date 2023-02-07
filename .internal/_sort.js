@@ -1,4 +1,4 @@
-const _isArray = require('lodash/isArray')
+import $n_isArray from 'lodash/isArray'
 
 /**
  * 排序
@@ -7,9 +7,9 @@ const _isArray = require('lodash/isArray')
  * @param {int} value 1 正序 -1 倒序
  * @returns {array}
  */
-function sort(data, field = '', value) {
+export default function sort(data, field = '', value) {
 
-    if (_isArray(data)) {
+    if ($n_isArray(data)) {
 
         data.sort(function(item1, item2) {
 
@@ -37,5 +37,3 @@ function sort(data, field = '', value) {
     }
     return data
 }
-
-module.exports = sort

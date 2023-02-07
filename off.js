@@ -2,7 +2,6 @@
  * off
  * 取消监听
  */
-
 const off = document.removeEventListener ?
     function(element, event, handler) {
         if (element && event) {
@@ -15,4 +14,4 @@ const off = document.removeEventListener ?
         }
     }
 
-module.exports = off
+export default off

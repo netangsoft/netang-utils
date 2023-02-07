@@ -1,12 +1,12 @@
-const isBrowser = require('./isBrowser')
+import $n_isBrowser from './isBrowser'
 
 /**
  * 获取 ua
  */
-function getUa() {
+export default function getUa() {
 
     // 如果是浏览器
-    if (isBrowser()) {
+    if ($n_isBrowser()) {
 
         const ua = navigator.userAgent.toLowerCase()
         const ie = /msie|trident/.test(ua)
@@ -56,5 +56,3 @@ function getUa() {
         iframe: false,
     }
 }
-
-module.exports = getUa

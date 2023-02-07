@@ -1,5 +1,5 @@
-const _isFunction = require('lodash/isFunction')
-const isPromise = require('./isPromise')
+import $n_isFunction from 'lodash/isFunction'
+import $n_isPromise from './isPromise'
 
 /**
  * 运行函数
@@ -7,14 +7,13 @@ const isPromise = require('./isPromise')
  * @param thisArg
  * @returns {Function}
  */
-
-function runAsync(func, thisArg = null) {
-    return _isFunction(func) ? function(...args) {
+export default function runAsync(func, thisArg = null) {
+    return $n_isFunction(func) ? function(...args) {
         return new Promise(function(resolve, reject) {
 
             const res = func.call(thisArg, ...args)
 
-            if (isPromise(res)) {
+            if ($n_isPromise(res)) {
                 res.then(resolve)
                     .catch(reject)
 
@@ -25,5 +24,3 @@ function runAsync(func, thisArg = null) {
         })
     } : async function() {}
 }
-
-module.exports = runAsync

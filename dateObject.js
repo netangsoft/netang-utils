@@ -1,13 +1,13 @@
-const _padStart = require('lodash/padStart')
-const toDate = require('./toDate')
+import $n_padStart from 'lodash/padStart'
+import $n_toDate from './toDate'
 
 /**
  * 时间日期对象
  */
-function dateObject(date) {
+export default function dateObject(date) {
 
     // 转换日期格式
-    date = toDate(date)
+    date = $n_toDate(date)
 
     const y = date.getFullYear()
     const m = date.getMonth() + 1
@@ -24,12 +24,10 @@ function dateObject(date) {
         i,    // 分
         s,    // 秒
         // 补零字符串
-        mm: _padStart(m, 2, '0'),
-        dd: _padStart(d, 2, '0'),
-        hh: _padStart(h, 2, '0'),
-        ii: _padStart(i, 2, '0'),
-        ss: _padStart(s, 2, '0'),
+        mm: $n_padStart(m, 2, '0'),
+        dd: $n_padStart(d, 2, '0'),
+        hh: $n_padStart(h, 2, '0'),
+        ii: $n_padStart(i, 2, '0'),
+        ss: $n_padStart(s, 2, '0'),
     }
 }
-
-module.exports = dateObject

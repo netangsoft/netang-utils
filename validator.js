@@ -1,31 +1,30 @@
-const _isArray = require('lodash/isArray')
-const _isString = require('lodash/isString')
-const _indexOf = require('lodash/indexOf')
-const _has = require('lodash/has')
-const _isEqual = require('lodash/isEqual')
-const _startsWith = require('lodash/startsWith')
-const _isFunction = require('lodash/isFunction')
-const _trim = require('lodash/trim')
-const _toLower = require('lodash/toLower')
-const _get = require('lodash/get')
-const _isEmpty = require('lodash/isEmpty')
-const _join = require('lodash/join')
-const _map = require('lodash/map')
-const _cloneDeep = require('lodash/cloneDeep')
-const _toPairs = require('lodash/toPairs')
-// const _toNumber = require('lodash/toNumber')
+import $n_isArray from 'lodash/isArray'
+import $n_isString from 'lodash/isString'
+import $n_indexOf from 'lodash/indexOf'
+import $n_has from 'lodash/has'
+import $n_isEqual from 'lodash/isEqual'
+import $n_startsWith from 'lodash/startsWith'
+import $n_isFunction from 'lodash/isFunction'
+import $n_trim from 'lodash/trim'
+import $n_toLower from 'lodash/toLower'
+import $n_get from 'lodash/get'
+import $n_isEmpty from 'lodash/isEmpty'
+import $n_join from 'lodash/join'
+import $n_map from 'lodash/map'
+import $n_cloneDeep from 'lodash/cloneDeep'
+import $n_toPairs from 'lodash/toPairs'
 
-const split = require('./split')
-const isNumeric = require('./isNumeric')
-const isValidArray = require('./isValidArray')
-const isValidObject = require('./isValidObject')
-const isValidString = require('./isValidString')
-const isRequired = require('./isRequired')
-const size = require('./size')
-const numberDeep = require('./numberDeep')
-const replaceAll = require('./replaceAll')
+import $n_split from './split'
+import $n_isNumeric from './isNumeric'
+import $n_isValidArray from './isValidArray'
+import $n_isValidObject from './isValidObject'
+import $n_isValidString from './isValidString'
+import $n_isRequired from './isRequired'
+import $n_size from './size'
+import $n_numberDeep from './numberDeep'
+import $n_replaceAll from './replaceAll'
 
-const { langSettings, trans } = require('./lang')
+import { langSettings, trans } from './lang'
 
 /**
  * 表单验证
@@ -34,7 +33,7 @@ const { langSettings, trans } = require('./lang')
 // 全部都不是 required
 function allFailingRequired(data, vals) {
     for (let i = 0, len = vals.length; i < len; i++) {
-        if (isRequired(data[vals[i]])) {
+        if ($n_isRequired(data[vals[i]])) {
             return false
         }
     }
@@ -43,7 +42,7 @@ function allFailingRequired(data, vals) {
 
 function anyFailingRequired(data, vals) {
     for (let i = 0, len = vals.length; i < len; i++) {
-        if (! isRequired(data[vals[i]])) {
+        if (! $n_isRequired(data[vals[i]])) {
             return true
         }
     }
@@ -54,16 +53,16 @@ function getSize(value, type) {
 
     // 如果为数字
     if (type === 'numeric') {
-        return isNumeric(value) ? value : false
+        return $n_isNumeric(value) ? value : false
     }
 
     // 如果为数组
     if (type === 'array') {
-        return _isArray(value) ? value.length : false
+        return $n_isArray(value) ? value.length : false
     }
 
     // 否则为字符串
-    return (_isString(value) || isNumeric(value)) ? String(value).length : false
+    return ($n_isString(value) || $n_isNumeric(value)) ? String(value).length : false
 }
 
 /**
@@ -102,17 +101,17 @@ function lte(value, {type, val}) {
  */
 function _in(value, {vals}) {
 
-    if (isValidArray(value)) {
+    if ($n_isValidArray(value)) {
         for (let i = 0, len = value.length; i < len; i++) {
-            if (_indexOf(vals, value[i]) === -1) {
+            if ($n_indexOf(vals, value[i]) === -1) {
                 return false
             }
         }
         return true
     }
 
-    if (_isString(value) || isNumeric(value)) {
-        return _indexOf(vals, value) > -1
+    if ($n_isString(value) || $n_isNumeric(value)) {
+        return $n_indexOf(vals, value) > -1
     }
 
     return false
@@ -149,7 +148,7 @@ const ruleMethods = {
      * 待验证字段必须是有效的数组。
      */
     array(value) {
-        return _isArray(value)
+        return $n_isArray(value)
     },
 
     /**
@@ -184,8 +183,8 @@ const ruleMethods = {
         const index = key.length - 13
         if (key.substring(index) === '_confirmation') {
             const compareKey = key.substr(0, index)
-            if (_has(data, compareKey)) {
-                return _isEqual(String(data[compareKey]), String(value))
+            if ($n_has(data, compareKey)) {
+                return $n_isEqual(String(data[compareKey]), String(value))
             }
         }
         return false
@@ -204,7 +203,7 @@ const ruleMethods = {
      * 验证中的字段必须为 numeric，并且长度必须在给定的 min 和 max 之间。
      */
     digits(value, {val}) {
-        return isNumeric(value) && String(value).length === val
+        return $n_isNumeric(value) && String(value).length === val
     },
 
     /**
@@ -212,7 +211,7 @@ const ruleMethods = {
      * 验证中的字段必须为 numeric，并且长度必须在给定的 min 和 max 之间。
      */
     digits_between(value, {vals}) {
-        if (isNumeric(value)) {
+        if ($n_isNumeric(value)) {
             const len = String(value).length
             return len >= vals[0] && len <= vals[1]
         }
@@ -312,7 +311,7 @@ const ruleMethods = {
      * 验证字段必须为数值。
      */
     numeric(value) {
-        return isNumeric(value)
+        return $n_isNumeric(value)
     },
 
     /**
@@ -343,14 +342,14 @@ const ruleMethods = {
      * @param value null/空字符串/空对象
      * @returns {boolean}
      */
-    required: isRequired,
+    required: $n_isRequired,
 
     /**
      * required_if:anotherfield,value,…
      * 如果其它字段 anotherfield 为任一值(value1 或 value2 或 value3 等, 也可只有一个 value1), 则此验证字段必须存在且不为空
      */
     required_if(value, {other, vals}) {
-        return isRequired(value) || !isRequired(other) || _indexOf(vals, other) === -1
+        return $n_isRequired(value) || !$n_isRequired(other) || $n_indexOf(vals, other) === -1
     },
 
     /**
@@ -359,8 +358,8 @@ const ruleMethods = {
      */
     required_unless(value, {other, vals}) {
 
-        if (_indexOf(vals, other) === -1) {
-            return isRequired(value)
+        if ($n_indexOf(vals, other) === -1) {
+            return $n_isRequired(value)
         }
 
         return true
@@ -373,7 +372,7 @@ const ruleMethods = {
     required_with(value, {data, vals}) {
 
         if (!allFailingRequired(data, vals)) {
-            return isRequired(value)
+            return $n_isRequired(value)
         }
 
         return true
@@ -386,7 +385,7 @@ const ruleMethods = {
     required_with_all(value, {data, vals}) {
 
         if (!anyFailingRequired(data, vals)) {
-            return isRequired(value)
+            return $n_isRequired(value)
         }
 
         return true
@@ -399,7 +398,7 @@ const ruleMethods = {
     required_without(value, {data, vals}) {
 
         if (anyFailingRequired(data, vals)) {
-            return isRequired(value)
+            return $n_isRequired(value)
         }
 
         return true
@@ -412,7 +411,7 @@ const ruleMethods = {
     required_without_all(value, {data, vals}) {
 
         if (allFailingRequired(data, vals)) {
-            return isRequired(value)
+            return $n_isRequired(value)
         }
 
         return true
@@ -423,7 +422,7 @@ const ruleMethods = {
      * 验证字段的值必须与给定字段的值相同。
      */
     same(value, {other}) {
-        return _isEqual(value, other)
+        return $n_isEqual(value, other)
     },
 
     /**
@@ -449,10 +448,10 @@ const ruleMethods = {
      */
     starts_with(value, {vals}) {
 
-        if (_isString(value) || isNumeric((value))) {
+        if ($n_isString(value) || $n_isNumeric((value))) {
 
             for (let i = 0,len = vals.length; i < len; i++) {
-                if (_startsWith(value, vals[i])) {
+                if ($n_startsWith(value, vals[i])) {
                     return true
                 }
             }
@@ -466,7 +465,7 @@ const ruleMethods = {
      * 验证字段必须是一个字符串。
      */
     string(value, {oldValue}) {
-        return isNumeric(oldValue) || _isString(oldValue)
+        return $n_isNumeric(oldValue) || $n_isString(oldValue)
     },
 
     /**
@@ -527,8 +526,8 @@ const ruleMethods = {
      * 并且长度必须在给定的 min 和 max 之间。
      */
     chs_between(value, {vals}) {
-        if (_isString(value) || isNumeric(value)) {
-            const len = size(value)
+        if ($n_isString(value) || $n_isNumeric(value)) {
+            const len = $n_size(value)
             return len >= vals[0] && len <= vals[1]
         }
         return false
@@ -589,7 +588,7 @@ const ruleMethods = {
     //  * 英文 1 个字符
     //  */
     // length(str, rule = {}) {
-    //     const len = utils.getLen(_trim(str))
+    //     const len = utils.getLen($n_trim(str))
     //
     //     if (rule.min > 0 && rule.max > 0) {
     //         return len >= rule.min && len <= rule.max
@@ -612,11 +611,11 @@ const ruleMethods = {
     // max(str, val = '') {
     //
     //     let len
-    //     if (_isArray(str)) {
+    //     if ($n_isArray(str)) {
     //         len = str.length
     //
     //     } else {
-    //         len = utils.getLen(_trim(str))
+    //         len = utils.getLen($n_trim(str))
     //     }
     //
     //     return len <= val
@@ -632,11 +631,11 @@ const ruleMethods = {
     // min(str, val = '') {
     //
     //     let len
-    //     if (_isArray(str)) {
+    //     if ($n_isArray(str)) {
     //         len = str.length
     //
     //     } else {
-    //         len = utils.getLen(_trim(str))
+    //         len = utils.getLen($n_trim(str))
     //     }
     //
     //     return len >= val
@@ -661,7 +660,7 @@ const valueAttributesRules = ['required_with', 'required_with_all', 'required_wi
 function checkInRules(rules, ruleArray) {
     for (let i = 0, len = ruleArray.length; i < len; i++) {
         for (let key in ruleArray[i]) {
-            const index = _indexOf(rules, key)
+            const index = $n_indexOf(rules, key)
             if (index > -1) {
                 return rules[index]
             }
@@ -676,13 +675,13 @@ function checkInRules(rules, ruleArray) {
  */
 function transAttributes(key) {
 
-    const transKey = _toLower(key)
+    const transKey = $n_toLower(key)
 
     // 先从 validation.attributes 中找
-    const str = _get(langSettings.package, `validation.attributes.${transKey}`, '')
+    const str = $n_get(langSettings.package, `validation.attributes.${transKey}`, '')
 
     // 如果没有再从常用字段中找
-    return str ? str : _get(langSettings.package, 'g.' + transKey, key)
+    return str ? str : $n_get(langSettings.package, 'g.' + transKey, key)
 }
 
 /**
@@ -692,49 +691,49 @@ function checkRule(data, key, oldValue, ruleKey, ruleValue, valueType, formatMes
 
     // 如果为必填字段或值存在, 则继续验证
     if (
-        _indexOf(requiredRules, ruleKey) > -1
-        || isRequired(oldValue)
+        $n_indexOf(requiredRules, ruleKey) > -1
+        || $n_isRequired(oldValue)
     ) {
         // 格式化 number
-        const value = numberDeep(oldValue)
+        const value = $n_numberDeep(oldValue)
 
         // 将规则值转为数组
-        const ruleValues = numberDeep(_isString(ruleValue) ? split(ruleValue, ',') : [ruleValue])
+        const ruleValues = $n_numberDeep($n_isString(ruleValue) ? $n_split(ruleValue, ',') : [ruleValue])
 
         // 替换错误信息的对象
         const replace = {}
 
         // 如果有 other 值, 则取出 ruleValues 第一个值为 other 值
-        const isOther = _indexOf(otherRules, ruleKey) > -1
+        const isOther = $n_indexOf(otherRules, ruleKey) > -1
         let otherKey
         let ohterValue
         if (isOther) {
             otherKey = ruleValues.shift()
-            ohterValue = _has(data, otherKey) ? numberDeep(data[otherKey]) : null
+            ohterValue = $n_has(data, otherKey) ? $n_numberDeep(data[otherKey]) : null
         }
 
         // 如果有数据类型 && 如果存在比较条件
-        if (valueType && _indexOf(['gt', 'gte', 'lt', 'lte'], ruleKey) > -1) {
+        if (valueType && $n_indexOf(['gt', 'gte', 'lt', 'lte'], ruleKey) > -1) {
 
             let val = ruleValues[0]
 
             // 如果值为数字类型
-            if (isNumeric(val)) {
+            if ($n_isNumeric(val)) {
 
             // 否则判断其他字段的值类型
             } else if (
-                _isString(val)
-                && _has(data, val)
+                $n_isString(val)
+                && $n_has(data, val)
                 && data[val] != null
             ) {
                 val = data[val]
 
                 // 如果为数字
-                if (isNumeric(val)) {
-                    val = numberDeep(val)
+                if ($n_isNumeric(val)) {
+                    val = $n_numberDeep(val)
 
                     // 如果为数组/字符串
-                } else if (_isArray(val) || _isString(val)) {
+                } else if ($n_isArray(val) || $n_isString(val)) {
                     val = val.length
 
                 } else {
@@ -769,55 +768,55 @@ function checkRule(data, key, oldValue, ruleKey, ruleValue, valueType, formatMes
         if (!res) {
 
             // 获取属性值
-            let attribute = _get(formatAttributes, key , '')
-            if (_isEmpty(attribute)) {
+            let attribute = $n_get(formatAttributes, key , '')
+            if ($n_isEmpty(attribute)) {
                 attribute = transAttributes(key)
             }
 
             // 获取错误信息
-            let message = _get(formatMessages, `${key}.${ruleKey}` , '')
-            if (_isEmpty(message)) {
+            let message = $n_get(formatMessages, `${key}.${ruleKey}` , '')
+            if ($n_isEmpty(message)) {
 
                 // 是否是多类型
-                const isSizeType = _indexOf(sizeRules, ruleKey) > -1
+                const isSizeType = $n_indexOf(sizeRules, ruleKey) > -1
 
                 message = trans(`validation.${ruleKey}${isSizeType && valueType ? '.' + valueType : ''}`)
             }
 
             replace.attribute = attribute
-            replace.value = _join(ruleValues, ', ')
+            replace.value = $n_join(ruleValues, ', ')
 
             // 如果有 other 字段
             if (isOther) {
 
-                let other = _get(formatAttributes, otherKey , '')
-                if (_isEmpty(other)) {
+                let other = $n_get(formatAttributes, otherKey , '')
+                if ($n_isEmpty(other)) {
                     other = transAttributes(otherKey)
                 }
                 replace.other = other
 
                 // 如果 other 的值在 values 中
-                if (_indexOf(ruleValues, ohterValue) > -1) {
+                if ($n_indexOf(ruleValues, ohterValue) > -1) {
                     replace.value = ohterValue
                 }
             }
 
             // 如果是 value 为字段属性, 则将 values 替换成属性值
-            if (_indexOf(valueAttributesRules, ruleKey) > -1) {
-                replace.value = _join(_map(ruleValues, function(val) {
+            if ($n_indexOf(valueAttributesRules, ruleKey) > -1) {
+                replace.value = $n_join($n_map(ruleValues, function(val) {
                     return transAttributes(val)
                 }), ' / ')
             }
 
             // 如果有 min 和 max 值
-            if (_indexOf(betweenRules, ruleKey) > -1) {
+            if ($n_indexOf(betweenRules, ruleKey) > -1) {
                 replace.min = ruleValues[0]
                 replace.max = ruleValues[1]
             }
 
             // 替换变量
             for (const key in replace) {
-                message = replaceAll(message, ':' + key, replace[key])
+                message = $n_replaceAll(message, ':' + key, replace[key])
             }
 
             return message
@@ -831,12 +830,12 @@ function checkRule(data, key, oldValue, ruleKey, ruleValue, valueType, formatMes
  * 规则验证
  */
 function onRules(method, value, params) {
-    if (!_isFunction(ruleMethods[method])) {
+    if (!$n_isFunction(ruleMethods[method])) {
         console.error(`${method} method does not exist`)
         return
     }
 
-    return ruleMethods[method](_isString(value) ? _trim(value) : value, params)
+    return ruleMethods[method]($n_isString(value) ? $n_trim(value) : value, params)
 }
 
 /**
@@ -859,11 +858,11 @@ function validator(data, rules, messages = null, attributes = null) {
 
     // 格式化自定义错误
     const formatMessages = {}
-    if (isValidObject(messages)) {
+    if ($n_isValidObject(messages)) {
         for (const key in messages) {
-            const keys = split(key, '.')
+            const keys = $n_split(key, '.')
             if (keys.length >= 2) {
-                if (!_has(formatMessages, keys[0])) {
+                if (!$n_has(formatMessages, keys[0])) {
                     formatMessages[keys[0]] = {}
                 }
                 formatMessages[keys[0]][keys[1]] = messages[key]
@@ -873,33 +872,33 @@ function validator(data, rules, messages = null, attributes = null) {
 
     // 格式化自定义属性
     const formatAttributes = {}
-    if (isValidObject(attributes)) {
+    if ($n_isValidObject(attributes)) {
         for (const key in attributes) {
             formatAttributes[key] = attributes[key]
         }
     }
 
-    if (isValidObject(rules)) {
+    if ($n_isValidObject(rules)) {
         for (let key in rules) {
 
             // 获取单条规则
             let ruleArray = rules[key]
 
             // 如果为字符串, 则格式化为数组
-            if (_isString(ruleArray)) {
-                ruleArray = split(ruleArray, '|')
+            if ($n_isString(ruleArray)) {
+                ruleArray = $n_split(ruleArray, '|')
             }
 
             // 如果为数组
-            if (isValidArray(ruleArray)) {
+            if ($n_isValidArray(ruleArray)) {
 
                 const arr = []
 
                 for (const value of ruleArray) {
 
                     // 如果为字符串
-                    if (_isString(value)) {
-                        const vals = split(value, ':')
+                    if ($n_isString(value)) {
+                        const vals = $n_split(value, ':')
                         const isLen1 = vals.length === 1
                         if (isLen1 || vals.length === 2) {
                             const obj = {}
@@ -908,7 +907,7 @@ function validator(data, rules, messages = null, attributes = null) {
                         }
 
                     // 如果为对象
-                    } else if (isValidObject(value)) {
+                    } else if ($n_isValidObject(value)) {
                         arr.push(value)
                     }
                 }
@@ -918,7 +917,7 @@ function validator(data, rules, messages = null, attributes = null) {
                     ruleArray = arr
 
                     // 克隆一份 data 做为验证数据
-                    data = _cloneDeep(data)
+                    data = $n_cloneDeep(data)
 
                     // 如果有 sizeRules 则需要验证值的 类型, 并且存在 min 或 max
                     let valueType = ''
@@ -935,10 +934,10 @@ function validator(data, rules, messages = null, attributes = null) {
                     for (let i = 0, len = ruleArray.length; i < len; i++) {
 
                         // 将单个规则对象转为数组
-                        const rule = _toPairs(ruleArray[i])[0]
+                        const rule = $n_toPairs(ruleArray[i])[0]
 
                         // 是否存在验证方法
-                        if (!_has(ruleMethods, rule[0])) {
+                        if (!$n_has(ruleMethods, rule[0])) {
                             console.error(rule[0] + '验证方法不存在')
                             return
                         }
@@ -947,7 +946,7 @@ function validator(data, rules, messages = null, attributes = null) {
                         const msg = checkRule(
                             data,
                             key,
-                            _has(data, key) ? data[key] : null,
+                            $n_has(data, key) ? data[key] : null,
                             rule[0],
                             rule[1],
                             valueType,
@@ -981,23 +980,23 @@ function validator(data, rules, messages = null, attributes = null) {
  */
 function validate(value, field = '', rule = '', message = '', attribute = null, data = null) {
 
-    if (!isValidObject(data)) {
+    if (!$n_isValidObject(data)) {
         data = {}
         data[field] = value
     }
 
     const rules = {}
-    rules[field] = _isEmpty(rule) ? 'required|' + field : rule
+    rules[field] = $n_isEmpty(rule) ? 'required|' + field : rule
 
     const messages = {}
-    if (isValidString(message)) {
+    if ($n_isValidString(message)) {
         messages[field] = message
     }
 
     let attributes = {}
-    if (isValidString(attribute)) {
+    if ($n_isValidString(attribute)) {
         attributes[field] = attribute
-    } else if (isValidObject(attribute)) {
+    } else if ($n_isValidObject(attribute)) {
         attributes = attribute
     }
 
@@ -1009,190 +1008,7 @@ function validate(value, field = '', rule = '', message = '', attribute = null, 
     return ''
 }
 
-/**
- * 饿了么 验证器
- */
-// utils.ruleValidator = function(params) {
-//
-//     const para = Object.assign({
-//         formData: null,
-//         rule: '',
-//         message: '',
-//         attribute: '',
-//         trigger: 'blur',
-//         callback: null,
-//     }, params)
-//
-//     return {
-//         validator({ field }, value, callback) {
-//
-//             // 单个验证器
-//             const errorMsg = validate(value, field, para.rule, para.message, para.attribute, para.formData)
-//             if (errorMsg) {
-//                 callback(new Error(errorMsg))
-//
-//             } else {
-//
-//                 if (_isFunction(para.callback)) {
-//                     const res = para.callback(value, field, callback)
-//                     if (res === true) {
-//                         callback()
-//
-//                     } else if (isValidString(res)) {
-//                         callback(res)
-//                     }
-//
-//                 } else {
-//                     callback()
-//                 }
-//             }
-//         },
-//         trigger: para.trigger,
-//     }
-// }
-
-/**
- * 输入框 change 验证
- */
-// utils.inputMethod = {
-//
-//     /**
-//      * 验证数字
-//      */
-//     number(val, params) {
-//         const para = Object.assign({
-//             precision: 0,
-//         }, params)
-//
-//         // 原始值
-//         const oldVal = _trim(val)
-//
-//         let newVal = val === undefined ? val : Number(val.replace(/[^-\d.]/g, ''))
-//
-//         if (newVal !== undefined) {
-//
-//             const isMin = para.min !== undefined
-//             const isMax = para.max !== undefined
-//
-//             if (isNaN(newVal)) {
-//                 if (isMin) {
-//                     newVal = para.min
-//                 } else {
-//                     return ''
-//                 }
-//             }
-//
-//             // 格式化小数点
-//             newVal = parseFloat(Math.round(newVal * Math.pow(10, para.precision)) / Math.pow(10, para.precision))
-//
-//             if (!isMin && !isMax && oldVal === '') {
-//                 return ''
-//             }
-//
-//             if (isMax && newVal > para.max) {
-//                 newVal = para.max
-//             }
-//
-//             if (isMin && newVal < para.min) {
-//                 newVal = para.min
-//             }
-//
-//             return newVal.toFixed(para.precision)
-//         }
-//     },
-//
-//     /**
-//      * 验证日期
-//      */
-//     date(val, params) {
-//         const para = Object.assign({
-//             type: 'start',
-//             range: 'min'
-//         }, params)
-//
-//         let isStamp = false
-//
-//         // 如果为数组, 则为时间范围
-//         if (Array.isArray(val)) {
-//             para.type = 'all'
-//
-//             if (isNumeric(val[0]) && isNumeric(val[1])) {
-//                 isStamp = true
-//                 val[0] = _toNumber(val[0])
-//                 val[1] = _toNumber(val[1])
-//             }
-//
-//         // 否则为单个时间
-//         } else {
-//             // 如果为时间戳
-//             if (isNumeric(val)) {
-//                 isStamp = true
-//                 val = _toNumber(val)
-//             }
-//
-//             val = [val, val]
-//         }
-//
-//         const time = _.startEndTime(val, para.range, isStamp)
-//
-//         if (para.type === 'start') {
-//             return isStamp ? time[0] * 1000 : time[0]
-//         }
-//
-//         if (para.type === 'end') {
-//             return isStamp ? time[1] * 1000 : time[1]
-//         }
-//
-//         return isStamp ? [time[0] * 1000, time[1] * 1000] : time
-//     },
-//
-//     /**
-//      * 数组解构赋值
-//      */
-//     arrayAssign(val, params) {
-//         const para = Object.assign({
-//             name: [],
-//         }, params)
-//
-//         if (isValidArray(val) && para.name.length === val.length) {
-//             val.forEach((v, index)=>{
-//                 this[para.dataName][para.name[index]] = v
-//             })
-//         }
-//     },
-// }
-//
-// utils.inputChange = function(_this, val, params) {
-//     const para = Object.assign({
-//         dataName: 'formData'
-//     }, params)
-//
-//     if (!para.name) {
-//         console.error('inputChange name 没有定义')
-//         return
-//     }
-//
-//     if (!para.method) {
-//         console.error('inputChange method 没有定义')
-//         return
-//     }
-//
-//     if (!_isFunction(utils.inputMethod[para.method])) {
-//         console.error(`inputChange ${para.method} 方法不存在`)
-//         return
-//     }
-//
-//     const newVal = utils.inputMethod[para.method].call(_this, val, para)
-//     if (newVal !== undefined && val != newVal) {
-//         if (para.dataName) {
-//             _this[para.dataName][para.name] = newVal
-//         } else {
-//             _this[para.name] = newVal
-//         }
-//     }
-// }
-
-module.exports = {
+export default {
     rules: onRules,
     validator,
     validate,

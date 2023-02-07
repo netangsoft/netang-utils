@@ -1,6 +1,6 @@
-const _isNumber = require('lodash/isNumber')
-const numberDeep = require('./numberDeep')
-const isValidString = require('./isValidString')
+import $n_isNumber from 'lodash/isNumber'
+import $n_numberDeep from './numberDeep'
+import $n_isValidString from './isValidString'
 
 /*
  * 拆分字符串
@@ -10,18 +10,16 @@ const isValidString = require('./isValidString')
  * @param {boolean} toNumberDeep 深度转换为数字
  * @returns {array}
  */
-function split(str = '', separator, limit, toNumberDeep = true) {
+export default function split(str = '', separator, limit, toNumberDeep = true) {
 
-    if (_isNumber(str)) {
+    if ($n_isNumber(str)) {
         str = String(str)
     }
-
-    if (isValidString(str)) {
+    
+    if ($n_isValidString(str)) {
         const arr = str.split(separator, limit)
-        return toNumberDeep ? numberDeep(arr) : arr
+        return toNumberDeep ? $n_numberDeep(arr) : arr
     }
 
     return []
 }
-
-module.exports = split

@@ -1,8 +1,8 @@
-const _isString = require('lodash/isString')
-const _isNumber = require('lodash/isNumber')
-const _trim = require('lodash/trim')
-const _trimStart = require('lodash/trimStart')
-const _trimEnd = require('lodash/trimEnd')
+import $n_isString from 'lodash/isString'
+import $n_isNumber from 'lodash/isNumber'
+import $n_trim from 'lodash/trim'
+import $n_trimStart from 'lodash/trimStart'
+import $n_trimEnd from 'lodash/trimEnd'
 
 /**
  * 添加或去除首尾反斜杠
@@ -11,13 +11,12 @@ const _trimEnd = require('lodash/trimEnd')
  * @param {boolean} isAddSlash true:加反斜杠, false:去反斜杠
  * @returns {string}
  */
+export default function slash(value, position, isAddSlash = true) {
 
-function slash(value, position, isAddSlash = true) {
-
-    if (_isString(value) || _isNumber(value)) {
+    if ($n_isString(value) || $n_isNumber(value)) {
 
         // 去除前后空格
-        value = _trim(String(value))
+        value = $n_trim(String(value))
 
         // 如果不为空
         if (value.length) {
@@ -29,7 +28,7 @@ function slash(value, position, isAddSlash = true) {
             if (isAll || position === 'start') {
 
                 // 先去除前面所有的反斜杠
-                value = _trimStart(value, '/')
+                value = $n_trimStart(value, '/')
 
                 // 加上反斜杠
                 if (isAddSlash === true) {
@@ -42,7 +41,7 @@ function slash(value, position, isAddSlash = true) {
             if (isAll || position === 'end') {
 
                 // 先去除后面所有的反斜杠
-                value = _trimEnd(value, '/')
+                value = $n_trimEnd(value, '/')
 
                 // 加上反斜杠
                 if (isAddSlash === true) {
@@ -57,5 +56,3 @@ function slash(value, position, isAddSlash = true) {
 
     return isAddSlash ? '/' : ''
 }
-
-module.exports = slash

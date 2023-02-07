@@ -4,7 +4,7 @@
  * @param func
  * @param reverse
  */
-function forEach(data, func, reverse) {
+export default function forEach(data, func, reverse) {
     const length = data.length
     if (length > 0) {
         if (reverse) {
@@ -24,5 +24,3 @@ function forEach(data, func, reverse) {
         }
     }
 }
-
-module.exports = forEach

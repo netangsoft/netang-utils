@@ -1,4 +1,4 @@
-const _sample = require('lodash/sample')
+import $n_sample from 'lodash/sample'
 
 /**
  * 获取随机字符串
@@ -12,12 +12,12 @@ const StringPool = 'abcdefghijkmnpqrstuvwxyz'
 function randomBuild(pool, length = 16) {
     let str = ''
     for (let i = 0; i < length; i++) {
-        str += _sample(pool)
+        str += $n_sample(pool)
     }
     return str
 }
 
-module.exports = {
+export default {
     // 随机数字和字母
     alnum(length = 16) {
         return randomBuild(numberPool + StringPool, length)

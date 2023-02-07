@@ -1,35 +1,35 @@
-const _has = require('lodash/has')
-const _get = require('lodash/get')
-const _uniq = require('lodash/uniq')
-const _toLower = require('lodash/toLower')
-const _isNil = require('lodash/isNil')
-const _cloneDeep = require('lodash/cloneDeep')
-const _isPlainObject = require('lodash/isPlainObject')
-const _isFunction = require('lodash/isFunction')
-const _orderBy = require('lodash/orderBy')
-const _concat = require('lodash/concat')
+import BigNumber from 'bignumber.js'
 
-const BigNumber = require('bignumber.js')
+import $n_has from 'lodash/has'
+import $n_get from 'lodash/get'
+import $n_uniq from 'lodash/uniq'
+import $n_toLower from 'lodash/toLower'
+import $n_isNil from 'lodash/isNil'
+import $n_cloneDeep from 'lodash/cloneDeep'
+import $n_isPlainObject from 'lodash/isPlainObject'
+import $n_isFunction from 'lodash/isFunction'
+import $n_orderBy from 'lodash/orderBy'
+import $n_concat from 'lodash/concat'
 
-const numberDeep = require('./numberDeep')
-const trimString = require('./trimString')
-const forEach = require('./forEach')
-const forEachRight = require('./forEachRight')
-const forIn = require('./forIn')
-const isValidValue = require('./isValidValue')
-const isValidString = require('./isValidString')
-const isValidArray = require('./isValidArray')
-const isValidObject = require('./isValidObject')
-const indexOf = require('./indexOf')
-const isRequired = require('./isRequired')
-const toTree = require('./toTree')
+import $n_numberDeep from './numberDeep'
+import $n_trimString from './trimString'
+import $n_forEach from './forEach'
+import $n_forEachRight from './forEachRight'
+import $n_forIn from './forIn'
+import $n_isValidValue from './isValidValue'
+import $n_isValidString from './isValidString'
+import $n_isValidArray from './isValidArray'
+import $n_isValidObject from './isValidObject'
+import $n_indexOf from './indexOf'
+import $n_isRequired from './isRequired'
+import $n_toTree from './toTree'
 
 /**
  * 检查数据中是否有 key
  */
 function itemHasKey(item, key) {
     // 如果数据中没有 key 字段
-    if (! _has(item, key)) {
+    if (! $n_has(item, key)) {
         throw new Error(`Undefined array key "${key}"`)
     }
     return true
@@ -41,7 +41,7 @@ function itemHasKey(item, key) {
 function getItemData(item) {
 
     // 如果数据是集合类型
-    if (typeof item === 'object' && _get(item, 'constructor.name') === 'Collection') {
+    if (typeof item === 'object' && $n_get(item, 'constructor.name') === 'Collection') {
         return item._toValue()
     }
 
@@ -54,7 +54,7 @@ function getItemData(item) {
  */
 function operatorForWhere(operator, retrieved, value) {
 
-    operator = _toLower(trimString(operator))
+    operator = $n_toLower($n_trimString(operator))
 
     switch (operator) {
         default:
@@ -78,7 +78,7 @@ function operatorForWhere(operator, retrieved, value) {
             return retrieved !== value
         case 'like':
         case 'not like':
-            const index = indexOf(_toLower(trimString(retrieved)), _toLower(trimString(value)))
+            const index = $n_indexOf($n_toLower($n_trimString(retrieved)), $n_toLower($n_trimString(value)))
             return operator === 'like' ? index > -1 : index === -1
     }
 }
@@ -105,7 +105,7 @@ function getNums(key) {
         } else {
 
             // 如果没有查询字段
-            if (! isValidString(key)) {
+            if (! $n_isValidString(key)) {
                 throw new Error('key cannot be empty')
             }
 
@@ -132,12 +132,12 @@ function whereInOrNotIn(key, values, isWhereIn) {
     return this._init(function() {
 
         // 如果没有查询字段
-        if (! isValidString(key)) {
+        if (! $n_isValidString(key)) {
             throw new Error(`key cannot be empty`)
         }
 
         // 如果没有查询字段
-        if (! isValidArray(values)) {
+        if (! $n_isValidArray(values)) {
             throw new Error(`values cannot be empty`)
         }
 
@@ -153,9 +153,9 @@ function whereInOrNotIn(key, values, isWhereIn) {
                     && (
                         isWhereIn ?
                             // 值在查询数组中
-                            indexOf(values, item[key]) > -1
+                            $n_indexOf(values, item[key]) > -1
                             // 值不在查询数组中
-                            : indexOf(values, item[key]) === -1
+                            : $n_indexOf(values, item[key]) === -1
                     )
                 ) {
                     this._setRaw(raw, item, index)
@@ -188,7 +188,7 @@ class Collection {
         // 如果为非空
         if (this.isNotEmpty()) {
             // 设置集合底层数据
-            this.set(_cloneDeep(this.data))
+            this.set($n_cloneDeep(this.data))
         }
     }
 
@@ -203,8 +203,8 @@ class Collection {
         }
 
         // 否则如果类型为对象
-        if (_isPlainObject(this.data)) {
-            return isValidObject(this.data)
+        if ($n_isPlainObject(this.data)) {
+            return $n_isValidObject(this.data)
         }
 
         // 否则将值设为空数组
@@ -250,7 +250,7 @@ class Collection {
     toObject() {
         // 获取返回数据
         const res = this._toValue()
-        return _isPlainObject(res) ? res : {}
+        return $n_isPlainObject(res) ? res : {}
     }
 
     /**
@@ -259,7 +259,7 @@ class Collection {
     each(callback) {
         return this._init(function() {
 
-            if (_isFunction(callback)) {
+            if ($n_isFunction(callback)) {
                 this._each((item)=> {
                     const res = callback(item)
                     if (res === false) {
@@ -283,7 +283,7 @@ class Collection {
         return this._init(function() {
 
             // 如果没有查询字段
-            if (! isValidString(key)) {
+            if (! $n_isValidString(key)) {
                 throw new Error('where key cannot be empty')
             }
 
@@ -294,10 +294,10 @@ class Collection {
                 // 如果集合不为空
                 this.isNotEmpty()
                 // 如果有查询运算符
-                && isValidValue(operator, true)
+                && $n_isValidValue(operator, true)
             ) {
                 // 如果没有设值, 则说明查询运算符就是值, 则查询运算符为 =
-                if (_isNil(value)) {
+                if ($n_isNil(value)) {
                     value = operator
                     operator = '='
                 }
@@ -348,7 +348,7 @@ class Collection {
         return this._init(function() {
 
             // 如果有查询字段
-            if (! isValidArray(keys)) {
+            if (! $n_isValidArray(keys)) {
                 throw new Error('select keys cannot be empty')
             }
 
@@ -360,15 +360,15 @@ class Collection {
 
                 // 别名
                 const alias = {}
-                forEach(keys, function(key) {
-                    key = trimString(key)
+                $n_forEach(keys, function(key) {
+                    key = $n_trimString(key)
                     if (key) {
-                        key = _toLower(key)
-                        if (indexOf(key, ' as ') > -1) {
+                        key = $n_toLower(key)
+                        if ($n_indexOf(key, ' as ') > -1) {
                             const arr = key.split(' as ')
                             if (arr.length === 2) {
-                                const k = trimString(arr[0])
-                                const v = trimString(arr[1])
+                                const k = $n_trimString(arr[0])
+                                const v = $n_trimString(arr[1])
                                 if (k && v) {
                                     alias[k] = v
                                 }
@@ -379,7 +379,7 @@ class Collection {
                     }
                 })
 
-                if (! isValidObject(alias)) {
+                if (! $n_isValidObject(alias)) {
                     throw new Error('select keys cannot be empty')
                 }
 
@@ -387,10 +387,10 @@ class Collection {
                 if (this._isTypeofArray() && ! this._isObjectInArray()) {
 
                     // 获取键值数组
-                    const keys = numberDeep(Object.keys(alias))
+                    const keys = $n_numberDeep(Object.keys(alias))
 
-                    forEach(this.data, (item, index) => {
-                        if (indexOf(keys, item) > -1) {
+                    $n_forEach(this.data, (item, index) => {
+                        if ($n_indexOf(keys, item) > -1) {
                             this._setRaw(raw, item, index)
                         }
                     })
@@ -401,7 +401,7 @@ class Collection {
 
                         const newItem = {}
 
-                        forIn(alias, function (to, from) {
+                        $n_forIn(alias, function (to, from) {
                             // 如果存在查询字段
                             if (itemHasKey(item, from)) {
                                 newItem[to] = item[from]
@@ -439,7 +439,7 @@ class Collection {
                 // 如果是对象数组
                 if (isObjInArr) {
                     // 如果没有排序字段
-                    if (! isValidString(key)) {
+                    if (! $n_isValidString(key)) {
                         throw new Error('orderBy key cannot be empty')
                     }
 
@@ -449,17 +449,17 @@ class Collection {
                 }
 
                 // 将排序方式转小写
-                direction = _toLower(trimString(direction))
+                direction = $n_toLower($n_trimString(direction))
 
                 // 如果没有排序方式
-                if (indexOf(['desc', 'asc'], direction) === -1) {
+                if ($n_indexOf(['desc', 'asc'], direction) === -1) {
                     throw new Error('orderBy direction must be asc or desc')
                 }
 
                 // 如果是对象数组
                 if (isObjInArr) {
                     // 设置集合底层数据
-                    this.set(_orderBy(this.data, [key], [direction]))
+                    this.set($n_orderBy(this.data, [key], [direction]))
 
                 // 否则为普通数组
                 } else {
@@ -484,7 +484,7 @@ class Collection {
         return this._init(function() {
 
             // 如果没有查询字段
-            if (! isValidString(key)) {
+            if (! $n_isValidString(key)) {
                 throw new Error('keyBy key cannot be empty')
             }
 
@@ -544,7 +544,7 @@ class Collection {
 
                 // 如果类型不是数组, 只有对象才能转数组
                 if (! this._isTypeofArray()) {
-                    forIn(this.data, function (item) {
+                    $n_forIn(this.data, function (item) {
                         raw.push(item)
                     })
 
@@ -571,7 +571,7 @@ class Collection {
         return this._init(function() {
 
             // 如果没有查询字段
-            if (! isValidString(key)) {
+            if (! $n_isValidString(key)) {
                 throw new Error('pluck key cannot be empty')
             }
 
@@ -622,14 +622,14 @@ class Collection {
 
                     // 设置集合底层数据
                     // 普通数组去重
-                    this.set(_uniq(this.data))
+                    this.set($n_uniq(this.data))
 
                     // 返回
                     return this
                 }
 
                 // 如果没有查询字段
-                if (! isValidString(key)) {
+                if (! $n_isValidString(key)) {
                     throw new Error('unique key cannot be empty')
                 }
 
@@ -641,7 +641,7 @@ class Collection {
                         // 如果存在查询字段
                         itemHasKey(item, key)
                         // 如果值不在已存在值数组中
-                        && indexOf(existed, item[key]) === -1
+                        && $n_indexOf(existed, item[key]) === -1
                     ) {
                         existed.push(item[key])
                         this._setRaw(raw, item, index)
@@ -700,7 +700,7 @@ class Collection {
      */
     when(value, callback) {
         return this._init(function() {
-            if (value && _isFunction(callback)) {
+            if (value && $n_isFunction(callback)) {
                 return callback(this, value)
             }
             // 返回
@@ -713,7 +713,7 @@ class Collection {
      */
     format(callback) {
         return this._init(function() {
-            if (_isFunction(callback)) {
+            if ($n_isFunction(callback)) {
                 return callback(this)
             }
             // 返回
@@ -728,7 +728,7 @@ class Collection {
         return this._init(function() {
 
             // 不是有效值
-            if (! isRequired(value)) {
+            if (! $n_isRequired(value)) {
                 throw new Error('push value cannot be empty')
             }
 
@@ -752,7 +752,7 @@ class Collection {
         return this._init(function() {
 
             // 不是有效值
-            if (! isRequired(value)) {
+            if (! $n_isRequired(value)) {
                 throw new Error('prepend value cannot be empty')
             }
 
@@ -776,11 +776,11 @@ class Collection {
         return this._init(function() {
 
             // 如果是有效数组
-            if (isValidArray(value)) {
+            if ($n_isValidArray(value)) {
 
                 // 设置集合底层数据
                 // 合并数据
-                this.set(_concat(this.data, value))
+                this.set($n_concat(this.data, value))
             }
 
             // 返回
@@ -795,7 +795,7 @@ class Collection {
         return this._init(function() {
 
             // 不是有效值
-            if (! isValidValue(key)) {
+            if (! $n_isValidValue(key)) {
                 throw new Error('groupBy key cannot be empty')
             }
 
@@ -809,7 +809,7 @@ class Collection {
             for (const item of this.data) {
                 // 如果存在查询字段
                 if (itemHasKey(item, key)) {
-                    if (_has(group, item[key])) {
+                    if ($n_has(group, item[key])) {
                         group[item[key]].push(item)
                     } else {
                         group[item[key]] = [item]
@@ -817,7 +817,7 @@ class Collection {
                 }
             }
 
-            forIn(group, function (item, key) {
+            $n_forIn(group, function (item, key) {
                 group[key] = collection(item)
             })
 
@@ -836,7 +836,7 @@ class Collection {
         return this._init(function() {
 
             // 数据类型不为方法
-            if (! _isFunction(callback)) {
+            if (! $n_isFunction(callback)) {
                 throw new Error('map callback is not function')
             }
 
@@ -872,7 +872,7 @@ class Collection {
             }
 
             let num = 0
-            forIn(this.data, function() {
+            $n_forIn(this.data, function() {
                 num++
             })
             return num
@@ -899,7 +899,7 @@ class Collection {
             // 平均值 = 总值 / 数量
             num = num.dividedBy(length)
 
-            if (_isFunction(callback)) {
+            if ($n_isFunction(callback)) {
                 return callback(num, BigNumber)
             }
 
@@ -922,7 +922,7 @@ class Collection {
             // 合计
             const num = BigNumber.sum(...nums)
 
-            if (_isFunction(callback)) {
+            if ($n_isFunction(callback)) {
                 return callback(num, BigNumber)
             }
 
@@ -956,11 +956,11 @@ class Collection {
     has(key) {
 
         // 如果没有查询字段
-        if (! isValidValue(key)) {
+        if (! $n_isValidValue(key)) {
             throw new Error('has key cannot be empty')
         }
 
-        return _has(this.data, key)
+        return $n_has(this.data, key)
     }
 
     /**
@@ -969,18 +969,18 @@ class Collection {
     get(key, defaultValue = null, callback) {
 
         // 如果没有查询字段
-        if (! isValidValue(key)) {
+        if (! $n_isValidValue(key)) {
             throw new Error('get key cannot be empty')
         }
 
-        if (_isFunction(defaultValue)) {
+        if ($n_isFunction(defaultValue)) {
             callback = defaultValue
             defaultValue = null
         }
 
-        const res = _get(this.data, key, defaultValue)
+        const res = $n_get(this.data, key, defaultValue)
 
-        if (_isFunction(callback)) {
+        if ($n_isFunction(callback)) {
             return callback(res)
         }
 
@@ -999,7 +999,7 @@ class Collection {
             if (this._isTypeofArray() && ! this._isObjectInArray()) {
 
                 // 如果没有查询字段
-                if (! isValidString(key)) {
+                if (! $n_isValidString(key)) {
                     throw new Error('implode separator cannot be empty')
                 }
 
@@ -1007,12 +1007,12 @@ class Collection {
             }
 
             // 如果没有查询字段
-            if (! isValidString(key)) {
+            if (! $n_isValidString(key)) {
                 throw new Error('implode key cannot be empty')
             }
 
             // 如果没有 separator 字段
-            if (! isValidString(separator)) {
+            if (! $n_isValidString(separator)) {
                 throw new Error('implode separator cannot be empty')
             }
 
@@ -1037,7 +1037,7 @@ class Collection {
     first(callback) {
         // 如果集合不为空
         if (this.isNotEmpty()) {
-            if (_isFunction(callback)) {
+            if ($n_isFunction(callback)) {
                 return this._each(function (value, key) {
                     if (callback(value, key)) {
                         return value
@@ -1060,20 +1060,20 @@ class Collection {
 
             // 如果数据类型是否为数组
             if (this._isTypeofArray()) {
-                if (_isFunction(callback)) {
-                    return forEachRight(this.data,function(value, key) {
+                if ($n_isFunction(callback)) {
+                    return $n_forEachRight(this.data,function(value, key) {
                         if (callback(value, key)) {
                             return value
                         }
                     })
                 }
-                return forEachRight(this.data,function(value) {
+                return $n_forEachRight(this.data,function(value) {
                     return value
                 })
             }
 
             // 否则为对象, 对象是无序的, 取第一个即可
-            return forIn(this.data, function (item) {
+            return $n_forIn(this.data, function (item) {
                 return item
             })
         }
@@ -1090,14 +1090,14 @@ class Collection {
             // 如果数据类型是否为数组
             if (this._isTypeofArray()) {
                 const keys = []
-                forEach(this.data, function (val, key) {
+                $n_forEach(this.data, function (val, key) {
                     keys.push(key)
                 })
                 return keys
             }
 
             // 否则为对象
-            return numberDeep(Object.keys(this.data), [])
+            return $n_numberDeep(Object.keys(this.data), [])
         }
 
         return []
@@ -1116,10 +1116,10 @@ class Collection {
             }
 
             // 否则为对象, 对象是无序的, 取第一个即可
-            const key = forIn(this.data, function (item, key) {
+            const key = $n_forIn(this.data, function (item, key) {
                 return key
             })
-            if (_has(this.data, key)) {
+            if ($n_has(this.data, key)) {
                 const item = this.data[key]
                 delete this.data[key]
                 return item
@@ -1132,7 +1132,7 @@ class Collection {
     /**
      * 树数据
      */
-    toTree(params) {
+    $n_toTree(params) {
         // 如果集合不为空
         if (this.isNotEmpty()) {
 
@@ -1144,12 +1144,12 @@ class Collection {
 
             // 否则为对象
             } else {
-                forIn(this.data, function(item) {
+                $n_forIn(this.data, function(item) {
                     data.push(item)
                 })
             }
 
-            return toTree(Object.assign({
+            return $n_toTree(Object.assign({
                 data,
             }, params))
         }
@@ -1183,7 +1183,7 @@ class Collection {
     _isObjectInArray() {
         return this._isTypeofArray()
             && this.data.length > 0
-            && _isPlainObject(this.data[0])
+            && $n_isPlainObject(this.data[0])
     }
 
     /**
@@ -1215,7 +1215,7 @@ class Collection {
      * @private
      */
     _each(cb) {
-        return this._isTypeofArray() ? forEach(this.data, cb) : forIn(this.data, cb)
+        return this._isTypeofArray() ? $n_forEach(this.data, cb) : $n_forIn(this.data, cb)
     }
 
     /**
@@ -1235,7 +1235,7 @@ class Collection {
         }
 
         // 如果数据格式是对象
-        if (_isPlainObject(this.data)) {
+        if ($n_isPlainObject(this.data)) {
             const obj = {}
             for (const key in this.data) {
                 // 获取单个数据
@@ -1252,8 +1252,6 @@ class Collection {
 /**
  * 集合
  */
-function collection(data) {
+export default function collection(data) {
     return new Collection(data)
 }
-
-module.exports = collection

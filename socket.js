@@ -1,18 +1,19 @@
-const _has = require('lodash/has')
-const _findIndex = require('lodash/findIndex')
-const _isNil = require('lodash/isNil')
-const run = require('./run')
-const getThrowMessage = require('./getThrowMessage')
-const isJson = require('./isJson')
-const numberDeep = require('./numberDeep')
-const success = require('./success')
-const fail = require('./fail')
-const runAsync = require('./runAsync')
+import $n_has from 'lodash/has'
+import $n_findIndex from 'lodash/findIndex'
+import $n_isNil from 'lodash/isNil'
+
+import $n_run from './run'
+import $n_getThrowMessage from './getThrowMessage'
+import $n_isJson from './isJson'
+import $n_numberDeep from './numberDeep'
+import $n_success from './success'
+import $n_fail from './fail'
+import $n_runAsync from './runAsync'
 
 /**
  * WebSocket 类
  */
-class Socket {
+export default class Socket {
 
     /**
      * 构造
@@ -157,9 +158,9 @@ class Socket {
                     return
                 }
 
-                run(this._onMessage)({
+                $n_run(this._onMessage)({
                     status: false,
-                    msg: getThrowMessage(e, '操作失败'),
+                    msg: $n_getThrowMessage(e, '操作失败'),
                     data: null,
 
                     message_id: '',
@@ -214,10 +215,10 @@ class Socket {
                     const result = _result(false, data)
 
                     // 如果有唯一消息 id
-                    if (_has(data, 'data.message_id')) {
+                    if ($n_has(data, 'data.message_id')) {
 
                         // 如果消息中存在该消息 id
-                        const index = _findIndex(this.query, e => e.data.message_id === data.data.message_id)
+                        const index = $n_findIndex(this.query, e => e.data.message_id === data.data.message_id)
                         if (index > -1) {
 
                             // 获取该消息数据
@@ -227,7 +228,7 @@ class Socket {
                             this.query.splice(index, 1)
 
                             // 执行异步 resolve 事件
-                            if (_has(item, 'resolve')) {
+                            if ($n_has(item, 'resolve')) {
                                 item.resolve(result)
                                 return
                             }
@@ -235,11 +236,11 @@ class Socket {
                     }
 
                     // 否则执行全局错误
-                    run(this._onMessage)(result)
+                    $n_run(this._onMessage)(result)
                 }
 
                 // 如果是 json 格式
-                if (isJson(data)) {
+                if ($n_isJson(data)) {
 
                     // 解析 json
                     data = JSON.parse(data)
@@ -251,10 +252,10 @@ class Socket {
                     // #endif
                     // --------------------------------------------------
 
-                    if (_has(data, 'code')) {
+                    if ($n_has(data, 'code')) {
 
                         // 将请求结果深度转换为数字(如果开头为 0 的数字, 则认为是字符串)
-                        data = numberDeep(data, null, true)
+                        data = $n_numberDeep(data, null, true)
 
                         // 退出
                         const logout = async () => {
@@ -326,8 +327,8 @@ class Socket {
                             }
 
                             // 处理业务错误
-                            const resBusinessError = await runAsync(this.onBusinessError, this)({ data, onError: _error })
-                            if (! _isNil(resBusinessError)) {
+                            const resBusinessError = await $n_runAsync(this.onBusinessError, this)({ data, onError: _error })
+                            if (! $n_isNil(resBusinessError)) {
                                 return resBusinessError
                             }
 
@@ -351,7 +352,7 @@ class Socket {
 
                         // 聊天消息类型(1:更新鉴权认证)
                         if (
-                            _has(data, 'data.message_type')
+                            $n_has(data, 'data.message_type')
                             && data.data.message_type === this.dicts.SOCKET_MESSAGE_TYPE__UPDATE_AUTH
                         ) {
                             // 此时继续发送队列中的数据
@@ -363,7 +364,7 @@ class Socket {
                                 for (const item of newQuery) {
                                     if (! await this._send(item.data)) {
                                         this.deleteQuery(item.data.message_id)
-                                        if (_has(item, 'resolve')) {
+                                        if ($n_has(item, 'resolve')) {
                                             item.resolve(_result(false, {
                                                 code: this.dicts.CODE__FAIL,
                                                 msg: '发送失败',
@@ -377,24 +378,24 @@ class Socket {
                         }
 
                         // 获取返回的消息 id
-                        if (_has(data, 'data.message_id')) {
+                        if ($n_has(data, 'data.message_id')) {
 
                             // 如果有消息 id
                             if (data.data.message_id) {
 
                                 // 如果消息队列中存在该 id
-                                const index = _findIndex(this.query, e => e.data.message_id === data.data.message_id)
+                                const index = $n_findIndex(this.query, e => e.data.message_id === data.data.message_id)
                                 if (index > -1) {
                                     const item = this.query[index]
                                     this.query.splice(index, 1)
-                                    if (_has(item, 'resolve')) {
+                                    if ($n_has(item, 'resolve')) {
                                         item.resolve(_result(true, {data: data.data}))
                                         return
                                     }
                                 }
                             }
 
-                            run(this._onMessage)(_result(true, {data: data.data}))
+                            $n_run(this._onMessage)(_result(true, {data: data.data}))
                         }
                         return
                     }
@@ -429,7 +430,7 @@ class Socket {
                 /* #endif */
 
                 this.socket = null
-                run(this._onClose)()
+                $n_run(this._onClose)()
             })
         })
     }
@@ -460,7 +461,7 @@ class Socket {
      * 删除队列
      */
     deleteQuery(messageId) {
-        const index = _findIndex(this.query, e => e.data.message_id === messageId)
+        const index = $n_findIndex(this.query, e => e.data.message_id === messageId)
         if (index > -1) {
             this.query.splice(index, 1)
         }
@@ -522,7 +523,7 @@ class Socket {
             const _error = () => {
                 this._sending = false
                 this.deleteQuery(messageData.message_id)
-                resolve(fail('发送失败'))
+                resolve($n_fail('发送失败'))
             }
 
             // 如果连接失败
@@ -550,9 +551,9 @@ class Socket {
             }
 
             this._sending = false
-            
+
             if (! message_id) {
-                resolve(success())
+                resolve($n_success())
             }
         })
     }
@@ -590,5 +591,3 @@ class Socket {
         })
     }
 }
-
-module.exports = Socket

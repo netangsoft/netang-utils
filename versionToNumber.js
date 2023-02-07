@@ -1,5 +1,5 @@
-const _padStart = require('lodash/padStart')
-const _split = require('./split')
+import $n_padStart from 'lodash/padStart'
+import $n_split from './split'
 
 /**
  * 版本号转数字
@@ -7,8 +7,9 @@ const _split = require('./split')
  * @param digit 版本每段数量
  * @returns {number}
  */
-function versionToNumber(value, digit = 2) {
-    value = _split(value, '.')
+export default function versionToNumber(value, digit = 2) {
+
+    value = $n_split(value, '.')
 
     let code = ''
 
@@ -16,11 +17,9 @@ function versionToNumber(value, digit = 2) {
 
     for (let i = 0; i < len; i++) {
         const val = Number(value[i])
-        const num = _padStart(val > 0 ? val : 0, digit, '0')
+        const num = $n_padStart(val > 0 ? val : 0, digit, '0')
         code += (i > 0 && num.length > digit ? num.slice(-digit) : num)
     }
 
     return Number(code)
 }
-
-module.exports = versionToNumber

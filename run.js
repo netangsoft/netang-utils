@@ -1,4 +1,4 @@
-const _isFunction = require('lodash/isFunction')
+import $n_isFunction from 'lodash/isFunction'
 
 /**
  * 运行函数
@@ -6,10 +6,8 @@ const _isFunction = require('lodash/isFunction')
  * @param thisArg
  * @returns {Function}
  */
-function run(func, thisArg = null) {
-    return _isFunction(func) ? function(...args) {
+export default function run(func, thisArg = null) {
+    return $n_isFunction(func) ? function(...args) {
         return func.call(thisArg, ...args)
     } : function() {}
 }
-
-module.exports = run

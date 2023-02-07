@@ -1,4 +1,4 @@
-const isValidArray = require('./isValidArray')
+import $n_isValidArray from './isValidArray'
 
 /*
  * 拆分字符串
@@ -7,13 +7,7 @@ const isValidArray = require('./isValidArray')
  * @param {number} limit 限制结果的数量
  * @returns {array}
  */
-function join(arr = [], separator) {
+export default function join(arr = [], separator = '') {
 
-    if (isValidArray(arr)) {
-        return arr.join(separator)
-    }
-
-    return ''
+    return $n_isValidArray(arr) ? arr.join(separator) : ''
 }
-
-module.exports = join

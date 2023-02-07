@@ -2,7 +2,7 @@ const valueInvalid = 'The :attribute field is invalid.'
 const formatInvalid = 'The :attribute format is invalid.'
 const required = 'The :attribute field is required.'
 
-module.exports = {
+export default {
 
     g: {},
 

@@ -1,5 +1,6 @@
-const BigNumber = require('bignumber.js')
-const indexOf = require('./indexOf')
+import BigNumber from 'bignumber.js'
+
+import $n_indexOf from './indexOf'
 
 /**
  * 获取百分比值
@@ -8,10 +9,10 @@ const indexOf = require('./indexOf')
  * @param defaultValue 默认值
  * 89% -> 0.89
  */
-function percentValue(value, onlyCheckPercentSign = false, defaultValue = 0) {
+export default function percentValue(value, onlyCheckPercentSign = false, defaultValue = 0) {
 
     // 如果有百分号
-    if (indexOf(value, '%') > -1) {
+    if ($n_indexOf(value, '%') > -1) {
         // 去除所有百分号
         value = value.replaceAll('%', '')
 
@@ -27,5 +28,3 @@ function percentValue(value, onlyCheckPercentSign = false, defaultValue = 0) {
     // 转为 1 以下的百分比值
     return value.isGreaterThan(0) ? value.dividedBy(100).toNumber() : defaultValue
 }
-
-module.exports = percentValue

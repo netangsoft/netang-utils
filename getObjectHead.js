@@ -1,4 +1,4 @@
-const _isPlainObject = require('lodash/isPlainObject')
+import $n_isPlainObject from 'lodash/isPlainObject'
 
 /**
  * 获取对象第一个元素
@@ -6,9 +6,9 @@ const _isPlainObject = require('lodash/isPlainObject')
  * @param defaultValue 默认值
  * @returns {null|*}
  */
-function getObjectHead(value, defaultValue = null) {
+export default function getObjectHead(value, defaultValue = null) {
 
-    if (_isPlainObject(value)) {
+    if ($n_isPlainObject(value)) {
 
         for (const key in value) {
 
@@ -21,5 +21,3 @@ function getObjectHead(value, defaultValue = null) {
 
     return defaultValue
 }
-
-module.exports = getObjectHead

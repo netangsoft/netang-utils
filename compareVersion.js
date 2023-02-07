@@ -1,4 +1,4 @@
-const _trimString = require('./trimString')
+import $n_trimString from './trimString'
 
 /**
  * 对比版本号
@@ -7,12 +7,13 @@ const _trimString = require('./trimString')
  * v1 < v2 return -1
  * v1 == v2 return 0
  */
-function compareVersion(v1 = '0', v2 = '0') {
-    v1 = _trimString(v1)
+export default function compareVersion(v1 = '0', v2 = '0') {
+
+    v1 = $n_trimString(v1)
     if (! v1) {
         v1 = '0'
     }
-    v2 = _trimString(v2)
+    v2 = $n_trimString(v2)
     if (! v2) {
         v2 = '0'
     }
@@ -46,5 +47,3 @@ function compareVersion(v1 = '0', v2 = '0') {
 
     return 0
 }
-
-module.exports = compareVersion

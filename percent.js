@@ -1,5 +1,7 @@
-const isNumeric = require('./isNumeric')
-const indexOf = require('./indexOf')
+import BigNumber from 'bignumber.js'
+
+import $n_isNumeric from './isNumeric'
+import $n_indexOf from './indexOf'
 
 /**
  * 转为百分比
@@ -7,10 +9,10 @@ const indexOf = require('./indexOf')
  * @param {boolean} isSign
  * 0.89 -> 89%
  */
-function percent(value, isSign) {
+export default function percent(value, isSign) {
 
     // 如果是数字
-    if (isNumeric(value)) {
+    if ($n_isNumeric(value)) {
 
         // 转为 BigNumber 格式
         value = new BigNumber(value)
@@ -34,7 +36,7 @@ function percent(value, isSign) {
     } else {
 
         // 如果有百分号
-        if (indexOf(value, '%') > -1) {
+        if ($n_indexOf(value, '%') > -1) {
             return value
         }
 
@@ -47,5 +49,3 @@ function percent(value, isSign) {
 
     return value
 }
-
-module.exports = percent

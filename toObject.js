@@ -1,15 +1,14 @@
-const _has = require('lodash/has')
-const isValidArray = require('./isValidArray')
+import $n_has from 'lodash/has'
+import $n_isValidArray from './isValidArray'
 
 /**
  * 数组转对象
  */
-
-function toObject(lists = [], type = 'all', idKey = 'id', pidKey = 'pid') {
+export default function toObject(lists = [], type = 'all', idKey = 'id', pidKey = 'pid') {
 
     const all = {}
 
-    const isLists = isValidArray(lists)
+    const isLists = $n_isValidArray(lists)
     if (isLists) {
         for (const item of lists) {
             all[item[idKey]] = item
@@ -27,11 +26,11 @@ function toObject(lists = [], type = 'all', idKey = 'id', pidKey = 'pid') {
         if (isLists) {
             for (const item of lists) {
 
-                if (_has(item, pidKey)) {
+                if ($n_has(item, pidKey)) {
 
                     const pidValue = item[pidKey]
 
-                    if (! _has(group, pidValue)) {
+                    if (! $n_has(group, pidValue)) {
                         group[pidValue] = []
                     }
 
@@ -45,5 +44,3 @@ function toObject(lists = [], type = 'all', idKey = 'id', pidKey = 'pid') {
 
     return {}
 }
-
-module.exports = toObject

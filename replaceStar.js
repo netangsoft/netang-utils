@@ -1,6 +1,6 @@
-const _isString = require('lodash/isString')
-const _isNumber = require('lodash/isNumber')
-const _trim = require('lodash/trim')
+import $n_isString from 'lodash/isString'
+import $n_isNumber from 'lodash/isNumber'
+import $n_trim from 'lodash/trim'
 
 /**
  * 替换为星号
@@ -10,16 +10,15 @@ const _trim = require('lodash/trim')
  * @param {number} starCount 星号数量
  * @returns {string}
  */
+export default function replaceStar(val, start = 1, end = 1, starCount = 0) {
 
-function replaceStar(val, start = 1, end = 1, starCount = 0) {
-
-    const isString = _isString(val)
-    if (! isString && ! _isNumber(val)) {
+    const isString = $n_isString(val)
+    if (! isString && ! $n_isNumber(val)) {
         return '****'
     }
 
     // 格式化字符串
-    val = isString ? _trim(val) : String(val)
+    val = isString ? $n_trim(val) : String(val)
 
     // 获取字符长度
     const { length } = val
@@ -43,5 +42,3 @@ function replaceStar(val, start = 1, end = 1, starCount = 0) {
 
     return content
 }
-
-module.exports = replaceStar

@@ -1,5 +1,5 @@
-const run = require('./run')
-const isRequired = require('./isRequired')
+import $n_run from './run'
+import $n_isRequired from './isRequired'
 
 /**
  * callback
@@ -8,9 +8,6 @@ const isRequired = require('./isRequired')
  * @param {function} callback
  * @returns {any}
  */
-
-function callback(data, callback) {
-    return run(callback)(data, isRequired(data))
+export default function callback(data, callback) {
+    return $n_run(callback)(data, $n_isRequired(data))
 }
-
-module.exports = callback

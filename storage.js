@@ -1,12 +1,12 @@
-const _isNil = require('lodash/isNil')
-const _has = require('lodash/has')
-const isValidObject = require('./isValidObject')
-const isValidString = require('./isValidString')
-const numberDeep = require('./numberDeep')
-const forIn = require('./forIn')
-const $json = require('./json')
+import $n_isNil from 'lodash/isNil'
+import $n_has from 'lodash/has'
+import $n_isValidObject from './isValidObject'
+import $n_isValidString from './isValidString'
+import $n_numberDeep from './numberDeep'
+import $n_forIn from './forIn'
+import $n_json from './json'
 
-const { storageOptions: o } = require('./storageHandler')
+import { storageOptions as o } from './storageHandler'
 
 /**
  * 获取 storage 前缀
@@ -22,12 +22,12 @@ function getStoragePrefix(key) {
 function getStorageKeys() {
 
     let info = o.get(getStoragePrefix('keys'))
-    if (! _isNil(info)) {
+    if (! $n_isNil(info)) {
 
-        info = $json.parse(info)
+        info = $n_json.parse(info)
 
         // 将已过期的缓存删除
-        if (isValidObject(info)) {
+        if ($n_isValidObject(info)) {
 
             // 删除次数
             let delNum = 0
@@ -36,7 +36,7 @@ function getStorageKeys() {
             const nowTime = Date.now()
 
             // 批量删除过期的缓存
-            forIn(info, function(val, key) {
+            $n_forIn(info, function(val, key) {
                 if (
                     val > 0
                     && val <= nowTime
@@ -64,7 +64,7 @@ function getStorageKeys() {
  * @param info
  */
 function setStorageKeys(info) {
-    o.set(getStoragePrefix('keys'), $json.stringify(info))
+    o.set(getStoragePrefix('keys'), $n_json.stringify(info))
 }
 
 /**
@@ -73,7 +73,7 @@ function setStorageKeys(info) {
  * @param {string} key
  */
 function deleteStorageKeys(info, key) {
-    if (_has(info, key)) {
+    if ($n_has(info, key)) {
         delete info[key]
         setStorageKeys(info)
     }
@@ -87,7 +87,7 @@ function deleteStorageKeys(info, key) {
  */
 function setStorage(key, value, expires) {
 
-    if (! isValidString(key) || _isNil(value)) {
+    if (! $n_isValidString(key) || $n_isNil(value)) {
         return
     }
 
@@ -98,12 +98,12 @@ function setStorage(key, value, expires) {
     const info = getStorageKeys()
 
     // 获取过期时间
-    if (_isNil(expires)) {
+    if ($n_isNil(expires)) {
         expires = o.expires
     }
     expires = expires > 0 ? Date.now() + expires : 0
     if (
-        ! _has(info, key)
+        ! $n_has(info, key)
         || info[key] !== expires
     ) {
         info[key] = expires
@@ -111,7 +111,7 @@ function setStorage(key, value, expires) {
     }
 
     // 更新缓存数据
-    o.set(key, $json.stringify(value))
+    o.set(key, $n_json.stringify(value))
 }
 
 /**
@@ -122,7 +122,7 @@ function setStorage(key, value, expires) {
  */
 function getStorage(key = '', defaultValue = null) {
 
-    if (! isValidString(key)) {
+    if (! $n_isValidString(key)) {
         // 返回 null
         return defaultValue
     }
@@ -133,17 +133,17 @@ function getStorage(key = '', defaultValue = null) {
     // 先获取所有缓存的 keys 信息
     const info = getStorageKeys()
 
-    if (_has(info, key)) {
+    if ($n_has(info, key)) {
 
         // 获取当前缓存
         let res = o.get(key)
-        if (! _isNil(res)) {
+        if (! $n_isNil(res)) {
 
             // 解析 json 数据
-            res = $json.parse(res)
+            res = $n_json.parse(res)
             if (res !== null) {
                 // 返回解析好的数据
-                return numberDeep(res, defaultValue)
+                return $n_numberDeep(res, defaultValue)
             }
         }
 
@@ -161,7 +161,7 @@ function getStorage(key = '', defaultValue = null) {
  */
 function deleteStorage(key) {
 
-    if (isValidString(key)) {
+    if ($n_isValidString(key)) {
 
         // 获取 key
         key = getStoragePrefix(key)
@@ -183,7 +183,7 @@ function flushStorage() {
     const info = getStorageKeys()
 
     // 遍历并删除
-    forIn(info, function(value, key) {
+    $n_forIn(info, function(value, key) {
         o.delete(key)
     })
 
@@ -210,7 +210,7 @@ function updateValueStorage(key, value)
  */
 function getStorageTtl(key = '') {
 
-    if (isValidString(key)) {
+    if ($n_isValidString(key)) {
 
         // 获取 key
         key = getStoragePrefix(key)
@@ -219,7 +219,7 @@ function getStorageTtl(key = '') {
         const info = getStorageKeys()
 
         if (
-            _has(info, key)
+            $n_has(info, key)
             && info[key] > 0
         ) {
             const expires = info[key] - Date.now() // 当前时间戳(微秒)
@@ -251,4 +251,4 @@ const storage = {
     getTtl: getStorageTtl,
 }
 
-module.exports = storage
+export default storage

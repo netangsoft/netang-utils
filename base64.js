@@ -1,6 +1,6 @@
 const TABLE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
 
-module.exports = {
+export default {
 
     /**
      * 编码

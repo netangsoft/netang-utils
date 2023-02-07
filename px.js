@@ -1,20 +1,18 @@
-const isNumeric = require('./isNumeric')
-const indexOf = require('./indexOf')
+import $n_isNumeric from './isNumeric'
+import $n_indexOf from './indexOf'
 
 /**
  * 转为像素
  */
-function px(value, sign = 'px') {
+export default function px(value, sign = 'px') {
 
     // 如果是数字
-    if (isNumeric(value)) {
+    if ($n_isNumeric(value)) {
         return value + sign
     }
 
     // 如果含有 px
-    if (indexOf(value, sign) > -1) {
+    if ($n_indexOf(value, sign) > -1) {
         return value
     }
 }
-
-module.exports = px

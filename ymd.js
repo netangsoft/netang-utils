@@ -1,11 +1,11 @@
-const _isString = require('lodash/isString')
-const isNumeric = require('./isNumeric')
+import $n_isString from 'lodash/isString'
+import $n_isNumeric from './isNumeric'
 
 /**
  * 数字年月日
  */
-function toString(value, separator = '-', defaultValue = '') {
-    if (isNumeric(value)) {
+export function toString(value, separator = '-', defaultValue = '') {
+    if ($n_isNumeric(value)) {
         value = String(value)
         const isLen8 = value.length === 8
         if (isLen8 || value.length === 6) {
@@ -19,8 +19,8 @@ function toString(value, separator = '-', defaultValue = '') {
     return defaultValue
 }
 
-function toNumber(value, separator = '-') {
-    if (_isString(value)) {
+export function toNumber(value, separator = '-') {
+    if ($n_isString(value)) {
         const arr = value.split(separator)
         const isLen3 = arr.length === 3
         if (
@@ -35,7 +35,7 @@ function toNumber(value, separator = '-') {
     return 0
 }
 
-module.exports = {
+export default {
     toString,
     toNumber,
 }

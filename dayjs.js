@@ -1,5 +1,5 @@
-const _padStart = require('lodash/padStart')
-const dayjs = require('dayjs')
+import $n_padStart from 'lodash/padStart'
+import dayjs from 'dayjs'
 
 /**
  * 扩展 toObject
@@ -28,12 +28,12 @@ dayjs.extend(function(o, { prototype }) {
             s,     // 秒
             // 字符串
             YY: String(YYYY).substring(2, 4),
-            MM: _padStart(M, 2, '0'),
-            DD: _padStart(D, 2, '0'),
-            HH: _padStart(H, 2, '0'),
-            mm: _padStart(m, 2, '0'),
-            ss: _padStart(s, 2, '0'),
-            SSS: _padStart(this.$ms, 3, '0'),
+            MM: $n_padStart(M, 2, '0'),
+            DD: $n_padStart(D, 2, '0'),
+            HH: $n_padStart(H, 2, '0'),
+            mm: $n_padStart(m, 2, '0'),
+            ss: $n_padStart(s, 2, '0'),
+            SSS: $n_padStart(this.$ms, 3, '0'),
         }
     }
 
@@ -46,4 +46,4 @@ dayjs.extend(function(o, { prototype }) {
     }
 })
 
-module.exports = dayjs
+export default dayjs

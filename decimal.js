@@ -1,9 +1,9 @@
-const BigNumber = require('bignumber.js')
+import BigNumber from 'bignumber.js'
 
 /**
  * 获取值
  */
-function getValue(value, o) {
+export default function getValue(value, o) {
 
     // 精度舍入模式
     const roundMode = o.roundDown ? BigNumber.ROUND_DOWN : BigNumber.ROUND_HALF_UP
@@ -144,5 +144,3 @@ function decimal(value, params) {
     // 返回默认值
     return o.defaultValue
 }
-
-module.exports = decimal

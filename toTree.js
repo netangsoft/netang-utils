@@ -1,16 +1,14 @@
-const _has = require('lodash/has')
-const _get = require('lodash/get')
-const _isFunction = require('lodash/isFunction')
-const forEachRight = require('./forEachRight')
-const forIn = require('./forIn')
-const run = require('./run')
+import $n_has from 'lodash/has'
+import $n_isFunction from 'lodash/isFunction'
+import $n_forEachRight from './forEachRight'
+import $n_forIn from './forIn'
 
 /**
  * 转树数据
  * @param {object} params
  * @returns {object}
  */
-function toTree(params) {
+export default function toTree(params) {
 
     const o = Object.assign({
         // 数据(数组)
@@ -81,7 +79,7 @@ function toTree(params) {
             const item = Object.assign({}, rawItem)
 
             // 如果单个节点没有 pid 键值, 则初始化 pid 值为 0
-            if (! _has(item, o.pidKey)) {
+            if (! $n_has(item, o.pidKey)) {
                 item[o.pidKey] = 0
             }
 
@@ -117,7 +115,7 @@ function toTree(params) {
 
             // 如果有绑定父级 id
             if (pid) {
-                if (_has(group, pid)) {
+                if ($n_has(group, pid)) {
                     group[pid].push(item)
                 }
 
@@ -151,7 +149,7 @@ function toTree(params) {
                 const pid = item[o.idKey]
 
                 // 如果有子节点
-                if (_has(group, pid) && group[pid].length) {
+                if ($n_has(group, pid) && group[pid].length) {
 
                     item[o.childrenKey] = group[pid]
 
@@ -188,11 +186,11 @@ function toTree(params) {
 
                 // 是否有子节点
                 function hasChildren(item) {
-                    return _has(item, o.childrenKey) && item[o.childrenKey].length
+                    return $n_has(item, o.childrenKey) && item[o.childrenKey].length
                 }
 
                 function getParent(level) {
-                    forIn(nodes, function (item) {
+                    $n_forIn(nodes, function (item) {
                         if (
                             // 如果为当前级别
                             item.level === level
@@ -202,7 +200,7 @@ function toTree(params) {
                             // 子节点数量
                             let hasChildNum = 0
 
-                            forEachRight(item[o.childrenKey], function (child, childKey) {
+                            $n_forEachRight(item[o.childrenKey], function (child, childKey) {
 
                                 // 如果有子节点
                                 if (hasChildren(child)) {
@@ -245,7 +243,7 @@ function toTree(params) {
                     getParent(maxLevel - 2)
                 }
 
-                forEachRight(tree, function (item, key) {
+                $n_forEachRight(tree, function (item, key) {
                     // 如果根节点没有子节点
                     if (! hasChildren(item)) {
 
@@ -261,8 +259,8 @@ function toTree(params) {
         // --------------------------------------------------
 
         // 格式化单个节点
-        if (_isFunction(o.format)) {
-            forIn(nodes, function(item) {
+        if ($n_isFunction(o.format)) {
+            $n_forIn(nodes, function(item) {
                 o.format(item)
             })
         }
@@ -304,15 +302,5 @@ function toTree(params) {
         tree,
         // 默认展开根节点
         expanded,
-        // // 是否有节点
-        // hasNode(valueKey) {
-        //     return _has(nodes, valueKey)
-        // },
-        // // 获取节点
-        // getNode(valueKey, defaultValue = null) {
-        //     return _get(nodes, valueKey, defaultValue)
-        // },
     }
 }
-
-module.exports = toTree

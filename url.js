@@ -1,9 +1,9 @@
-const { parse } = require('qs')
+import { parse } from 'qs'
 
-const isValidString = require('./isValidString')
-const numberDeep = require('./numberDeep')
-const isBrowser = require('./isBrowser')
-const slash = require('./slash')
+import $n_isValidString from './isValidString'
+import $n_numberDeep from './numberDeep'
+import $n_isBrowser from './isBrowser'
+import $n_slash from './slash'
 
 /**
  * 解构 url 参数
@@ -21,10 +21,9 @@ const slash = require('./slash')
  *      search: "a=1&b=2&c=3"
  *      url: "http://192.168.1.120:9081/biz/user/index"
  */
+export default function url(href = '') {
 
-function url(href = '') {
-
-    if (! isValidString(href) && isBrowser()) {
+    if (! $n_isValidString(href) && $n_isBrowser()) {
         href = window.location.href
     }
 
@@ -99,14 +98,14 @@ function url(href = '') {
         if (len > 1) {
             u.url = hrefs[0]
             u.search = hrefs[len - 1]
-            u.query = numberDeep(parse(u.search))
+            u.query = $n_numberDeep(parse(u.search))
         } else {
             u.url = href
             u.search = ''
             u.query = {}
         }
 
-        u.pathname = slash(u.url.substring(u.url.lastIndexOf(u.origin) + u.origin.length), 'all', false)
+        u.pathname = $n_slash(u.url.substring(u.url.lastIndexOf(u.origin) + u.origin.length), 'all', false)
 
         // 如果为 hash 模式
         if (isHash) {
@@ -119,5 +118,3 @@ function url(href = '') {
 
     throw new Error('url is error')
 }
-
-module.exports = url

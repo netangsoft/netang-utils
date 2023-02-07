@@ -1,4 +1,4 @@
-const _padStart = require('lodash/padStart')
+import $n_padStart from 'lodash/padStart'
 
 /**
  * 数字转版本号
@@ -7,9 +7,9 @@ const _padStart = require('lodash/padStart')
  * @param digit 版本每段数量
  * @returns {string}
  */
-function numberToVersion(value, segment = 3, digit = 2) {
+export default function numberToVersion(value, segment = 3, digit = 2) {
 
-    value = _padStart(value, segment * digit, '0')
+    value = $n_padStart(value, segment * digit, '0')
 
     const values = []
 
@@ -33,5 +33,3 @@ function numberToVersion(value, segment = 3, digit = 2) {
 
     return values.join('.')
 }
-
-module.exports = numberToVersion

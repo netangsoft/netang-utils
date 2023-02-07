@@ -1,4 +1,4 @@
-const _trim = require('lodash/trim')
+import $n_trim from 'lodash/trim'
 
 /**
  * 截取字符串
@@ -9,10 +9,9 @@ const _trim = require('lodash/trim')
  * @param {boolean} isReverse 截取顺序(空:顺序截取, true:逆序截取)
  * @returns {string|number}
  */
+export default function substring(value, start= 0, length = 0, other = '', isReverse = false) {
 
-function substring(value, start= 0, length = 0, other = '', isReverse = false) {
-
-    value = _trim(String(value))
+    value = $n_trim(String(value))
     const count = value.length
     if (! count) {
         return 0
@@ -56,5 +55,3 @@ function substring(value, start= 0, length = 0, other = '', isReverse = false) {
 
     return res
 }
-
-module.exports = substring

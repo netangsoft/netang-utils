@@ -1,7 +1,7 @@
 /**
  * 延迟执行
  */
-function sleep() {
+export default function sleep() {
 
     const keys = {
         // 默认
@@ -56,5 +56,3 @@ function sleep() {
 
     return sleeped
 }
-
-module.exports = sleep

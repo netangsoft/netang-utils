@@ -1,14 +1,19 @@
-const isValidString = require('./isValidString')
+import $n_isBrowser from './isBrowser'
+import $n_isValidString from './isValidString'
 
 /**
  * 跳转
  * @param {string} url
  * @param {boolean} replace
  */
+export default function jump(url, replace = false) {
 
-function jump(url, replace = false) {
-
-    if (! isValidString(url)) {
+    if (
+        // 如果不在浏览器中
+        ! $n_isBrowser()
+        // 如果 url 为非有效值
+        || ! $n_isValidString(url)
+    ) {
         return
     }
 
@@ -25,5 +30,3 @@ function jump(url, replace = false) {
         window.location.href = url
     }
 }
-
-module.exports = jump

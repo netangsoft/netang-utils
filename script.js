@@ -1,4 +1,4 @@
-const getThrowMessage = require('./getThrowMessage')
+import $n_getThrowMessage from './getThrowMessage'
 
 /**
  * 加载单个资源文件
@@ -87,7 +87,7 @@ function runScripts(urls) {
 
                 if (! urls.length) {
 
-                    reject(getThrowMessage(e))
+                    reject($n_getThrowMessage(e))
                     return
                 }
 
@@ -104,7 +104,7 @@ function runScripts(urls) {
  * @param {array} urls
  * @returns {Promise}
  */
-function script(urls) {
+export default function script(urls) {
     return new Promise(function(resolve, reject) {
 
         function fail() {
@@ -168,7 +168,7 @@ function script(urls) {
         Promise.all(promises)
             .then(resolve)
             .catch(function(e) {
-                reject(getThrowMessage(e))
+                reject($n_getThrowMessage(e))
             })
             .finally(function () {
                 if (windowDefine !== null) {
@@ -177,5 +177,3 @@ function script(urls) {
             })
     })
 }
-
-module.exports = script

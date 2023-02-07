@@ -1,5 +1,5 @@
-const isValidString = require('./isValidString')
-const slash = require('./slash')
+import $n_isValidString from './isValidString'
+import $n_slash from './slash'
 
 /**
  * 获取当前 url
@@ -7,22 +7,19 @@ const slash = require('./slash')
  * @param {string} origin
  * @returns {string}
  */
+export default function getUrl(url, origin = '/') {
 
-function getUrl(url, origin = '/') {
-
-    if (! isValidString(url)) {
+    if (! $n_isValidString(url)) {
         url = ''
     }
 
     if (
         ! /^(http|https|file):/i.test(url)
         && ! /javascript/.test(url)
-        && isValidString(origin)
+        && $n_isValidString(origin)
     ) {
-        url = slash(origin, 'end', true) + slash(url.replace(/^\//, ''), 'start', false)
+        url = $n_slash(origin, 'end', true) + $n_slash(url.replace(/^\//, ''), 'start', false)
     }
 
     return url
 }
-
-module.exports = getUrl

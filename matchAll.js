@@ -1,7 +1,7 @@
 /*
  * 正则匹配
  */
-function matchAll(content, reg) {
+export default function matchAll(content, reg) {
 
     content = String(content)
     const contents = []
@@ -42,5 +42,3 @@ function matchAll(content, reg) {
 
     return contents
 }
-
-module.exports = matchAll

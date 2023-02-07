@@ -1,15 +1,13 @@
-const _isString = require('lodash/isString')
-const _trim = require('lodash/trim')
+import $n_isString from 'lodash/isString'
+import $n_trim from 'lodash/trim'
 
 /**
  * 检查是否为非空字符串
  * @param value
  * @returns {boolean}
  */
+export default function isValidString(value) {
 
-function isValidString(value) {
-
-    return _isString(value) && _trim(value).length > 0
+    return $n_isString(value)
+        && $n_trim(value).length > 0
 }
-
-module.exports = isValidString

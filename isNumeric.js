@@ -1,16 +1,13 @@
-const _isString = require('lodash/isString')
+import $n_isString from 'lodash/isString'
 
 /**
  * 检查是否为数字(包括字符串数字)
  * @param {number|string} value
  * @returns {boolean}
  */
-
-function isNumeric(value) {
-    if (_isString(value)) {
+export default function isNumeric(value) {
+    if ($n_isString(value)) {
         return (value - parseFloat(value) + 1) >= 0
     }
     return Number.isFinite(value)
 }
-
-module.exports = isNumeric

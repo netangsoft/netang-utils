@@ -1,7 +1,8 @@
-const _toNumber = require('lodash/toNumber')
-const _has = require('lodash/has')
-const isValidString = require('./isValidString')
-const isNumeric = require('./isNumeric')
+import $n_toNumber from 'lodash/toNumber'
+import $n_has from 'lodash/has'
+
+import $n_isValidString from './isValidString'
+import $n_isNumeric from './isNumeric'
 
 /**
  * 保存 cookie
@@ -11,15 +12,15 @@ const isNumeric = require('./isNumeric')
  */
 function setCookie(key, value, options = {}) {
 
-    if (! isValidString(key)) {
+    if (! $n_isValidString(key)) {
         return
     }
 
     // 如果为数字, 则为过期时间
-    if (isNumeric(options)) {
+    if ($n_isNumeric(options)) {
         options = {
             // 过期时间
-            expires: _toNumber(options),
+            expires: $n_toNumber(options),
         }
     }
 
@@ -63,7 +64,7 @@ function setCookie(key, value, options = {}) {
  */
 function getCookie(key = '') {
 
-    if (! isValidString(key)) {
+    if (! $n_isValidString(key)) {
         return
     }
 
@@ -96,7 +97,7 @@ function getCookie(key = '') {
         } catch (e) {}
     }
 
-    return isValidString(key) ? (_has(res, key) ? res[key] : null) : res
+    return $n_isValidString(key) ? ($n_has(res, key) ? res[key] : null) : res
 }
 
 /**
@@ -120,4 +121,4 @@ const cookie = {
     delete: deleteCookie,
 }
 
-module.exports = cookie
+export default cookie

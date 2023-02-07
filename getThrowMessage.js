@@ -4,7 +4,7 @@
  * @param defaultValue
  * @returns {string}
  */
-function getThrowMessage(e, defaultValue = 'Operation Failed') {
+export default function getThrowMessage(e, defaultValue = 'Operation Failed') {
 
     let message = ''
 
@@ -19,5 +19,3 @@ function getThrowMessage(e, defaultValue = 'Operation Failed') {
 
     return String(message || defaultValue)
 }
-
-module.exports = getThrowMessage

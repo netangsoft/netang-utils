@@ -1,7 +1,7 @@
 /**
  * 阻止冒泡
  */
-function stopPropagation(event) {
+export default function stopPropagation(event) {
     if (event) {
         const { stopPropagation } = event
         if (typeof stopPropagation === 'function') {
@@ -9,5 +9,3 @@ function stopPropagation(event) {
         }
     }
 }
-
-module.exports = stopPropagation

@@ -1,9 +1,9 @@
-const _padStart = require('lodash/padStart')
+import $n_padStart from 'lodash/padStart'
 
 /**
  * 时间长度
  */
-function duration(time) {
+export default function duration(time) {
 
     // 天
     let d = 0
@@ -50,10 +50,10 @@ function duration(time) {
         }
     }
 
-    const dd = _padStart(d, 2, '0')
-    const hh = _padStart(h, 2, '0')
-    const mm = _padStart(m, 2, '0')
-    const ss = _padStart(s, 2, '0')
+    const dd = $n_padStart(d, 2, '0')
+    const hh = $n_padStart(h, 2, '0')
+    const mm = $n_padStart(m, 2, '0')
+    const ss = $n_padStart(s, 2, '0')
 
     return {
         d,
@@ -66,5 +66,3 @@ function duration(time) {
         ss,
     }
 }
-
-module.exports = duration
