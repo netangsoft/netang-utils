@@ -4,12 +4,14 @@ import $n_get from 'lodash/get'
 import $n_isValidObject from './isValidObject'
 import $n_isValidString from './isValidString'
 
+import zhCn from './locale/zh-cn'
+
 /**
  * 国际化设置
  */
 export const langSettings = {
     lists: [],
-    package: require('./locale/zh-cn'),
+    package: zhCn,
 }
 
 /**

@@ -54,7 +54,9 @@ async function run(dirPath) {
     })
 
     // 再编译所有 .cjs
-    await setFiles(dirPath, '.mjs',  toCjs)
+    if (process.argv.indexOf('js') > -1) {
+        await setFiles(dirPath, '.mjs',  toCjs)
+    }
 }
 
 run(path.join(__dirname, '../')).finally()
