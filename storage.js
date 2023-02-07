@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 module.exports = void 0;
+exports.settings = settings;
 var _isNil = _interopRequireDefault(require("lodash/isNil"));
 var _has = _interopRequireDefault(require("lodash/has"));
 var _isValidObject = _interopRequireDefault(require("./isValidObject"));
@@ -11,13 +12,23 @@ var _isValidString = _interopRequireDefault(require("./isValidString"));
 var _numberDeep = _interopRequireDefault(require("./numberDeep"));
 var _forIn = _interopRequireDefault(require("./forIn"));
 var _json = _interopRequireDefault(require("./json"));
-var _storageHandler = require("./storageHandler");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+// 默认配置
+const o = {
+  // 缓存前缀
+  prefix: 'netang:',
+  // 过期时间(7天)
+  expires: 604800,
+  set() {},
+  get() {},
+  delete() {}
+};
+
 /**
  * 获取 storage 前缀
  */
 function getStoragePrefix(key) {
-  return _storageHandler.storageOptions.prefix + key;
+  return o.prefix + key;
 }
 
 /**
@@ -25,7 +36,7 @@ function getStoragePrefix(key) {
  * @returns {object}
  */
 function getStorageKeys() {
-  let info = _storageHandler.storageOptions.get(getStoragePrefix('keys'));
+  let info = o.get(getStoragePrefix('keys'));
   if (!(0, _isNil.default)(info)) {
     info = _json.default.parse(info);
 
@@ -42,7 +53,7 @@ function getStorageKeys() {
         if (val > 0 && val <= nowTime) {
           delNum++;
           delete info[key];
-          _storageHandler.storageOptions.delete(key);
+          o.delete(key);
         }
       });
 
@@ -61,7 +72,7 @@ function getStorageKeys() {
  * @param info
  */
 function setStorageKeys(info) {
-  _storageHandler.storageOptions.set(getStoragePrefix('keys'), _json.default.stringify(info));
+  o.set(getStoragePrefix('keys'), _json.default.stringify(info));
 }
 
 /**
@@ -95,7 +106,7 @@ function setStorage(key, value, expires) {
 
   // 获取过期时间
   if ((0, _isNil.default)(expires)) {
-    expires = _storageHandler.storageOptions.expires;
+    expires = o.expires;
   }
   expires = expires > 0 ? Date.now() + expires : 0;
   if (!(0, _has.default)(info, key) || info[key] !== expires) {
@@ -104,7 +115,7 @@ function setStorage(key, value, expires) {
   }
 
   // 更新缓存数据
-  _storageHandler.storageOptions.set(key, _json.default.stringify(value));
+  o.set(key, _json.default.stringify(value));
 }
 
 /**
@@ -126,7 +137,7 @@ function getStorage(key = '', defaultValue = null) {
   const info = getStorageKeys();
   if ((0, _has.default)(info, key)) {
     // 获取当前缓存
-    let res = _storageHandler.storageOptions.get(key);
+    let res = o.get(key);
     if (!(0, _isNil.default)(res)) {
       // 解析 json 数据
       res = _json.default.parse(res);
@@ -154,7 +165,7 @@ function deleteStorage(key) {
     key = getStoragePrefix(key);
 
     // 删除当前缓存
-    _storageHandler.storageOptions.delete(key);
+    o.delete(key);
 
     // 删除缓存 key
     deleteStorageKeys(getStorageKeys(), key);
@@ -170,11 +181,11 @@ function flushStorage() {
 
   // 遍历并删除
   (0, _forIn.default)(info, function (value, key) {
-    _storageHandler.storageOptions.delete(key);
+    o.delete(key);
   });
 
   // 删除 keys 缓存
-  _storageHandler.storageOptions.delete(getStoragePrefix('keys'));
+  o.delete(getStoragePrefix('keys'));
 }
 
 /**
@@ -208,6 +219,13 @@ function getStorageTtl(key = '') {
     }
   }
   return 0;
+}
+
+/**
+ * storage 设置
+ */
+function settings(options) {
+  Object.assign(o, options);
 }
 
 /**

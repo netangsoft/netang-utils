@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 module.exports = http;
+exports.settings = settings;
 var _qs = require("qs");
 var _utils = require("qs/lib/utils");
 var _get = _interopRequireDefault(require("lodash/get"));
@@ -25,7 +26,6 @@ var _getThrowMessage = _interopRequireDefault(require("./getThrowMessage"));
 var _runAsync = _interopRequireDefault(require("./runAsync"));
 var _json = _interopRequireDefault(require("./json"));
 var _storage = _interopRequireDefault(require("./storage"));
-var _httpHandler = require("./httpHandler");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 // http 初始设置
 const httpSettings = {
@@ -111,6 +111,9 @@ const httpSettings = {
   onError: null
 };
 
+// 默认配置
+const httpOptions = {};
+
 // loading 句柄对象
 const loadingHandles = {};
 
@@ -119,7 +122,7 @@ const loadingHandles = {};
  */
 async function httpAsync(params) {
   // 默认参数
-  const para = (0, _merge.default)({}, httpSettings, _httpHandler.httpOptions, params);
+  const para = (0, _merge.default)({}, httpSettings, httpOptions, params);
 
   // 获取字典
   const {
@@ -483,6 +486,13 @@ function httpSingle(params) {
       }
     });
   });
+}
+
+/**
+ * http 设置
+ */
+function settings(options) {
+  Object.assign(httpOptions, options);
 }
 
 /**
