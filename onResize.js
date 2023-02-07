@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = onResize;
+module.exports = onResize;
 var _resizeObserverPolyfill = _interopRequireDefault(require("resize-observer-polyfill"));
 var _run = _interopRequireDefault(require("./run"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

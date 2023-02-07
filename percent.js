@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = percent;
+module.exports = percent;
 var _bignumber = _interopRequireDefault(require("bignumber.js"));
 var _isNumeric = _interopRequireDefault(require("./isNumeric"));
 var _indexOf = _interopRequireDefault(require("./indexOf"));

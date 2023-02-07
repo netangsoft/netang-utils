@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = getUrl;
+module.exports = getUrl;
 var _isValidString = _interopRequireDefault(require("./isValidString"));
 var _slash = _interopRequireDefault(require("./slash"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

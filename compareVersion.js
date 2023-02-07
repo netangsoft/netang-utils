@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = compareVersion;
+module.exports = compareVersion;
 var _trimString = _interopRequireDefault(require("./trimString"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 /**

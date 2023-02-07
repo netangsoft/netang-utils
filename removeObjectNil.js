@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = removeObjectNil;
+module.exports = removeObjectNil;
 var _isNil = _interopRequireDefault(require("lodash/isNil"));
 var _forIn = _interopRequireDefault(require("./forIn"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

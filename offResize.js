@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+module.exports = void 0;
 /**
  * 取消 dom 调整大小监听
  * @param element

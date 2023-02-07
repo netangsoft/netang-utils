@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = getThrowMessage;
+module.exports = getThrowMessage;
 /**
  * 获取抛错信息
  * @param e 抛错数据

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = isBrowser;
+module.exports = isBrowser;
 /**
  * 是否浏览器
  */

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = isValidObject;
+module.exports = isValidObject;
 var _isPlainObject = _interopRequireDefault(require("lodash/isPlainObject"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 /**

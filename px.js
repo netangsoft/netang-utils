@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = px;
+module.exports = px;
 var _isNumeric = _interopRequireDefault(require("./isNumeric"));
 var _indexOf = _interopRequireDefault(require("./indexOf"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

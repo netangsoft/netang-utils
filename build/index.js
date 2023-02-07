@@ -18,7 +18,7 @@ async function toCjs(filePath) {
     })
 
     // 写入 .js 文件
-    fs.writeFileSync(filePath.replace('.mjs', '.js'), code)
+    fs.writeFileSync(filePath.replace('.mjs', '.js'), code.replace('exports.default', 'module.exports'))
 }
 
 /**

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = versionToNumber;
+module.exports = versionToNumber;
 var _padStart = _interopRequireDefault(require("lodash/padStart"));
 var _split = _interopRequireDefault(require("./split"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

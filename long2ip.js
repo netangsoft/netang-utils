@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = long2ip;
+module.exports = long2ip;
 var _toNumber = _interopRequireDefault(require("lodash/toNumber"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 /**

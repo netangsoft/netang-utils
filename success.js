@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = success;
+module.exports = success;
 /*
  * 成功
  */

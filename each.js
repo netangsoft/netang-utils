@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = each;
+module.exports = each;
 var _isPlainObject = _interopRequireDefault(require("lodash/isPlainObject"));
 var _forEach2 = _interopRequireDefault(require("./.internal/_forEach"));
 var _forIn2 = _interopRequireDefault(require("./.internal/_forIn"));

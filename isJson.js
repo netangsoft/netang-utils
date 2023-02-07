@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = isJson;
+module.exports = isJson;
 /**
  * 检查是否为 json
  * @param value

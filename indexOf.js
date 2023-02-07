@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = indexOf;
+module.exports = indexOf;
 var _isString = _interopRequireDefault(require("lodash/isString"));
 var _isNumber = _interopRequireDefault(require("lodash/isNumber"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

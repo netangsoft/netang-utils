@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = getFileSize;
+module.exports = getFileSize;
 var _isNumber = _interopRequireDefault(require("lodash/isNumber"));
 var _round = _interopRequireDefault(require("lodash/round"));
 var _numberDeep = _interopRequireDefault(require("./numberDeep"));

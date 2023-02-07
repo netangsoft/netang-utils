@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = isValidArray;
+module.exports = isValidArray;
 /**
  * isValidArray
  * 检查是否为非空数组

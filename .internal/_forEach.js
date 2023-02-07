@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = forEach;
+module.exports = forEach;
 /**
  * forEach
  * @param data

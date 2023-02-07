@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = http;
+module.exports = http;
 var _qs = require("qs");
 var _utils = require("qs/lib/utils");
 var _get = _interopRequireDefault(require("lodash/get"));

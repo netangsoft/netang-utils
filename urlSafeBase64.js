@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+module.exports = void 0;
 /**
  * URL 安全的 Base64编码
  */

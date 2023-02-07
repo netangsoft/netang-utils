@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = toObject;
+module.exports = toObject;
 var _has = _interopRequireDefault(require("lodash/has"));
 var _isValidArray = _interopRequireDefault(require("./isValidArray"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

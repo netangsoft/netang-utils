@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = matchAll;
+module.exports = matchAll;
 /*
  * 正则匹配
  */

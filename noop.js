@@ -3,5 +3,5 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = _default;
+module.exports = _default;
 function _default() {}

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+module.exports = void 0;
 const valueInvalid = 'The :attribute field is invalid.';
 const formatInvalid = 'The :attribute format is invalid.';
 const required = 'The :attribute field is required.';

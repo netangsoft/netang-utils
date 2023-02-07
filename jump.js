@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = jump;
+module.exports = jump;
 var _isBrowser = _interopRequireDefault(require("./isBrowser"));
 var _isValidString = _interopRequireDefault(require("./isValidString"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

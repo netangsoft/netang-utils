@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = url;
+module.exports = url;
 var _qs = require("qs");
 var _isValidString = _interopRequireDefault(require("./isValidString"));
 var _numberDeep = _interopRequireDefault(require("./numberDeep"));

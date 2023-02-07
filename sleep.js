@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = sleep;
+module.exports = sleep;
 /**
  * 延迟执行
  */

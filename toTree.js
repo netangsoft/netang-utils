@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = toTree;
+module.exports = toTree;
 var _has = _interopRequireDefault(require("lodash/has"));
 var _isFunction = _interopRequireDefault(require("lodash/isFunction"));
 var _forEachRight = _interopRequireDefault(require("./forEachRight"));

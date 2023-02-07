@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = collection;
+module.exports = collection;
 var _bignumber = _interopRequireDefault(require("bignumber.js"));
 var _has = _interopRequireDefault(require("lodash/has"));
 var _get = _interopRequireDefault(require("lodash/get"));

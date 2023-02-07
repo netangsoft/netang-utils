@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = runAsync;
+module.exports = runAsync;
 var _isFunction = _interopRequireDefault(require("lodash/isFunction"));
 var _isPromise = _interopRequireDefault(require("./isPromise"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = numberDeep;
+module.exports = numberDeep;
 var _isNumber = _interopRequireDefault(require("lodash/isNumber"));
 var _trim = _interopRequireDefault(require("lodash/trim"));
 var _isNil = _interopRequireDefault(require("lodash/isNil"));

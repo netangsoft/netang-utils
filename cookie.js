@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+module.exports = void 0;
 var _toNumber = _interopRequireDefault(require("lodash/toNumber"));
 var _has = _interopRequireDefault(require("lodash/has"));
 var _isValidString = _interopRequireDefault(require("./isValidString"));

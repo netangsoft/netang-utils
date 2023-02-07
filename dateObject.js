@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = dateObject;
+module.exports = dateObject;
 var _padStart = _interopRequireDefault(require("lodash/padStart"));
 var _toDate = _interopRequireDefault(require("./toDate"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

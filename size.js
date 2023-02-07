@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = size;
+module.exports = size;
 var _trim = _interopRequireDefault(require("lodash/trim"));
 var _size = _interopRequireDefault(require("lodash/size"));
 var _isNumeric = _interopRequireDefault(require("./isNumeric"));

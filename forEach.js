@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = forEach;
+module.exports = forEach;
 var _forEach2 = _interopRequireDefault(require("./.internal/_forEach"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 /**

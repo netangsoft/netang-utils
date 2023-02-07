@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+module.exports = void 0;
 const valueInvalid = ':attribute不正确';
 const formatInvalid = ':attribute格式不正确';
 const required = ':attribute不能为空';

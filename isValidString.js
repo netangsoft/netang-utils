@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = isValidString;
+module.exports = isValidString;
 var _isString = _interopRequireDefault(require("lodash/isString"));
 var _trim = _interopRequireDefault(require("lodash/trim"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = callback;
+module.exports = callback;
 var _run = _interopRequireDefault(require("./run"));
 var _isRequired = _interopRequireDefault(require("./isRequired"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = isRequired;
+module.exports = isRequired;
 var _isValidArray = _interopRequireDefault(require("./isValidArray"));
 var _isValidObject = _interopRequireDefault(require("./isValidObject"));
 var _isValidValue = _interopRequireDefault(require("./isValidValue"));
