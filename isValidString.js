@@ -1,13 +1,17 @@
-import $n_isString from 'lodash/isString'
-import $n_trim from 'lodash/trim'
+"use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = isValidString;
+var _isString = _interopRequireDefault(require("lodash/isString"));
+var _trim = _interopRequireDefault(require("lodash/trim"));
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 /**
  * 检查是否为非空字符串
  * @param value
  * @returns {boolean}
  */
-export default function isValidString(value) {
-
-    return $n_isString(value)
-        && $n_trim(value).length > 0
+function isValidString(value) {
+  return (0, _isString.default)(value) && (0, _trim.default)(value).length > 0;
 }

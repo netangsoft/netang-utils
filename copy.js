@@ -1,17 +1,25 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
 /**
  * copy
  * 复制文字到剪切板
  * @param data
  */
-export default function copy(data) {
-    let $input = document.querySelector('#n-copy-input')
-    if (! $input) {
-        $input = document.createElement('input')
-        $input.id = 'n-copy-input'
-        $input.style = 'position:fixed;top:-9999px;left:-9999px;'
-    }
-    $input.value = data
-    document.body.appendChild($input)
-    $input.select()
-    document.execCommand('Copy')
+function copy(data) {
+  let $input = document.querySelector('#n-copy-input');
+  if (!$input) {
+    $input = document.createElement('input');
+    $input.id = 'n-copy-input';
+    $input.style = 'position:fixed;top:-9999px;left:-9999px;';
+  }
+  $input.value = data;
+  document.body.appendChild($input);
+  $input.select();
+  document.execCommand('Copy');
 }
+var _default = copy;
+exports.default = _default;

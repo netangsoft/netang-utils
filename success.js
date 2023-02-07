@@ -1,9 +1,15 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = success;
 /*
  * 成功
  */
-export default function success(data = null) {
-    return {
-        status: true,
-        data,
-    }
+function success(data = null) {
+  return {
+    status: true,
+    data
+  };
 }

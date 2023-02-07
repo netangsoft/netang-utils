@@ -1,11 +1,19 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = stopPropagation;
 /**
  * 阻止冒泡
  */
-export default function stopPropagation(event) {
-    if (event) {
-        const { stopPropagation } = event
-        if (typeof stopPropagation === 'function') {
-            stopPropagation()
-        }
+function stopPropagation(event) {
+  if (event) {
+    const {
+      stopPropagation
+    } = event;
+    if (typeof stopPropagation === 'function') {
+      stopPropagation();
     }
+  }
 }

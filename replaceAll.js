@@ -1,5 +1,11 @@
-import $n_isString from 'lodash/isString'
+"use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = replaceAll;
+var _isString = _interopRequireDefault(require("lodash/isString"));
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 /*
  * 替换全部
  * @param {string} str
@@ -7,9 +13,9 @@ import $n_isString from 'lodash/isString'
  * @param {string} replaceValue
  * @returns {string}
  */
-export default function replaceAll(str, searchValue, replaceValue) {
-    if (Number.isFinite(str)) {
-        str = String(str)
-    }
-    return $n_isString(str) ? str.replaceAll(searchValue, replaceValue) : ''
+function replaceAll(str, searchValue, replaceValue) {
+  if (Number.isFinite(str)) {
+    str = String(str);
+  }
+  return (0, _isString.default)(str) ? str.replaceAll(searchValue, replaceValue) : '';
 }

@@ -1,6 +1,12 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = isBrowser;
 /**
  * 是否浏览器
  */
-export default function isBrowser() {
-    return typeof window !== 'undefined'
+function isBrowser() {
+  return typeof window !== 'undefined';
 }

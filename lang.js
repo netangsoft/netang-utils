@@ -1,39 +1,43 @@
-import $n_toLower from 'lodash/toLower'
-import $n_get from 'lodash/get'
+"use strict";
 
-import $n_isValidObject from './isValidObject'
-import $n_isValidString from './isValidString'
-
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.langSettings = void 0;
+exports.settings = settings;
+exports.trans = trans;
+var _toLower = _interopRequireDefault(require("lodash/toLower"));
+var _get = _interopRequireDefault(require("lodash/get"));
+var _isValidObject = _interopRequireDefault(require("./isValidObject"));
+var _isValidString = _interopRequireDefault(require("./isValidString"));
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 /**
  * 国际化设置
  */
-export const langSettings = {
-    lists: [],
-    package: require('./locale/zh-cn'),
-}
+const langSettings = {
+  lists: [],
+  package: require('./locale/zh-cn')
+};
 
 /**
  * 翻译
  */
-export function trans(key, replace = null) {
-
-    let str = $n_get(langSettings.package, $n_toLower(key), '')
-    if (! str) {
-        return key.substring(key.lastIndexOf('.') + 1)
+exports.langSettings = langSettings;
+function trans(key, replace = null) {
+  let str = (0, _get.default)(langSettings.package, (0, _toLower.default)(key), '');
+  if (!str) {
+    return key.substring(key.lastIndexOf('.') + 1);
+  }
+  if ((0, _isValidObject.default)(replace)) {
+    for (const key in replace) {
+      const value = replace[key];
+      if ((0, _isValidString.default)(value)) {
+        str = str.replace(':' + key, value);
+      }
     }
-
-    if ($n_isValidObject(replace)) {
-        for (const key in replace) {
-            const value = replace[key]
-            if ($n_isValidString(value)) {
-                str = str.replace(':' + key, value)
-            }
-        }
-    }
-
-    return str
+  }
+  return str;
 }
-
-export function settings(params) {
-    Object.assign(langSettings, params)
+function settings(params) {
+  Object.assign(langSettings, params);
 }

@@ -1,21 +1,24 @@
-import $n_isString from 'lodash/isString'
-import $n_isNumber from 'lodash/isNumber'
-import $n_trim from 'lodash/trim'
+"use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = trimString;
+var _isString = _interopRequireDefault(require("lodash/isString"));
+var _isNumber = _interopRequireDefault(require("lodash/isNumber"));
+var _trim = _interopRequireDefault(require("lodash/trim"));
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 /**
  * 去除首位空格的字符串
  * @param {number|string} val 值
  * @returns {string}
  */
-export default function trimString(val) {
-
-    if ($n_isString(val)) {
-        return $n_trim(val)
-    }
-
-    if ($n_isNumber(val)) {
-        return String(val)
-    }
-
-    return ''
+function trimString(val) {
+  if ((0, _isString.default)(val)) {
+    return (0, _trim.default)(val);
+  }
+  if ((0, _isNumber.default)(val)) {
+    return String(val);
+  }
+  return '';
 }

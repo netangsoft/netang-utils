@@ -1,14 +1,20 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = isJson;
 /**
  * 检查是否为 json
  * @param value
  * @returns {boolean}
  */
-export default function isJson(value) {
-    if (typeof value === 'string') {
-        try {
-            const obj = JSON.parse(value)
-            return !! obj && typeof obj === 'object'
-        } catch (e) {}
-    }
-    return false
+function isJson(value) {
+  if (typeof value === 'string') {
+    try {
+      const obj = JSON.parse(value);
+      return !!obj && typeof obj === 'object';
+    } catch (e) {}
+  }
+  return false;
 }

@@ -1,9 +1,17 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.httpHandler = httpHandler;
+exports.httpOptions = void 0;
 // 默认配置
-export const httpOptions = {}
+const httpOptions = {};
 
 /**
  * http 处理者
  */
-export function httpHandler (options) {
-    Object.assign(httpOptions, options)
+exports.httpOptions = httpOptions;
+function httpHandler(options) {
+  Object.assign(httpOptions, options);
 }

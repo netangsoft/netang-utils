@@ -1,18 +1,21 @@
-import $n_isString from 'lodash/isString'
-import $n_isNumber from 'lodash/isNumber'
+"use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = indexOf;
+var _isString = _interopRequireDefault(require("lodash/isString"));
+var _isNumber = _interopRequireDefault(require("lodash/isNumber"));
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 /**
  * 获取索引
  */
-export default function indexOf(value, searchString) {
-
-    if (Array.isArray(value) || $n_isString(value)) {
-        return value.indexOf(searchString)
-    }
-
-    if ($n_isNumber(value)) {
-        return String(value).indexOf(searchString)
-    }
-
-    return -1
+function indexOf(value, searchString) {
+  if (Array.isArray(value) || (0, _isString.default)(value)) {
+    return value.indexOf(searchString);
+  }
+  if ((0, _isNumber.default)(value)) {
+    return String(value).indexOf(searchString);
+  }
+  return -1;
 }

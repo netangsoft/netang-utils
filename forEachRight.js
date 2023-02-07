@@ -1,14 +1,19 @@
-import _forEach from './.internal/_forEach'
+"use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = forEachRight;
+var _forEach2 = _interopRequireDefault(require("./.internal/_forEach"));
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 /**
  * forEachRight
  * @param data
  * @param func
  */
-export default function forEachRight(data, func) {
-
-    // 如果是数组
-    if (Array.isArray(data)) {
-        return _forEach(data, func, true)
-    }
+function forEachRight(data, func) {
+  // 如果是数组
+  if (Array.isArray(data)) {
+    return (0, _forEach2.default)(data, func, true);
+  }
 }

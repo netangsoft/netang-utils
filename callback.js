@@ -1,6 +1,12 @@
-import $n_run from './run'
-import $n_isRequired from './isRequired'
+"use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = callback;
+var _run = _interopRequireDefault(require("./run"));
+var _isRequired = _interopRequireDefault(require("./isRequired"));
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 /**
  * callback
  * 回调
@@ -8,6 +14,6 @@ import $n_isRequired from './isRequired'
  * @param {function} callback
  * @returns {any}
  */
-export default function callback(data, callback) {
-    return $n_run(callback)(data, $n_isRequired(data))
+function callback(data, callback) {
+  return (0, _run.default)(callback)(data, (0, _isRequired.default)(data));
 }
