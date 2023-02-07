@@ -4,7 +4,7 @@ import $n_isNumeric from './isNumeric'
 /**
  * 数字年月日
  */
-export function toString(value, separator = '-', defaultValue = '') {
+function toString(value, separator = '-', defaultValue = '') {
     if ($n_isNumeric(value)) {
         value = String(value)
         const isLen8 = value.length === 8
@@ -19,7 +19,7 @@ export function toString(value, separator = '-', defaultValue = '') {
     return defaultValue
 }
 
-export function toNumber(value, separator = '-') {
+function toNumber(value, separator = '-') {
     if ($n_isString(value)) {
         const arr = value.split(separator)
         const isLen3 = arr.length === 3
