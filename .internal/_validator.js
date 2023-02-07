@@ -21,16 +21,16 @@ var _join = _interopRequireDefault(require("lodash/join"));
 var _map = _interopRequireDefault(require("lodash/map"));
 var _cloneDeep = _interopRequireDefault(require("lodash/cloneDeep"));
 var _toPairs = _interopRequireDefault(require("lodash/toPairs"));
-var _split = _interopRequireDefault(require("./split"));
-var _isNumeric = _interopRequireDefault(require("./isNumeric"));
-var _isValidArray = _interopRequireDefault(require("./isValidArray"));
-var _isValidObject = _interopRequireDefault(require("./isValidObject"));
-var _isValidString = _interopRequireDefault(require("./isValidString"));
-var _isRequired = _interopRequireDefault(require("./isRequired"));
-var _size = _interopRequireDefault(require("./size"));
-var _numberDeep = _interopRequireDefault(require("./numberDeep"));
-var _replaceAll = _interopRequireDefault(require("./replaceAll"));
-var _lang = require("./lang");
+var _split = _interopRequireDefault(require("../split"));
+var _isNumeric = _interopRequireDefault(require("../isNumeric"));
+var _isValidArray = _interopRequireDefault(require("../isValidArray"));
+var _isValidObject = _interopRequireDefault(require("../isValidObject"));
+var _isValidString = _interopRequireDefault(require("../isValidString"));
+var _isRequired = _interopRequireDefault(require("../isRequired"));
+var _size = _interopRequireDefault(require("../size"));
+var _numberDeep = _interopRequireDefault(require("../numberDeep"));
+var _replaceAll = _interopRequireDefault(require("../replaceAll"));
+var _lang = require("../lang");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 /**
  * 表单验证

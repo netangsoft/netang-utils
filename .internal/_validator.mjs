@@ -14,17 +14,17 @@ import $n_map from 'lodash/map'
 import $n_cloneDeep from 'lodash/cloneDeep'
 import $n_toPairs from 'lodash/toPairs'
 
-import $n_split from './split'
-import $n_isNumeric from './isNumeric'
-import $n_isValidArray from './isValidArray'
-import $n_isValidObject from './isValidObject'
-import $n_isValidString from './isValidString'
-import $n_isRequired from './isRequired'
-import $n_size from './size'
-import $n_numberDeep from './numberDeep'
-import $n_replaceAll from './replaceAll'
+import $n_split from '../split'
+import $n_isNumeric from '../isNumeric'
+import $n_isValidArray from '../isValidArray'
+import $n_isValidObject from '../isValidObject'
+import $n_isValidString from '../isValidString'
+import $n_isRequired from '../isRequired'
+import $n_size from '../size'
+import $n_numberDeep from '../numberDeep'
+import $n_replaceAll from '../replaceAll'
 
-import { langSettings, trans } from './lang'
+import { langSettings, trans } from '../lang'
 
 /**
  * 表单验证
