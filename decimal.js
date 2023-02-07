@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-module.exports = getValue;
+module.exports = decimal;
 var _bignumber = _interopRequireDefault(require("bignumber.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 /**
@@ -39,7 +39,7 @@ function getValue(value, o) {
   }
 
   // 判断最大值
-  max = new _bignumber.default(o.max);
+  const max = new _bignumber.default(o.max);
   if (
   // 如果最大值为有效数字
   max.isFinite()
@@ -49,7 +49,7 @@ function getValue(value, o) {
   }
 
   // 判断最小值
-  min = new _bignumber.default(o.min);
+  const min = new _bignumber.default(o.min);
   if (
   // 如果最小值为有效数字
   min.isFinite()

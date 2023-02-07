@@ -3,13 +3,14 @@ import BigNumber from 'bignumber.js'
 /**
  * 获取值
  */
-export default function getValue(value, o) {
+function getValue(value, o) {
 
     // 精度舍入模式
     const roundMode = o.roundDown ? BigNumber.ROUND_DOWN : BigNumber.ROUND_HALF_UP
 
     // 如果是分转元
     if (o.centToYuan && ! o.yuanToCent) {
+
         // 分 除以 100
         value = value.dividedBy(100)
     }
@@ -34,7 +35,7 @@ export default function getValue(value, o) {
     }
 
     // 判断最大值
-    max = new BigNumber(o.max)
+    const max = new BigNumber(o.max)
     if (
         // 如果最大值为有效数字
         max.isFinite()
@@ -45,7 +46,7 @@ export default function getValue(value, o) {
     }
 
     // 判断最小值
-    min = new BigNumber(o.min)
+    const min = new BigNumber(o.min)
     if (
         // 如果最小值为有效数字
         min.isFinite()
@@ -61,7 +62,7 @@ export default function getValue(value, o) {
 /**
  * 数字精度转换
  */
-function decimal(value, params) {
+export default function decimal(value, params) {
 
     // 参数
     const o = Object.assign({
