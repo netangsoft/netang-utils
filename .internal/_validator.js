@@ -24,7 +24,7 @@ import $n_size from '../size'
 import $n_numberDeep from '../numberDeep'
 import $n_replaceAll from '../replaceAll'
 
-import { langSettings, trans } from '../lang'
+import trans, { langSettings } from '../trans'
 
 /**
  * 表单验证
