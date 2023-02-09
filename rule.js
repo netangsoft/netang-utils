@@ -1,2 +1,2 @@
-import { rule } from '.internal/_validator'
+import { rule } from './.internal/_validator'
 export default rule
