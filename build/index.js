@@ -1,63 +1,53 @@
 const path = require('path')
 const fs = require('fs')
 const plugin = require('@babel/plugin-transform-modules-commonjs')
-const { transformAsync } = require('@babel/core');
+const { transformAsync } = require('@babel/core')
+
+const delFile = require('@netang/node-utils/delFile')
+const dirExists = require('@netang/node-utils/dirExists')
+const writeFile = require('@netang/node-utils/writeFile')
 
 /**
- * 转为 cjs 文件
+ * 生成 cjs
  */
-async function toCjs(filePath) {
+async function toCjs(fromPath, toPath) {
 
-    // 文件内容
-    const content = fs.readFileSync(filePath, 'utf-8')
-
-    // 转为 cjs
-    const { code } = await transformAsync(content, {
-        plugins: [ plugin ],
-        sourceType: 'module',
-    })
-
-    // 写入 .js 文件
-    fs.writeFileSync(filePath.replace('.mjs', '.js'), code.replace('exports.default', 'module.exports'))
-}
-
-/**
- * 设置所有文件
- */
-async function setFiles(filePath, suffix, callback) {
-
-    const files = fs.readdirSync(filePath)
+    const files = fs.readdirSync(fromPath)
     for (const file of files) {
 
-        const childPath = path.join(filePath, file)
+        const fromChildPath = path.join(fromPath, file)
+        const toChildPath = path.join(toPath, file)
 
-        // 如果是文件夹
-        if (fs.statSync(childPath).isDirectory()) {
-            if (['.git', '.idea', 'build'].indexOf(file) === -1) {
-                await setFiles(childPath, suffix, callback)
-            }
+        // 如果是后缀为 .js 的文件
+        if (file.endsWith('.js')) {
 
-        // 否则是后缀为 .xxx 的文件
-        } else if (file.endsWith(suffix)) {
-            await callback(childPath)
+            // 读取文件内容
+            const content = fs.readFileSync(fromChildPath, 'utf-8')
+
+            // 转为 cjs
+            const { code } = await transformAsync(content, {
+                plugins: [ plugin ],
+                sourceType: 'module',
+            })
+
+            // 写入 cjs 文件
+            writeFile(toChildPath, code.replace('exports.default', 'module.exports'))
+
+        } else if (
+            // 否则如果是文件夹
+            dirExists(fromChildPath)
+            // 不是忽略文件夹
+            && ['.git', '.idea', 'build'].indexOf(file) === -1
+        ) {
+            await toCjs(fromChildPath, toChildPath)
         }
     }
 }
 
-async function run(dirPath) {
+// 删除 cjs 文件夹
+delFile(path.join(__dirname, '../cjs'))
 
-    // 先删除所有 .js
-    await setFiles(dirPath, '.js',  async function (childPath) {
-
-        // 删除文件
-        fs.rmSync(childPath, { recursive: true, force: true })
-    })
-
-    // 再编译所有 .cjs
-    if (process.argv.indexOf('js') > -1) {
-        await setFiles(dirPath, '.mjs',  toCjs)
-    }
-}
-
-run(path.join(__dirname, '../')).finally()
+// 生成 cjs
+toCjs(path.join(__dirname, '../'), path.join(__dirname, '../cjs'))
+    .finally()
 

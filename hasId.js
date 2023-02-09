@@ -1,23 +1,29 @@
-"use strict";
+import $n_has from 'lodash/has'
+import $n_isNumeric from './isNumeric'
+import $n_isValidObject from './isValidObject'
+import $n_isValidString from './isValidString'
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-module.exports = hasId;
-var _has = _interopRequireDefault(require("lodash/has"));
-var _isNumeric = _interopRequireDefault(require("./isNumeric"));
-var _isValidObject = _interopRequireDefault(require("./isValidObject"));
-var _isValidString = _interopRequireDefault(require("./isValidString"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 /*
  * 是否是/含有 id
  */
-function hasId(value = '', idKey = 'id', isString = false) {
-  if (!isString) {
-    if ((0, _isNumeric.default)(value)) {
-      return Number(value) > 0;
+export default function hasId(value = '', idKey = 'id', isString = false) {
+
+    if (! isString) {
+
+        if ($n_isNumeric(value)) {
+            return Number(value) > 0
+        }
+
+        return $n_isValidObject(value)
+            && $n_has(value, idKey)
+            && $n_isNumeric(value[idKey])
+            && Number(value[idKey]) > 0
     }
-    return (0, _isValidObject.default)(value) && (0, _has.default)(value, idKey) && (0, _isNumeric.default)(value[idKey]) && Number(value[idKey]) > 0;
-  }
-  return (0, _isValidString.default)(value) || (0, _isValidObject.default)(value) && (0, _has.default)(value, idKey) && (0, _isValidString.default)(value[idKey]);
+
+    return $n_isValidString(value)
+        || (
+            $n_isValidObject(value)
+            && $n_has(value, idKey)
+            && $n_isValidString(value[idKey])
+        )
 }
