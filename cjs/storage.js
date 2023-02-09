@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-module.exports = void 0;
+exports.storage = void 0;
 exports.settings = settings;
 var _isNil = _interopRequireDefault(require("lodash/isNil"));
 var _has = _interopRequireDefault(require("lodash/has"));

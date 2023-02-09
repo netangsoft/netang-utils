@@ -24,6 +24,26 @@ async function toCjs(fromPath, toPath) {
             // 读取文件内容
             const content = fs.readFileSync(fromChildPath, 'utf-8')
 
+            // 替换导出方式
+            // 将 exports.default 改为 module.exports
+            let replaceExport = 'module.exports'
+
+            // 判断是否有多个导出
+            // --------------------------------------------------
+            // 如果为导出默认
+            if (content.indexOf('export default') > -1) {
+
+                // 如果存在其他导出
+                // 例如 export const test = 1
+                const arr = content.match(/export/g)
+                if (arr && arr.length > 1) {
+
+                    // 则将 exports.default 改为 exports.当前函数名
+                    replaceExport = `exports.${file.replace('.js', '')}`
+                }
+            }
+            // --------------------------------------------------
+
             // 转为 cjs
             const { code } = await transformAsync(content, {
                 plugins: [ plugin ],
@@ -31,7 +51,7 @@ async function toCjs(fromPath, toPath) {
             })
 
             // 写入 cjs 文件
-            writeFile(toChildPath, code.replace('exports.default', 'module.exports'))
+            writeFile(toChildPath, code.replace('exports.default', replaceExport))
 
         } else if (
             // 否则如果是文件夹

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-module.exports = http;
+exports.http = http;
 exports.settings = settings;
 var _qs = require("qs");
 var _utils = require("qs/lib/utils");

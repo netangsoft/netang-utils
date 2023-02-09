@@ -14,8 +14,5 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @returns {string}
  */
 function replaceAll(str, searchValue, replaceValue) {
-  if (Number.isFinite(str)) {
-    str = String(str);
-  }
-  return (0, _isString.default)(str) ? str.replaceAll(searchValue, replaceValue) : '';
+  return (0, _isString.default)(str) ? str.replace(RegExp(searchValue, 'g'), replaceValue) : '';
 }

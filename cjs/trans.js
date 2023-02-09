@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-module.exports = trans;
+exports.trans = trans;
 exports.langSettings = void 0;
 exports.settings = settings;
 var _toLower = _interopRequireDefault(require("lodash/toLower"));
