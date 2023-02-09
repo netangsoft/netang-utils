@@ -8,8 +8,5 @@ import $n_isString from 'lodash/isString'
  * @returns {string}
  */
 export default function replaceAll(str, searchValue, replaceValue) {
-    if (Number.isFinite(str)) {
-        str = String(str)
-    }
-    return $n_isString(str) ? str.replaceAll(searchValue, replaceValue) : ''
+    return $n_isString(str) ? str.replace(RegExp(searchValue, 'g'), replaceValue) : ''
 }
