@@ -7,6 +7,6 @@ import $n_isFunction from 'lodash/isFunction'
  */
 export default function cb(data, cb) {
     if ($n_isFunction(cb)) {
-        cb.call(this, data)
+        return cb.call(this, data)
     }
 }

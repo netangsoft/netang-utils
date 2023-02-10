@@ -92,9 +92,9 @@ function deleteStorageKeys(info, key) {
  * 保存缓存
  * @param {string} key 键名
  * @param {any} value 值
- * @param {number} expires 过期时间
+ * @param {number|null} expires 过期时间
  */
-function setStorage(key, value, expires) {
+function setStorage(key, value, expires = null) {
 
     if (! $n_isValidString(key) || $n_isNil(value)) {
         return
@@ -245,7 +245,7 @@ function getStorageTtl(key = '') {
 /**
  * storage 设置
  */
-export function settings (options) {
+export function settings(options) {
     Object.assign(o, options)
 }
 
