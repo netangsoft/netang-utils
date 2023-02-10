@@ -91,9 +91,9 @@ function deleteStorageKeys(info, key) {
  * 保存缓存
  * @param {string} key 键名
  * @param {any} value 值
- * @param {number} expires 过期时间
+ * @param {number|null} expires 过期时间
  */
-function setStorage(key, value, expires) {
+function setStorage(key, value, expires = null) {
   if (!(0, _isValidString.default)(key) || (0, _isNil.default)(value)) {
     return;
   }

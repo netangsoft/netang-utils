@@ -13,6 +13,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  */
 function cb(data, cb) {
   if ((0, _isFunction.default)(cb)) {
-    cb.call(this, data);
+    return cb.call(this, data);
   }
 }
