@@ -4,8 +4,8 @@ const path = require('path')
 
 const $n_startsWith = require('lodash/startsWith')
 const $n_has = require('lodash/has')
-const $n_runAsync = require('../../runAsync')
-const $n_isValidObject = require('../../isValidObject')
+const $n_runAsync = require('../../cjs/runAsync')
+const $n_isValidObject = require('../../cjs/isValidObject')
 
 const rootPath = require('../rootPath')
 const dirExists = require('../dirExists')
