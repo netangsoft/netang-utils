@@ -1,7 +1,6 @@
 {
   "devDependencies": {
     "@babel/core": "^7.20.12",
-    "@babel/plugin-transform-modules-commonjs": "^7.20.11",
-    "@netang/node-utils": "^0.2.63"
+    "@babel/plugin-transform-modules-commonjs": "^7.20.11"
   }
 }

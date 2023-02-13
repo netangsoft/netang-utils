@@ -1,10 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 const webpack = require('webpack')
-const _get = require('lodash/get')
-const _has = require('lodash/has')
-const _isFunction = require('lodash/isFunction')
-const _merge = require('lodash/merge')
+
 const Service = require('@vue/cli-service/lib/Service')
 const { defineConfig } = require('@vue/cli-service')
 
@@ -14,6 +11,11 @@ const readdirSync = require('../../node/readdirSync')
 const getFileHashNameSync = require('../../node/getFileHashNameSync')
 const removeSync = require('../../node/removeSync')
 const replaceLoader = require.resolve('../../node/loader/webpack.replace.loader.js')
+
+const $n_get = require('lodash/get')
+const $n_has = require('lodash/has')
+const $n_isFunction = require('lodash/isFunction')
+const $n_merge = require('lodash/merge')
 
 const $n_forEach = require('../../cjs/forEach')
 const $n_forIn = require('../../cjs/forIn')
@@ -91,7 +93,7 @@ function getHtmlDefine({ lang, meta, css, js, script }) {
  */
 async function build(params) {
 
-    const o = _merge({
+    const o = $n_merge({
         // 入口
         entry: path.join(rootPath, 'src/main.js'),
         // 是否开启 ssr
@@ -131,12 +133,12 @@ async function build(params) {
     }, params)
 
     // 前端打包路径
-    if (! _get(o.web, 'outputDir')) {
+    if (! $n_get(o.web, 'outputDir')) {
         o.web.outputDir = o.ssr ? path.join(rootPath, 'dist/web') : path.join(rootPath, 'dist')
     }
 
     // 后端打包路径
-    if (! _get(o.server, 'outputDir')) {
+    if (! $n_get(o.server, 'outputDir')) {
         o.server.outputDir = path.join(rootPath, 'dist/server')
     }
 
@@ -160,13 +162,13 @@ async function build(params) {
         const newReplaceDefine = Object.assign({
             // vuy 路由基础路径
             __VUE_ROUTER_BASE__: publicPath,
-        }, replaceDefine, _isFunction(o.replaceDefine) ? o.replaceDefine(server) : {})
+        }, replaceDefine, $n_isFunction(o.replaceDefine) ? o.replaceDefine(server) : {})
 
         // 新环境变量
         const newEnv = Object.assign({
             // 路由是否 history 类型
             IS_ROUTER_HISTORY: true,
-        }, env, _isFunction(o.env) ? o.env(server) : {}, {
+        }, env, $n_isFunction(o.env) ? o.env(server) : {}, {
             // 是否开启 ssr
             IS_SSR: o.ssr,
             // 前端
@@ -176,13 +178,11 @@ async function build(params) {
         })
 
         // 配置
-        const config = _merge({
+        const config = $n_merge({
             // 依赖关系
             // https://cli.vuejs.org/zh/config/#runtimecompiler
             transpileDependencies: [
                 '@netang/utils',
-                '@netang/vue-utils',
-                '@netang/node-utils',
                 '@netang/quasar',
             ],
 
@@ -203,7 +203,7 @@ async function build(params) {
 
         // 如果开启 ssr
         if (o.ssr) {
-            _merge(config, {
+            $n_merge(config, {
                 pages: {
                     index: {
                         // 入口
@@ -260,7 +260,7 @@ async function build(params) {
         }
 
         // 用户 webpack 配置
-        const userChainWebpack = _has(config, 'chainWebpack') ? config.chainWebpack : ()=>{}
+        const userChainWebpack = $n_has(config, 'chainWebpack') ? config.chainWebpack : ()=>{}
 
         // 修改 webpack 配置参数
         config.chainWebpack = function(chain) {
@@ -475,7 +475,7 @@ async function build(params) {
         }
 
         // 如果有 ico
-        if (_has(manifestJson, 'favicon.ico')) {
+        if ($n_has(manifestJson, 'favicon.ico')) {
             json.ico = `<link href="${manifestJson['favicon.ico']}" rel="icon">`
         }
 
