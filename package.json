@@ -1,6 +1,6 @@
 {
   "name": "@netang/utils",
-  "version": "0.4.23",
+  "version": "0.4.24",
   "description": "netang-utils",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -20,5 +20,10 @@
   "bugs": {
     "url": "https://github.com/netangsoft/netang-utils/issues"
   },
-  "homepage": "https://github.com/netangsoft/netang-utils#readme"
+  "homepage": "https://github.com/netangsoft/netang-utils#readme",
+  "dependencies": {
+    "bignumber.js": "^9.1.1",
+    "lodash": "^4.17.21",
+    "qs": "^6.11.0"
+  }
 }
