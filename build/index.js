@@ -22,11 +22,13 @@ async function run() {
     const files = await readdir(path.join(__dirname, '../'), {
         // 忽略文件路径
         ignorePaths: [
+            path.join(__dirname, '../.internal/_buildImportFile.js'),
             path.join(__dirname, '../.git'),
             path.join(__dirname, '../.idea'),
             path.join(__dirname, '../build'),
             path.join(__dirname, '../cjs'),
             path.join(__dirname, '../node'),
+            path.join(__dirname, '../node_modules'),
             path.join(__dirname, '../vue'),
         ],
         // 忽略文件名
