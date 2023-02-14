@@ -36,7 +36,7 @@ export default function matchAll(content, reg, isMustMatch = false) {
 
         currentIndex = matchItem.index + matchItem[0].length
 
-        matchNum
+        matchNum++
     }
 
     if (isMustMatch && ! matchNum) {
