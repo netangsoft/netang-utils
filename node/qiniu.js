@@ -376,14 +376,14 @@ class QN {
         if (isRemoveLocal) {
 
             console.log('------删除本地文件')
-            await remove(localPath, {
-                // 不删除自己
-                self: false,
-                // 忽略文件路径
-                ignorePaths: ignoreRemovePaths,
-                // 忽略文件名
-                ignoreNames: ignoreRemoveNames,
-            })
+            // await remove(localPath, {
+            //     // 不删除自己
+            //     self: false,
+            //     // 忽略文件路径
+            //     ignorePaths: ignoreRemovePaths,
+            //     // 忽略文件名
+            //     ignoreNames: ignoreRemoveNames,
+            // })
         }
     }
 

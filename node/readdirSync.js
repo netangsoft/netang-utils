@@ -1,30 +1,6 @@
 const path = require('path')
 const fs = require('fs')
-
-/**
- * 是否能获取
- */
-function isCanPush({ ignoreNames, ignorePaths }, fileName, filePath) {
-
-    if (
-        // 如果有忽略文件名数组
-        ignoreNames.length
-        // 如果该文件在忽略文件名数组中存在
-        && ignoreNames.indexOf(fileName) > -1
-    ) {
-        // 则不可获取
-        return false
-    }
-
-    // 如果有忽略文件路径
-    if (ignorePaths.length) {
-        // 是否在忽略文件路径中
-        return ignorePaths.indexOf(filePath) === -1
-    }
-
-    // 否则可以获取
-    return true
-}
+const minimatch = require('minimatch')
 
 /**
  * 遍历文件夹
@@ -36,10 +12,10 @@ function readdirSync(filePath, params) {
         deep: true,
         // 是否包含当前路径
         self: false,
-        // 忽略文件路径
-        ignorePaths: [],
-        // 忽略文件名
-        ignoreNames: [],
+        // 包含规则
+        includes: [],
+        // 忽略规则
+        ignores: [],
         // 排序, 可选值 desc / asc
         // desc: 按照 level 字倒序排列
         // asc: 按照 level 字段正序排列
@@ -98,6 +74,34 @@ function readdirSync(filePath, params) {
         return false
     }
 
+    /**
+     * 是否匹配规则
+     */
+    function isMatch(relativePath) {
+
+        // 如果有忽略规则
+        if (o.ignores.length) {
+            for (const pattern of o.ignores) {
+                if (minimatch(relativePath, pattern, { nocase: true })) {
+                    return false
+                }
+            }
+        }
+
+        // 如果有包含规则
+        if (o.includes.length) {
+            for (const pattern of o.includes) {
+                if (minimatch(relativePath, pattern, { nocase: true, partial: true })) {
+                    return true
+                }
+            }
+            return false
+        }
+
+        // 否则可以获取
+        return true
+    }
+
     // 遍历文件夹
     function _readdir(filePath, parentPath, level) {
 
@@ -109,32 +113,34 @@ function readdirSync(filePath, params) {
             const childFilePath = path.join(filePath, file)
             // 子文件 stat
             const resStat = getStat(childFilePath)
-            if (
-                resStat !== false
-                // 如果可以获取
-                && isCanPush(o, file, childFilePath)
-            ) {
+            if (resStat !== false) {
+
                 // 子父级路径
                 const childParentPath = (parentPath ? parentPath + '/' : '') + file
-                // 子文件路径
-                const childLevel = level + 1
 
-                // 添加当前路径子文件
-                lists.push({
-                    relativePath: childParentPath,
-                    filePath: childFilePath,
-                    fileName: file,
-                    level: childLevel,
-                    ...resStat,
-                })
+                // 如果匹配规则
+               if (isMatch(childParentPath)) {
 
-                if (
-                    // 如果是子文件夹
-                    resStat.isDirectory
-                    // 深度遍历
-                    && o.deep
-                ) {
-                    _readdir(childFilePath, childParentPath, childLevel)
+                    // 子文件路径
+                    const childLevel = level + 1
+
+                    // 添加当前路径子文件
+                    lists.push({
+                        relativePath: childParentPath,
+                        filePath: childFilePath,
+                        fileName: file,
+                        level: childLevel,
+                        ...resStat,
+                    })
+
+                    if (
+                        // 如果是子文件夹
+                        resStat.isDirectory
+                        // 深度遍历
+                        && o.deep
+                    ) {
+                        _readdir(childFilePath, childParentPath, childLevel)
+                    }
                 }
             }
         }
@@ -150,8 +156,8 @@ function readdirSync(filePath, params) {
         if (
             // 如果包含当前路径
             o.self
-            // 如果可以获取
-            && isCanPush(o, fileName, filePath)
+            // 如果匹配规则
+            && isMatch(fileName)
         ) {
             // 添加当前路径文件
             lists.push({

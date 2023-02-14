@@ -20,32 +20,21 @@ async function run() {
 
     // 读取所有文件
     const files = await readdir(path.join(__dirname, '../'), {
-        // 忽略文件路径
-        ignorePaths: [
-            path.join(__dirname, '../.internal/_buildImportFile.js'),
-            path.join(__dirname, '../.git'),
-            path.join(__dirname, '../.idea'),
-            path.join(__dirname, '../build'),
-            path.join(__dirname, '../cjs'),
-            path.join(__dirname, '../node'),
-            path.join(__dirname, '../node_modules'),
-            path.join(__dirname, '../vue'),
+        // 包含规则
+        includes: [
+            '.internal/**/*.js',
+            'locale/**/*.js',
+            '*.js',
         ],
-        // 忽略文件名
-        ignoreNames: [
-            '.gitignore',
-            '.npmignore',
-            'LICENSE',
-            'package.json',
-            'README.md',
+        // 忽略规则
+        ignores: [
+            '.internal/_buildImportFile.js',
         ],
     })
 
     // 遍历文件
-    for (const { relativePath, filePath, fileName } of files) {
-
-        // 如果是后缀为 .js 的文件
-        if (fileName.endsWith('.js')) {
+    for (const { relativePath, filePath, fileName, isFile } of files) {
+        if (isFile) {
 
             // 读取文件内容
             const content = await readFile(filePath)

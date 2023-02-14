@@ -22,10 +22,10 @@ function isSrcSubdir(src, dest) {
 async function copy(src, dest, params) {
 
     const o = Object.assign({
-        // 忽略文件路径
-        ignorePaths: [],
-        // 忽略文件名
-        ignoreNames: [],
+        // 包含规则
+        includes: [],
+        // 忽略规则
+        ignores: [],
         // 是否包含符号链接
         hasSymbolicLink: false,
         // 是否取消引用符号链接
@@ -107,16 +107,16 @@ async function copy(src, dest, params) {
 
     // 获取所有文件
     const files = await readdir(src, {
-        // 是否包含当前路径
-        self: true,
-        // 忽略文件路径
-        ignorePaths: o.ignorePaths,
-        // 忽略文件名
-        ignoreNames: o.ignoreNames,
-        // 排序
-        order: 'desc',
+        // 包含规则
+        includes: o.includes,
+        // 忽略规则
+        ignores: o.ignores,
         // 是否包含符号链接
         hasSymbolicLink: o.hasSymbolicLink,
+        // 包含当前路径
+        self: true,
+        // 排序
+        order: 'desc',
     })
 
     for (const file of files) {

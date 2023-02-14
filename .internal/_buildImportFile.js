@@ -362,9 +362,18 @@ module.exports = async function (params) {
     const vueContents = []
 
     // 遍历 utils
-    let files = await readdir(path.join(__dirname, '../'), { self: false, deep: false })
+    let files = await readdir(path.join(__dirname, '../'), {
+        // 包含规则
+        includes: [
+            '*.js',
+        ],
+        // 不包含当前路径
+        self: false,
+        // 禁止深度遍历
+        deep: false,
+    })
     for (const { fileName, isFile } of files) {
-        if (isFile && fileName.endsWith('.js')) {
+        if (isFile) {
 
             // 方法名
             const methodName = fileName.replace('.js', '')
@@ -398,17 +407,21 @@ module.exports = async function (params) {
 
     // 遍历 vue 工具
     files = await readdir(path.join(__dirname, '../vue'), {
+        // 包含规则
+        includes: [
+            '*.js',
+        ],
+        // 忽略规则
+        ignores: [
+            'store.js',
+        ],
         // 不包含当前路径
         self: false,
         // 不深度遍历
         deep: false,
-        // 忽略文件名
-        ignoreNames: [
-            'store.js'
-        ],
     })
     for (const { fileName, isFile } of files) {
-        if (isFile && fileName.endsWith('.js')) {
+        if (isFile) {
 
             // 方法名
             const methodName = fileName.replace('.js', '')
