@@ -106,12 +106,12 @@ function sign(data, verifyKey, ignoreKeys = []) {
         if (keys.length) {
             keys.sort()
             for (const key of keys) {
-                contents.push(`${rsaSettings.signKey}=${data[key]}`)
+                contents.push(`${key}=${data[key]}`)
             }
         }
     }
 
-    contents.push(`${key}=${verifyKey}`)
+    contents.push(`${rsaSettings.signKey}=${verifyKey}`)
 
     return _sha1(contents.join('&'))
 }
