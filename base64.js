@@ -1,6 +1,6 @@
 const TABLE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
 
-export default {
+const base64 = {
 
     /**
      * 编码
@@ -95,3 +95,5 @@ export default {
         return output
     },
 }
+
+export default base64

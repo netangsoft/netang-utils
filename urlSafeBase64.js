@@ -1,7 +1,7 @@
 /**
  * URL 安全的 Base64编码
  */
-export default {
+const urlSafeBase64 = {
 
     /**
      * 编码
@@ -23,3 +23,5 @@ export default {
             .replace(/-/g, '+');
     },
 }
+
+export default urlSafeBase64

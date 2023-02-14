@@ -7,7 +7,7 @@ module.exports = void 0;
 /**
  * URL 安全的 Base64编码
  */
-var _default = {
+const urlSafeBase64 = {
   /**
    * 编码
    * @param value
@@ -25,4 +25,5 @@ var _default = {
     return value.replace(/_/g, '/').replace(/-/g, '+');
   }
 };
+var _default = urlSafeBase64;
 exports.default = _default;

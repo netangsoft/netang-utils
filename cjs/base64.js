@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 module.exports = void 0;
 const TABLE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-var _default = {
+const base64 = {
   /**
    * 编码
    * @param input
@@ -72,4 +72,5 @@ var _default = {
     return output;
   }
 };
+var _default = base64;
 exports.default = _default;
