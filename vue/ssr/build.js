@@ -183,6 +183,7 @@ async function build(params) {
             // https://cli.vuejs.org/zh/config/#runtimecompiler
             transpileDependencies: [
                 '@netang/utils',
+                '@netang/utils/vue',
                 '@netang/quasar',
             ],
 
