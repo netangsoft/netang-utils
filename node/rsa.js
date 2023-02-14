@@ -1,8 +1,14 @@
 const crypto = require('crypto')
+const $n_isValidArray = require('../cjs/isValidArray')
+const $n_isValidObject = require('../cjs/isValidObject')
+const _sha1 = require('./sha1')
 
 // 设置
 const rsaSettings = {
+    // 公钥
     publicKey: '',
+    // 签名键值
+    signKey: 'verify_key',
 }
 
 /**
@@ -75,6 +81,81 @@ function publicDecrypt(value) {
 //     return null
 // }
 
+
+/**
+ * 生成签名
+ */
+function sign(data, verifyKey, ignoreKeys = []) {
+
+    const contents = []
+
+    if ($n_isValidObject(data)) {
+
+        if (! $n_isValidArray(ignoreKeys)) {
+            ignoreKeys = []
+        }
+
+        const keys = []
+
+        for (const key in data) {
+            if (ignoreKeys.indexOf(key) === -1) {
+                keys.push(key)
+            }
+        }
+
+        if (keys.length) {
+            keys.sort()
+            for (const key of keys) {
+                contents.push(`${rsaSettings.signKey}=${data[key]}`)
+            }
+        }
+    }
+
+    contents.push(`${key}=${verifyKey}`)
+
+    return _sha1(contents.join('&'))
+}
+
+/**
+ * 验证签名
+ */
+function verify(data, verifyKey, ignoreKeys = []) {
+
+    if ($n_isValidObject(data)) {
+
+        if (! $n_isValidArray(ignoreKeys)) {
+            ignoreKeys = []
+        }
+
+        let sign
+
+        const keys = []
+
+        for (const key in data) {
+            if (key === 'sign') {
+                sign = data[key]
+            } else if (ignoreKeys.indexOf(key) === -1) {
+                keys.push(key)
+            }
+        }
+
+        if (sign) {
+            const contents = []
+
+            if (keys.length) {
+                keys.sort()
+                for (const key of keys) {
+                    contents.push(`${key}=${data[key]}`)
+                }
+            }
+
+            contents.push(`${rsaSettings.signKey}=${verifyKey}`)
+            return _sha1(contents.join('&')) === sign
+        }
+    }
+    return false
+}
+
 /**
  * 设置
  */
@@ -93,4 +174,9 @@ module.exports = {
     // privateEncrypt,
     // // 私钥解密(在客户端不需要)
     // privateDecrypt,
+
+    // 生成签名
+    sign,
+    // 验证签名
+    verify,
 }
