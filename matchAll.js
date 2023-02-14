@@ -1,7 +1,7 @@
 /*
  * 正则匹配
  */
-export default function matchAll(content, reg) {
+export default function matchAll(content, reg, isMustMatch = false) {
 
     content = String(content)
     const contents = []
@@ -16,6 +16,8 @@ export default function matchAll(content, reg) {
             })
         }
     }
+
+    let matchNum = 0
 
     const matchArr = content.matchAll(reg)
     for (const matchItem of matchArr) {
@@ -33,6 +35,12 @@ export default function matchAll(content, reg) {
         })
 
         currentIndex = matchItem.index + matchItem[0].length
+
+        matchNum
+    }
+
+    if (isMustMatch && ! matchNum) {
+        return []
     }
 
     // 获取最后部分的文字
