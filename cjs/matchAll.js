@@ -7,15 +7,17 @@ module.exports = matchAll;
 /*
  * 正则匹配
  */
-function matchAll(content, reg) {
+function matchAll(content, reg, isMustMatch = false) {
   content = String(content);
   const contents = [];
   let currentIndex = 0;
-  const setNoMatch = text => {
-    if (text !== '') {
+  const setNoMatch = function (value, start, end) {
+    if (value !== '') {
       contents.push({
         match: false,
-        text
+        value,
+        start,
+        end
       });
     }
   };
@@ -23,21 +25,26 @@ function matchAll(content, reg) {
   for (const matchItem of matchArr) {
     // 文字
     if (currentIndex !== matchItem.index) {
-      setNoMatch(content.substring(currentIndex, matchItem.index));
+      setNoMatch(content.substring(currentIndex, matchItem.index), currentIndex, matchItem.index);
     }
+    currentIndex = matchItem.index + matchItem[0].length;
 
     // 匹配内容
     contents.push({
       match: true,
-      text: matchItem[0],
-      item: matchItem
+      value: matchItem[0],
+      item: matchItem,
+      start: matchItem.index,
+      end: currentIndex
     });
-    currentIndex = matchItem.index + matchItem[0].length;
+  }
+  if (isMustMatch && !currentIndex) {
+    return [];
   }
 
   // 获取最后部分的文字
   if (currentIndex < content.length) {
-    setNoMatch(content.substring(currentIndex));
+    setNoMatch(content.substring(currentIndex), currentIndex, content.length);
   }
   return contents;
 }

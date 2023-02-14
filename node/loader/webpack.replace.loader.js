@@ -1,4 +1,4 @@
-const xregexp = require('xregexp')
+const $n_matchRecursive = require('../../cjs/matchRecursive')
 
 /**
  * 测试表达式
@@ -33,10 +33,7 @@ function replaceContent(content, env, start, end) {
 
     const startRegex = new RegExp(start, 'mi')
 
-    const matches = xregexp.matchRecursive(content, start, end, 'gmi', {
-        valueNames: ['between', 'left', 'match', 'right']
-    })
-
+    const matches = $n_matchRecursive(content, start, end)
     if (! matches.length) {
         return content
     }
