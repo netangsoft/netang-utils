@@ -7,6 +7,8 @@ const _sha1 = require('./sha1')
 const rsaSettings = {
     // 公钥
     publicKey: '',
+    // 密钥
+    privateKey: '',
     // 签名键值
     signKey: 'verify_key',
 }
@@ -44,43 +46,36 @@ function publicDecrypt(value) {
 }
 
 /**
- * 私钥加密(在客户端不需要)
+ * 私钥加密(服务端)
  */
-// function privateEncrypt(value) {
-//     try {
-//         return crypto.privateEncrypt({
-//             // 密钥
-//             key: privateKey,
-//             // 和 php 保持一致
-//             padding: crypto.constants.RSA_PKCS1_PADDING,
-//         }, Buffer.from(utils.json.stringify(value))).toString('base64')
-//
-//     } catch (e) {
-//         // 记录异常日志
-//         throwLogger(e, 'private_encrypt', 'Parameter Error')
-//     }
-//     return null
-// }
+function privateEncrypt(value) {
+    try {
+        return crypto.privateEncrypt({
+            // 密钥
+            key: rsaSettings.privateKey,
+            // 和 php 保持一致
+            padding: crypto.constants.RSA_PKCS1_PADDING,
+        }, Buffer.from(JSON.stringify(value))).toString('base64')
+
+    } catch (e) {}
+    return null
+}
 
 /**
- * 私钥解密(在客户端不需要)
+ * 私钥解密(服务端)
  */
-// function privateDecrypt(value) {
-//     try {
-//         return utils.json.parse(crypto.privateDecrypt({
-//             // 密钥
-//             key: privateKey,
-//             // 和 php 保持一致
-//             padding: crypto.constants.RSA_PKCS1_PADDING,
-//         }, Buffer.from(value.toString('base64'), 'base64')))
-//
-//     } catch (e) {
-//         // 记录异常日志
-//         throwLogger(e, 'private_decrypt', 'Parameter Error')
-//     }
-//     return null
-// }
+function privateDecrypt(value) {
+    try {
+        return utils.json.parse(crypto.privateDecrypt({
+            // 密钥
+            key: rsaSettings.privateKey,
+            // 和 php 保持一致
+            padding: crypto.constants.RSA_PKCS1_PADDING,
+        }, Buffer.from(value.toString('base64'), 'base64')))
 
+    } catch (e) {}
+    return null
+}
 
 /**
  * 生成签名
@@ -170,10 +165,10 @@ module.exports = {
     publicEncrypt,
     // 公钥解密
     publicDecrypt,
-    // // 私钥加密(在客户端不需要)
-    // privateEncrypt,
-    // // 私钥解密(在客户端不需要)
-    // privateDecrypt,
+    // 私钥加密(服务端)
+    privateEncrypt,
+    // 私钥解密(服务端)
+    privateDecrypt,
 
     // 生成签名
     sign,
