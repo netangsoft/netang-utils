@@ -259,13 +259,12 @@ class QN {
             manifestPrefix,
             manifestLimit,
             isRemoveLocal,
-            ignoreRemovePaths,
-            ignoreRemoveNames,
+            ignoreRemove,
 
         } = Object.assign({
             // 本地上传路径
             localPath: '',
-            // 忽略上传文件名
+            // 忽略上传规则
             ignoreUpload: [
                 'index.html',
             ],
@@ -277,22 +276,20 @@ class QN {
             manifestLimit: 5,
             // 上传完成后是否删除本地文件
             isRemoveLocal: true,
-            // 忽略删除文件路径
-            ignoreRemovePaths: [],
-            // 忽略删除文件名
-            ignoreRemoveNames: [
+            // 忽略删除规则
+            ignoreRemove: [
                 'index.html',
             ],
         }, params)
 
         // 上传本地资源文件
         const uploadCdnFileLists = []
-        const localLists = await readdir(localPath)
+        const localLists = await readdir(localPath, {
+            // 忽略规则
+            ignores: ignoreUpload,
+        })
         for (const { filePath, fileName, isFile } of localLists) {
-            if (
-                isFile
-                && ignoreUpload.indexOf(fileName) === -1
-            ) {
+            if (isFile) {
                 const fileUrl = $n_slash(this.config.prefix, 'all', false) + $n_slash(filePath.replace(localPath, '').replace(/\\/g, '/'), 'start', true)
                 uploadCdnFileLists.push(fileUrl)
 
@@ -376,14 +373,12 @@ class QN {
         if (isRemoveLocal) {
 
             console.log('------删除本地文件')
-            // await remove(localPath, {
-            //     // 不删除自己
-            //     self: false,
-            //     // 忽略文件路径
-            //     ignorePaths: ignoreRemovePaths,
-            //     // 忽略文件名
-            //     ignoreNames: ignoreRemoveNames,
-            // })
+            await remove(localPath, {
+                // 不包含当前路径
+                self: false,
+                // 忽略规则
+                ignores: ignoreRemove,
+            })
         }
     }
 
