@@ -113,7 +113,7 @@ module.exports = function (source) {
         replacer: null,
         // 加载器
         includeLoader: null,
-    }, this.options || this.query)
+    }, this?.getOptions() || this.options || this.query)
 
     // 加载器
     if (includeLoader) {
