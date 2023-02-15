@@ -265,21 +265,17 @@ class QN {
             // 本地上传路径
             localPath: '',
             // 忽略上传规则
-            ignoreUpload: [
-                'index.html',
-            ],
+            ignoreUpload: [],
             // 是否开启资源 json
-            manifest: true,
+            manifest: false,
             // 资源 json 前缀
             manifestPrefix: 'media.manifest',
             // 资源限制数量(只保留 media.manifest.xxx.json 的数量)
             manifestLimit: 5,
             // 上传完成后是否删除本地文件
-            isRemoveLocal: true,
+            isRemoveLocal: false,
             // 忽略删除规则
-            ignoreRemove: [
-                'index.html',
-            ],
+            ignoreRemove: [],
         }, params)
 
         // 上传本地资源文件
