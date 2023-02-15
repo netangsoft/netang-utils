@@ -106,10 +106,10 @@ async function build(params) {
         replaceDefine: null,
         // 加载器
         includeLoader: null,
-        // html 模板参数
+        // html 模板参数(前端 public/index.html 中的模板参数)
         htmlTemplateOptions: {},
-        // ssr html 模板
-        ssrHtml: {
+        // html 模板变量(后端 ssr 中的 html 模板变量)
+        htmlTemplateDefine: {
             lang: 'en',
             meta: [],
             css: [],
@@ -145,7 +145,7 @@ async function build(params) {
     }
 
     // 获取模板替换变量
-    const replaceDefine = Object.assign(getHtmlDefine(o.ssrHtml), {
+    const replaceDefine = Object.assign(getHtmlDefine(o.htmlTemplateDefine), {
         // 前端端口
         __WEB_PORT__: o.web.devServer.port,
         // 后端端口
