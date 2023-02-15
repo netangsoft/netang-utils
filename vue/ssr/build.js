@@ -106,6 +106,16 @@ async function build(params) {
         replaceDefine: null,
         // 加载器
         includeLoader: null,
+        // html 模板参数
+        htmlTemplateOptions: {},
+        // ssr html 模板
+        ssrHtml: {
+            lang: 'en',
+            meta: [],
+            css: [],
+            js: [],
+            script: '',
+        },
         // 公共配置
         common: {},
         // 前端配置
@@ -122,14 +132,6 @@ async function build(params) {
                 port: '58808',
             },
         },
-        // html 模板
-        html: {
-            lang: 'en',
-            meta: [],
-            css: [],
-            js: [],
-            script: '',
-        },
     }, params)
 
     // 前端打包路径
@@ -143,7 +145,7 @@ async function build(params) {
     }
 
     // 获取模板替换变量
-    const replaceDefine = Object.assign(getHtmlDefine(o.html), {
+    const replaceDefine = Object.assign(getHtmlDefine(o.ssrHtml), {
         // 前端端口
         __WEB_PORT__: o.web.devServer.port,
         // 后端端口
@@ -337,8 +339,17 @@ async function build(params) {
                 // 添加 html 复制文件映射参数
                 chain.plugin('html')
                     .tap((args) => {
-                        // 复制文件映射
-                        args[0].files = htmlFiles
+
+                        // 合并 html 模板参数
+                        $n_merge(
+                            args[0],
+                            {
+                                // 复制文件映射
+                                files: htmlFiles,
+                            },
+                            o.htmlTemplateOptions,
+                        )
+
                         return args
                     })
 
