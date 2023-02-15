@@ -108,7 +108,7 @@ function resolve(options, isFormat = true) {
         options = getOptions(options)
     }
 
-    if (! isValidObject(options)) {
+    if (! $n_isValidObject(options)) {
         if (_isString(options)) {
             throw new Error('该路由不存在')
         }

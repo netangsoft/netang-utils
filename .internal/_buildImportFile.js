@@ -367,6 +367,10 @@ module.exports = async function (params) {
         includes: [
             '*.js',
         ],
+        // 忽略规则
+        ignores: [
+            'settings.js',
+        ],
         // 不包含当前路径
         self: false,
         // 禁止深度遍历
