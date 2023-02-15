@@ -1,13 +1,7 @@
-"use strict";
+const $n_isNumber = require('lodash/isNumber')
+const $n_round = require('lodash/round')
+const $n_numberDeep = require('./numberDeep')
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-module.exports = getFileSize;
-var _isNumber = _interopRequireDefault(require("lodash/isNumber"));
-var _round = _interopRequireDefault(require("lodash/round"));
-var _numberDeep = _interopRequireDefault(require("./numberDeep"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 /**
  * 获取文件大小
  * @param value
@@ -15,14 +9,20 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @returns {string}
  */
 function getFileSize(value, defaultValue = '') {
-  value = (0, _numberDeep.default)(value);
-  if (!(0, _isNumber.default)(value) || value === 0) {
-    return defaultValue;
-  }
-  let index = 0;
-  for (let i = 0; value >= 1024 && i < 4; i++) {
-    value /= 1024;
-    index++;
-  }
-  return (0, _round.default)(value, 2) + ['B', 'K', 'M', 'G'][index];
+
+    value = $n_numberDeep(value)
+    if (! $n_isNumber(value) || value === 0) {
+        return defaultValue
+    }
+
+    let index = 0
+
+    for (let i = 0; value >= 1024 && i < 4; i++){
+        value /= 1024
+        index++
+    }
+
+    return $n_round(value, 2) + ['B', 'K', 'M', 'G'][index]
 }
+
+module.exports = getFileSize

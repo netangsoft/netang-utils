@@ -1,11 +1,5 @@
-"use strict";
+const $n_isValidArray = require('./isValidArray')
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-module.exports = join;
-var _isValidArray = _interopRequireDefault(require("./isValidArray"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 /*
  * 拆分字符串
  * @param {string} str 要拆分的字符串
@@ -14,5 +8,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @returns {array}
  */
 function join(arr = [], separator = '') {
-  return (0, _isValidArray.default)(arr) ? arr.join(separator) : '';
+
+    return $n_isValidArray(arr) ? arr.join(separator) : ''
 }
+
+module.exports = join

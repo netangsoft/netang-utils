@@ -24,7 +24,7 @@ import $n_size from '../size'
 import $n_numberDeep from '../numberDeep'
 import $n_replaceAll from '../replaceAll'
 
-import trans, { langSettings } from '../trans'
+import { langOptions } from '../settings'
 
 /**
  * 表单验证
@@ -678,10 +678,10 @@ function transAttributes(key) {
     const transKey = $n_toLower(key)
 
     // 先从 validation.attributes 中找
-    const str = $n_get(langSettings.package, `validation.attributes.${transKey}`, '')
+    const str = $n_get(langOptions.package, `validation.attributes.${transKey}`, '')
 
     // 如果没有再从常用字段中找
-    return str ? str : $n_get(langSettings.package, 'g.' + transKey, key)
+    return str ? str : $n_get(langOptions.package, 'g.' + transKey, key)
 }
 
 /**
@@ -845,6 +845,28 @@ export function rule(method, value, params) {
 //         attribute: transAttributes(attribute)
 //     }, replace))
 // }
+
+/**
+ * 翻译
+ */
+export function trans(key, replace = null) {
+
+    let str = $n_get(langOptions.package, $n_toLower(key), '')
+    if (! str) {
+        return key.substring(key.lastIndexOf('.') + 1)
+    }
+
+    if ($n_isValidObject(replace)) {
+        for (const key in replace) {
+            const value = replace[key]
+            if ($n_isValidString(value)) {
+                str = str.replace(':' + key, value)
+            }
+        }
+    }
+
+    return str
+}
 
 /**
  * 验证器

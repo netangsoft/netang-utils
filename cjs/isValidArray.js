@@ -1,9 +1,3 @@
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-module.exports = isValidArray;
 /**
  * isValidArray
  * 检查是否为非空数组
@@ -11,5 +5,7 @@ module.exports = isValidArray;
  * @returns {boolean}
  */
 function isValidArray(value) {
-  return Array.isArray(value) && value.length > 0;
+    return Array.isArray(value) && value.length > 0
 }
+
+module.exports = isValidArray

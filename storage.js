@@ -6,16 +6,7 @@ import $n_numberDeep from './numberDeep'
 import $n_forIn from './forIn'
 import $n_json from './json'
 
-// 默认配置
-const o = {
-    // 缓存前缀
-    prefix: 'netang:',
-    // 过期时间(7天)
-    expires: 604800,
-    set() {},
-    get() {},
-    delete() {},
-}
+import { storageOptions as o } from './settings'
 
 /**
  * 获取 storage 前缀
@@ -240,13 +231,6 @@ function getStorageTtl(key = '') {
     }
 
     return 0
-}
-
-/**
- * storage 设置
- */
-export function settings(options) {
-    Object.assign(o, options)
 }
 
 /**

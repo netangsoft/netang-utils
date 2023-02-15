@@ -1,7 +1,3 @@
-"use strict";
+function noop {
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-module.exports = _default;
-function _default() {}
+module.exports = noop

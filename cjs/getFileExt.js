@@ -1,20 +1,16 @@
-"use strict";
+const $n_isValidString = require('./isValidString')
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-module.exports = getFileExt;
-var _isValidString = _interopRequireDefault(require("./isValidString"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 /**
  * 获取后缀
  */
 function getFileExt(fileName, separator = '.') {
-  if ((0, _isValidString.default)(fileName)) {
-    const index = fileName.lastIndexOf(separator);
-    if (index > -1) {
-      return fileName.substring(index + 1);
+    if ($n_isValidString(fileName)) {
+        const index = fileName.lastIndexOf(separator)
+        if (index > -1) {
+            return fileName.substring(index + 1)
+        }
     }
-  }
-  return '';
+    return ''
 }
+
+module.exports = getFileExt

@@ -1,11 +1,5 @@
-"use strict";
+const $n_sort = require('./.internal/_sort')
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-module.exports = sortAsc;
-var _sort = _interopRequireDefault(require("./.internal/_sort"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 /**
  * 从小到大正序排序【废弃】
  * @param {array} data 含有数字的数组
@@ -13,5 +7,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @returns {array}
  */
 function sortAsc(data, field = '') {
-  return (0, _sort.default)(data, field, 1);
+    return $n_sort(data, field, 1)
 }
+
+module.exports = sortAsc

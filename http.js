@@ -22,6 +22,8 @@ import $n_runAsync from './runAsync'
 import $n_json from './json'
 import $n_storage from './storage'
 
+import { httpOptions } from './settings'
+
 // http 初始设置
 const httpSettings = {
 
@@ -106,9 +108,6 @@ const httpSettings = {
     // 处理错误
     onError: null,
 }
-
-// 默认配置
-const httpOptions = {}
 
 // loading 句柄对象
 const loadingHandles = {}
@@ -496,13 +495,6 @@ function httpSingle(params) {
                 }
             })
     })
-}
-
-/**
- * http 设置
- */
-export function settings (options) {
-    Object.assign(httpOptions, options)
 }
 
 /**

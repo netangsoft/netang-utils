@@ -1,13 +1,7 @@
-"use strict";
+const $n_isNumber = require('lodash/isNumber')
+const $n_numberDeep = require('./numberDeep')
+const $n_isValidString = require('./isValidString')
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-module.exports = split;
-var _isNumber = _interopRequireDefault(require("lodash/isNumber"));
-var _numberDeep = _interopRequireDefault(require("./numberDeep"));
-var _isValidString = _interopRequireDefault(require("./isValidString"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 /*
  * 拆分字符串
  * @param {string} str 要拆分的字符串
@@ -17,12 +11,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @returns {array}
  */
 function split(str = '', separator, limit, toNumberDeep = true) {
-  if ((0, _isNumber.default)(str)) {
-    str = String(str);
-  }
-  if ((0, _isValidString.default)(str)) {
-    const arr = str.split(separator, limit);
-    return toNumberDeep ? (0, _numberDeep.default)(arr) : arr;
-  }
-  return [];
+
+    if ($n_isNumber(str)) {
+        str = String(str)
+    }
+    
+    if ($n_isValidString(str)) {
+        const arr = str.split(separator, limit)
+        return toNumberDeep ? $n_numberDeep(arr) : arr
+    }
+
+    return []
 }
+
+module.exports = split

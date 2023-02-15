@@ -1,11 +1,5 @@
-"use strict";
+const $n_trim = require('lodash/trim')
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-module.exports = substring;
-var _trim = _interopRequireDefault(require("lodash/trim"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 /**
  * 截取字符串【即将会更名，请勿使用】
  * @param {string} value 字符串
@@ -15,41 +9,51 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @param {boolean} isReverse 截取顺序(空:顺序截取, true:逆序截取)
  * @returns {string|number}
  */
-function substring(value, start = 0, length = 0, other = '', isReverse = false) {
-  value = (0, _trim.default)(String(value));
-  const count = value.length;
-  if (!count) {
-    return 0;
-  }
-  let num = 0;
-  let res;
-  for (let i = 0; i < count; i++) {
-    if (encodeURI(value.charAt(isReverse === true ? count - 1 - i : i)).length > 2) {
-      num += 2;
-    } else {
-      num += 1;
+function substring(value, start= 0, length = 0, other = '', isReverse = false) {
+
+    value = $n_trim(String(value))
+    const count = value.length
+    if (! count) {
+        return 0
     }
-    if (length > 0) {
-      if (num >= length) {
-        let start = 0;
-        let end = num === length ? i + 1 : i;
-        let o1 = other;
-        let o2 = o1;
-        if (isReverse === true) {
-          start = count - end;
-          end = count;
-          o2 = '';
+
+    let num = 0
+    let res
+
+    for (let i = 0; i < count; i++) {
+
+        if (encodeURI(value.charAt(isReverse === true ? count - 1 - i : i)).length > 2) {
+            num += 2
         } else {
-          o1 = '';
+            num += 1
         }
-        res = o1 + value.substr(start, end) + o2;
-        break;
-      } else {
-        res = value;
-      }
-    } else {
-      res = num;
+
+        if (length > 0) {
+            if (num >= length) {
+                let start = 0
+                let end = num === length ? i + 1 : i
+                let o1 = other
+                let o2 = o1
+
+                if (isReverse === true) {
+                    start = count - end
+                    end = count
+                    o2 = ''
+                } else {
+                    o1 = ''
+                }
+                res = o1 + value.substr(start, end) + o2
+                break
+
+            } else {
+                res = value
+            }
+        } else {
+            res = num
+        }
     }
-  }
-  return res;
+
+    return res
 }
+
+module.exports = substring
