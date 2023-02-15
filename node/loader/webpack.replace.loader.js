@@ -100,9 +100,20 @@ module.exports = function (source) {
         env,
         // 替换内容回调
         replace,
+        // 替换器
+        replacer,
         // 加载器
         includeLoader,
-    } = this.getOptions()
+    } = Object.assign({
+        // 环境变量
+        env: {},
+        // 替换内容回调
+        replace: {},
+        // 替换器
+        replacer: null,
+        // 加载器
+        includeLoader: null,
+    }, this.options || this.query)
 
     // 加载器
     if (includeLoader) {
@@ -112,6 +123,11 @@ module.exports = function (source) {
         if (isReg1 || reg2.test(source)) {
             source = includeContent.call(this, source, isReg1 ? reg1 : reg2, require(includeLoader))
         }
+    }
+
+    // 替换器
+    if (replacer) {
+        source = require(replacer).call(this, source)
     }
 
     // 替换内容
