@@ -1,4 +1,6 @@
-const $n_matchRecursive = require('../../cjs/matchRecursive')
+const xregexp = require('xregexp')
+const $n_isValidObject = require('../../cjs/isValidObject')
+const $n_forIn = require('../../cjs/forIn')
 
 /**
  * 测试表达式
@@ -14,29 +16,19 @@ function testPasses(env, test) {
     } catch(e) {}
 }
 
-function isValidObject(value) {
-    const isObject = value != null && typeof value === 'object' && ! Array.isArray(value)
-    if (isObject) {
-        for (const key in value) {
-            if (Object.prototype.hasOwnProperty.call(value, key)) {
-                return true
-            }
-        }
-    }
-    return false
-}
-
 /**
  * 替换内容
  */
-function replaceContent(content, env, start, end) {
+function replaceContent(content, env, leftReg, rightReg) {
 
-    const startRegex = new RegExp(start, 'mi')
-
-    const matches = $n_matchRecursive(content, start, end)
+    const matches = xregexp.matchRecursive(content, leftReg, rightReg, 'gmi', {
+        valueNames: ['between', 'left', 'match', 'right']
+    })
     if (! matches.length) {
         return content
     }
+
+    const leftRegex = new RegExp(leftReg, 'mi')
 
     const matchGroup = {
         left: null,
@@ -49,7 +41,7 @@ function replaceContent(content, env, start, end) {
                 builder += match.value
                 break
             case 'left':
-                matchGroup.left = startRegex.exec(match.value)
+                matchGroup.left = leftRegex.exec(match.value)
                 break
             case 'match':
                 matchGroup.match = match.value
@@ -70,7 +62,7 @@ function replaceContent(content, env, start, end) {
                         throw new Error('Unknown if variant ' + variant + '.')
                 }
                 if (testPasses(env, test) === status) {
-                    builder += matchGroup.left.input + replaceContent(matchGroup.match, env, start, end) + match.value
+                    builder += matchGroup.left.input + replaceContent(matchGroup.match, env, leftReg, rightReg) + match.value
                 }
                 break
         }
@@ -123,17 +115,15 @@ module.exports = function (source) {
     }
 
     // 替换内容
-    if (isValidObject(replace)) {
-        for (const key in replace) {
-            const reg = new RegExp(key,'gmi')
-            if (reg.test(source)) {
-                source = source.replace(reg, replace[key])
-            }
+    $n_forIn(replace, function (item, key) {
+        const reg = new RegExp(key,'gmi')
+        if (reg.test(source)) {
+            source = source.replace(reg, item)
         }
-    }
+    })
 
     // 条件编译
-    if (isValidObject(env)) {
+    if ($n_isValidObject(env)) {
         source = replaceContent(source, env, '[ \t]*(?://|/\\*)[ \t]*#(ifndef|ifdef|if)[ \t]+([^\n*]*)(?:\\*(?:\\*|/))?(?:[ \t]*\n+)?', '[ \t]*(?://|/\\*)[ \t]*#endif[ \t]*(?:\\*(?:\\*|/))?(?:[ \t]*\n)?')
         source = replaceContent(source, env, '[ \t]*<!--[ \t]*#(ifndef|ifdef|if)[ \t]+(.*?)[ \t]*(?:-->|!>)(?:[ \t]*\n+)?', '[ \t]*<!(?:--)?[ \t]*#endif[ \t]*(?:-->|!>)(?:[ \t]*\n)?')
     }
