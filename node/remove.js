@@ -8,20 +8,24 @@ const fsRmdir = require('./promisify/fsRmdir')
 async function remove(filePath, params) {
 
     // 按照 level 倒序获取所有文件
-    const files = await readdir(filePath, Object.assign({
-        // 包含规则
-        includes: [],
-        // 忽略规则
-        ignores: [],
-        // 是否包含当前路径
-        self: true,
-        // 包含系统文件
-        // 获取所有文件包含(块设备 / 字符设备 / 符号链接 / FIFO / UNIX 套接字)
-        hasSystemFiles: true,
-    }, params, {
-        // 排序
-        order: 'desc',
-    }))
+    const files = await readdir(filePath, Object.assign(
+        {
+            // 包含规则
+            includes: [],
+            // 忽略规则
+            ignores: [],
+            // 是否包含当前路径
+            self: true,
+            // 包含系统文件
+            // 获取所有文件包含(块设备 / 字符设备 / 符号链接 / FIFO / UNIX 套接字)
+            hasSystemFiles: true,
+        },
+        params,
+        {
+            // 排序
+            order: 'desc',
+        }
+    ))
 
     for (const { isDirectory, filePath } of files) {
 
