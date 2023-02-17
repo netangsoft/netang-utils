@@ -1,3 +1,4 @@
+import $n_isNumber from 'lodash/isNumber'
 import $n_isString from 'lodash/isString'
 
 /*
@@ -8,5 +9,13 @@ import $n_isString from 'lodash/isString'
  * @returns {string}
  */
 export default function replaceAll(str, searchValue, replaceValue) {
+
+    // 如果是数字
+    if ($n_isNumber(str)) {
+
+        // 转为字符串
+        str = String(str)
+    }
+
     return $n_isString(str) ? str.replace(RegExp(searchValue, 'g'), replaceValue) : ''
 }
