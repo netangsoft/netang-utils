@@ -21,9 +21,11 @@ function readdirSync(filePath, params) {
         // asc: 按照 level 字段正序排列
         order: '',
         // 是否包含符号链接
+        // 如果开启, 则会增加 isSymbolicLink 参数, 如果为 true, 则 isFile 一定是 false
+        // 如果关闭, 就算该文件是符号链接, isFile 也会是 true
         hasSymbolicLink: false,
         // 是否包含系统文件
-        // 如果开启, 则 hasSymbolicLink 参数无效
+        // 如果开启 hasSymbolicLink 强制为 true
         // 获取所有文件不包含(块设备 / 字符设备 / 符号链接 / FIFO / UNIX 套接字)
         hasSystemFiles: false,
     }, params)
@@ -34,7 +36,14 @@ function readdirSync(filePath, params) {
     // 获取 stat
     function getStat(filePath) {
         try {
-            const stat = fs.lstatSync(filePath)
+            // 是否包含符号链接
+            const hasSymbolicLink = o.hasSymbolicLink || o.hasSystemFiles
+
+            // 获取状态实例
+            const _fsStat = hasSymbolicLink ? fs.lstatSync : fs.statSync
+
+            // 获取文件状态
+            const stat = _fsStat(filePath)
 
             // 返回结果
             const res = {
@@ -43,28 +52,35 @@ function readdirSync(filePath, params) {
                 stat,
             }
 
-            // 是否为符号链接
-            const isSymbolicLink = stat.isSymbolicLink()
-            if (isSymbolicLink) {
-                res.isFile = false
+            // 如果包含符号链接
+            if (hasSymbolicLink) {
+
+                // 获取是否为符号链接
+                res.isSymbolicLink = stat.isSymbolicLink()
+
+                // 如果为符号链接
+                if (res.isSymbolicLink) {
+                    // 则不是文件
+                    res.isFile = false
+                }
             }
 
             // 如果包含系统文件
             if (o.hasSystemFiles) {
+
+                // 则返回所有文件
                 return res
             }
 
             // 如果包含符号链接
             if (o.hasSymbolicLink) {
 
-                // 是否为符号链接
-                res.isSymbolicLink = isSymbolicLink
-
-                if (res.isDirectory || res.isFile || isSymbolicLink) {
+                // 则仅返回: 文件夹 / 文件 / 符号链接
+                if (res.isDirectory || res.isFile || res.isSymbolicLink) {
                     return res
                 }
 
-            // 否则仅包含文件夹 或 文件
+            // 否则仅返回: 文件夹 / 文件
             } else if (res.isDirectory || res.isFile) {
                 return res
             }
@@ -119,7 +135,7 @@ function readdirSync(filePath, params) {
                 const childParentPath = (parentPath ? parentPath + '/' : '') + file
 
                 // 如果匹配规则
-               if (isMatch(childParentPath)) {
+                if (isMatch(childParentPath)) {
 
                     // 子文件路径
                     const childLevel = level + 1

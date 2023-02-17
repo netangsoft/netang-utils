@@ -27,7 +27,7 @@ function copySync(src, dest, params) {
         hasSymbolicLink: false,
         // 是否取消引用符号链接
         // 如果开启, 则获取该符号链接的真正引用地址
-        // 如果真正的引用地址并没有引用, 则该复制的符号链接会不存在
+        // 如果真正的引用地址并没有引用, 则该复制的符号链接会不存在, 则不会被复制
         dereference: false,
     }, params)
 

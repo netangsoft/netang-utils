@@ -5,8 +5,7 @@ const fsStat = require('./promisify/fsStat')
  */
 async function fileExists(filePath) {
     try {
-        const stat = await fsStat(filePath)
-        return ! stat.isDirectory()
+        return ! (await fsStat(filePath)).isDirectory()
     } catch(e) {}
     return false
 }

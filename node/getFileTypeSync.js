@@ -5,11 +5,8 @@ const fs = require('fs')
  */
 function getFileTypeSync(filePath) {
     try {
-        const stat = fs.statSync(filePath)
-        return stat.isDirectory() ? 'dir' : 'file'
-
+        return fs.statSync(filePath).isDirectory() ? 'dir' : 'file'
     } catch(e) {}
-
     return ''
 }
 
