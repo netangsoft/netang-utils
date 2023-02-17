@@ -5,8 +5,8 @@ const fs = require('fs')
  */
 function existsSync(filePath) {
     try {
-        const stat = fs.statSync(filePath)
-        return stat.isDirectory() || stat.isFile()
+        fs.statSync(filePath)
+        return true
     } catch(e) {}
     return false
 }

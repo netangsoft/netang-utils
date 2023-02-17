@@ -6,14 +6,7 @@ const fs = require('fs')
 function getFileTypeSync(filePath) {
     try {
         const stat = fs.statSync(filePath)
-
-        if (stat.isDirectory()) {
-            return 'dir'
-        }
-
-        if (stat.isFile()) {
-            return 'file'
-        }
+        return stat.isDirectory() ? 'dir' : 'file'
 
     } catch(e) {}
 

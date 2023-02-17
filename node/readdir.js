@@ -27,7 +27,7 @@ async function readdir(filePath, params) {
         // 如果关闭, 就算该文件是符号链接, isFile 也会是 true
         hasSymbolicLink: false,
         // 是否包含系统文件
-        // 如果开启, 则 hasSymbolicLink 参数无效
+        // 如果开启 hasSymbolicLink 强制为 true
         // 获取所有文件不包含(块设备 / 字符设备 / 符号链接 / FIFO / UNIX 套接字)
         hasSystemFiles: false,
     }, params)
@@ -38,7 +38,13 @@ async function readdir(filePath, params) {
     // 获取 stat
     async function getStat(filePath) {
         try {
-            const _fsStat = o.hasSymbolicLink || o.hasSystemFiles ? fsLstat : fsStat
+            // 是否包含符号链接
+            const hasSymbolicLink = o.hasSymbolicLink || o.hasSystemFiles
+
+            // 获取状态实例
+            const _fsStat = hasSymbolicLink ? fsLstat : fsStat
+
+            // 获取文件状态
             const stat = await _fsStat(filePath)
 
             // 返回结果
@@ -48,39 +54,35 @@ async function readdir(filePath, params) {
                 stat,
             }
 
+            // 如果包含符号链接
+            if (hasSymbolicLink) {
+
+                // 获取是否为符号链接
+                res.isSymbolicLink = stat.isSymbolicLink()
+
+                // 如果为符号链接
+                if (res.isSymbolicLink) {
+                    // 则不是文件
+                    res.isFile = false
+                }
+            }
+
             // 如果包含系统文件
             if (o.hasSystemFiles) {
 
-                // 如果为文件
-                if (res.isFile) {
-                    // 如果为符号链接
-                    const isSymbolicLink = stat.isSymbolicLink()
-                    if (isSymbolicLink) {
-                        // 则不是文件
-                        res.isFile = false
-                    }
-                }
-
-                // 包含所有文件
+                // 则返回所有文件
                 return res
             }
 
             // 如果包含符号链接
             if (o.hasSymbolicLink) {
 
-                // 如果为符号链接
-                res.isSymbolicLink = stat.isSymbolicLink()
-                if (res.isSymbolicLink) {
-                    // 则不是文件
-                    res.isFile = false
-                }
-
-                // 仅包含文件夹 / 文件 / 符号链接
+                // 则仅返回: 文件夹 / 文件 / 符号链接
                 if (res.isDirectory || res.isFile || res.isSymbolicLink) {
                     return res
                 }
 
-            // 否则仅包含文件夹 / 文件
+            // 否则仅返回: 文件夹 / 文件
             } else if (res.isDirectory || res.isFile) {
                 return res
             }

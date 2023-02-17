@@ -6,14 +6,7 @@ const fsStat = require('./promisify/fsStat')
 async function getFileType(filePath) {
     try {
         const stat = await fsStat(filePath)
-
-        if (stat.isDirectory()) {
-            return 'dir'
-        }
-
-        if (stat.isFile()) {
-            return 'file'
-        }
+        return stat.isDirectory() ? 'dir' : 'file'
 
     } catch(e) {}
 
