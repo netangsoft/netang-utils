@@ -177,7 +177,7 @@ function readdirSync(filePath, params) {
         ) {
             // 添加当前路径文件
             lists.push({
-                relativePath: fileName,
+                relativePath: '',
                 filePath: filePath,
                 fileName,
                 level: 0,
