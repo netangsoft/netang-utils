@@ -123,6 +123,9 @@ function copySync(src, dest, params) {
         }
     }
 
+    // 创建目标文件夹
+    mkdirSync(path.dirname(dest))
+
     // 遍历复制文件
     for (const file of files) {
 
