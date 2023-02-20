@@ -1,6 +1,6 @@
 {
   "name": "@netang/utils",
-  "version": "0.4.49",
+  "version": "0.4.50",
   "description": "netang-utils",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -23,6 +23,7 @@
   "homepage": "https://github.com/netangsoft/netang-utils#readme",
   "dependencies": {
     "bignumber.js": "^9.1.1",
+    "iconv-lite": "^0.6.3",
     "lodash": "^4.17.21",
     "minimatch": "^6.2.0",
     "qs": "^6.11.0",
