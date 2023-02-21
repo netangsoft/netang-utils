@@ -143,14 +143,14 @@ function getStorage(key = '', defaultValue = null) {
             res = $n_json.parse(res)
             if (res !== null) {
                 // 返回解析好的数据
-                return $n_numberDeep(res, defaultValue)
+                return $n_numberDeep(res)
             }
         }
 
         // 否则数据不存在, 则删除当前缓存 key
         deleteStorageKeys(info, key)
     }
-
+    
     // 返回 null
     return defaultValue
 }
