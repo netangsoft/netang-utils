@@ -1,19 +1,22 @@
 /**
  * copy
  * 复制文字到剪切板
- * @param data
+ * @param value
  */
-function copy(data) {
+function copy(value) {
     let $input = document.querySelector('#n-copy-input')
     if (! $input) {
-        $input = document.createElement('input')
+        $input = document.createElement('textarea')
         $input.id = 'n-copy-input'
-        $input.style = 'position:fixed;top:-9999px;left:-9999px;'
+        $input.contentEditable = 'true'
+        $input.style.position = 'fixed'
+        $input.style.top = '-9999px'
+        $input.style.left = '-9999px'
+        document.body.appendChild($input)
     }
-    $input.value = data
-    document.body.appendChild($input)
+    $input.value = value
     $input.select()
-    document.execCommand('Copy')
+    document.execCommand('copy')
 }
 
 export default copy
