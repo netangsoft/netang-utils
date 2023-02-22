@@ -483,15 +483,15 @@ export default function socketTask(options) {
             }
 
             // 添加至消息队列
-            const query = {
+            const res = {
                 // 消息数据
                 data: messageData,
             }
             if (message_id) {
                 // promise 提交事件
-                query.resolve = resolve
+                res.resolve = resolve
             }
-            query.push(query)
+            query.push(res)
 
             // 失败事件
             function _error() {
