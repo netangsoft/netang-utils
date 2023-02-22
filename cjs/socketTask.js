@@ -127,7 +127,11 @@ function socketTask(options) {
             }
 
             // 连接 WebSocket
-            socketTask = o.socket.connect()
+            socketTask = o.socket.connect(function () {
+                if (! _isCompleted) {
+                    _complete(false)
+                }
+            })
 
             // 【监听消息事件】
             // --------------------------------------------------
