@@ -1,62 +1,71 @@
-const trim = require('lodash/trim')
+const Transform = require('stream').Transform
+const istextorbinary = require('istextorbinary')
 
-/**
- * 转义正则特殊字符
- */
-const regExpTag = ['\\', '*', '+', '|', '{', '}', '(', ')', '^', '$', '[', ']', '?', ',', '.', '&']
-function regExp2String(reg) {
-    reg = trim(reg)
-    if (!reg) {
-        return ''
-    }
+const {
+    // 替换环境变量
+    replaceEnv,
+    // 批量替换
+    batchReplace,
+} = require('./loaderUtils')
 
-    regExpTag.forEach((item) => {
-        reg = reg.replace(new RegExp('\\' + item, 'g'), '\\' + item)
-    })
+module.exports = function (options = {}) {
 
-    return reg
-}
+    // 获取配置
+    const o = Object.assign({
+        // 环境变量
+        env: {},
+        // 替换内容
+        replace: {},
+        // 是否跳过二进制
+        skipBinary: true,
+    }, options)
 
-/**
- * 替换编译
- */
-function replaceCompile(replace, env, first, end) {
-    first = regExp2String(first)
-    end = regExp2String(end)
+    return new Transform({
+        objectMode: true,
 
-    return replace(new RegExp(`(\\n?)([ \\t]*)(${first}\\s*#if.*${end})\\n?([\\s\\S]*?)\\n?(${first}\\s*#endif.*${end})\\n?`, 'gi'), function(match) {
+        /**
+         * transformation
+         * @param {import("vinyl")} file
+         * @param {BufferEncoding} enc
+         * @param {(error?: Error | null, data?: any) => void} callback
+         */
+        transform(file, enc, callback) {
 
-        const str = match.match(new RegExp(`${first}\\s*#if(.*)${end}`))
-        if (str && Array.isArray(str) && str[1]) {
-            let condition = trim(str[1])
-            if (!condition) {
-                return ''
+            if (file.isNull()) {
+                return callback(null, file)
             }
 
-            for (let key in env) {
-                condition = condition.replace(new RegExp(key, 'gi'), env[key] ? 'true' : 'false')
+            function doReplace() {
+
+                if (file.isBuffer()) {
+
+                    // 获取文件内容
+                    let source = String(file.contents)
+
+                    // 替换环境变量
+                    source = replaceEnv(source, o.env)
+
+                    // 批量替换
+                    source = batchReplace(source, o.replace)
+
+                    file.contents = Buffer.from(source)
+
+                    return callback(null, file)
+                }
+                callback(null, file)
             }
 
-            if (!new Function(`return (${condition})`)()) {
-                return ''
+            // 如果跳过二进制
+            if (o.skipBinary) {
+                if (! istextorbinary.isText(file.path, file.contents)) {
+                    callback(null, file)
+                } else {
+                    doReplace()
+                }
+                return
             }
+
+            doReplace()
         }
-
-        return match
     })
-}
-
-module.exports = {
-    replace1: function(replace, env) {
-        return replaceCompile(replace, env, '<!--', '-->')
-    },
-    replace2: function(replace, env) {
-        return replaceCompile(replace, env, '/*', '*/')
-    },
-    replace3: function(replace, env) {
-        return replaceCompile(replace, env, '//', '')
-    },
-    replace: function(replace, env, first, end) {
-        return replaceCompile(replace, env, first, end)
-    }
 }
