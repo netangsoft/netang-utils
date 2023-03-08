@@ -21,7 +21,11 @@ function crontab(func, timeout = 0) {
         }
     }
 
-    function start() {
+    /**
+     * 开始任务
+     * @param immediate 是否立即执行
+     */
+    function start(immediate = false) {
 
         // 清除定时任务
         if (_timerId) {
@@ -43,6 +47,11 @@ function crontab(func, timeout = 0) {
             func(start, stop)
 
         }, timeout)
+
+        // 如果立即执行
+        if (immediate === true) {
+            func(start, stop)
+        }
     }
 
     return {
