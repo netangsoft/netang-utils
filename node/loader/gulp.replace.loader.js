@@ -1,7 +1,15 @@
 const Transform = require('stream').Transform
 const istextorbinary = require('istextorbinary')
 
+const $n_isFunction = require('lodash/isFunction')
+
 const {
+    // html 加载器正则
+    includeHtmlReg,
+    // js 加载器正则
+    includeJsReg,
+    // 加载内容
+    includeContent,
     // 替换环境变量
     replaceEnv,
     // 批量替换
@@ -16,6 +24,8 @@ module.exports = function (options = {}) {
         env: {},
         // 替换内容
         replace: {},
+        // 加载器
+        includeLoader: null,
         // 是否跳过二进制
         skipBinary: true,
     }, options)
@@ -36,17 +46,25 @@ module.exports = function (options = {}) {
             }
 
             function doReplace() {
-
+                
                 if (file.isBuffer()) {
 
                     // 获取文件内容
                     let source = String(file.contents)
 
-                    // 替换环境变量
-                    source = replaceEnv(source, o.env)
+                    // 加载器
+                    if (o.includeLoader) {
+                        const isHtmlReg = includeHtmlReg.test(source)
+                        if (isHtmlReg || includeJsReg.test(source)) {
+                            source = includeContent(file._base, source, isHtmlReg ? includeHtmlReg : includeJsReg, $n_isFunction(o.includeLoader) ? o.includeLoader : require(o.includeLoader))
+                        }
+                    }
 
                     // 批量替换
                     source = batchReplace(source, o.replace)
+
+                    // 条件编译
+                    source = replaceEnv(source, o.env)
 
                     file.contents = Buffer.from(source)
 

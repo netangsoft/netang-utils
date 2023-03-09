@@ -3,6 +3,22 @@ const $n_isValidObject = require('../../cjs/isValidObject')
 const $n_forIn = require('../../cjs/forIn')
 
 /**
+ * 加载内容
+ */
+function includeContent(filePath, content, reg, loader) {
+    return content.replace(reg, function(a1, a2) {
+        const args = new Function(`return (function(){return arguments})${a2}`)()
+        if (args.length) {
+            const res = loader(filePath, ...args)
+            if (res) {
+                return includeContent(filePath, res, reg, loader)
+            }
+        }
+        return ''
+    })
+}
+
+/**
  * 测试表达式
  */
 function testPasses(env, test) {
@@ -104,11 +120,12 @@ function batchReplace(source, replaceObj) {
 }
 
 module.exports = {
-    // 测试表达式
-    testPasses,
-    // 替换内容
-    replaceContent,
-
+    // html 加载器正则
+    includeHtmlReg: new RegExp('(?:/\\*|<!--)[ \\t]*#include(.*)(?:\\*/|-->)','gmi'),
+    // js 加载器正则
+    includeJsReg: new RegExp('//[ \\t]*#include(.*)\n','gmi'),
+    // 加载内容
+    includeContent,
     // 替换环境变量
     replaceEnv,
     // 批量替换
