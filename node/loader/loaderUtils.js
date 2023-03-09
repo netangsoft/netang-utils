@@ -1,9 +1,11 @@
 const path = require('path')
 const xregexp = require('xregexp')
 
+const $n_has = require('lodash/has')
 const $n_isFunction = require('lodash/isFunction')
 const $n_isValidObject = require('../../cjs/isValidObject')
 const $n_forIn = require('../../cjs/forIn')
+const $n_indexOf = require('../../cjs/indexOf')
 
 const getFileTypeSync = require('../getFileTypeSync')
 const readFileSync = require('../readFileSync')
@@ -26,55 +28,72 @@ function getLoader(loader) {
 }
 
 /**
- * 获取加载正则
+ * 加载匹配
  */
-function getIncludeReg(name = 'include') {
-    return {
-        // html 加载器正则
-        htmlReg: new RegExp('(?:/\\*|<!--)[ \\t]*#' + name + '(.*)(?:\\*/|-->)','gmi'),
-        // js 加载器正则
-        jsReg: new RegExp('//[ \\t]*#' + name + '(.*)\n','gmi'),
+function importMacth(source) {
+    const htmlReg = new RegExp('(?:/\\*|<!--)[ \\t]*#import(.*)(?:\\*/|-->)','gmi')
+    const jsReg = new RegExp('(?:/\\*|<!--)[ \\t]*#import(.*)(?:\\*/|-->)','gmi')
+    const isHtmlReg = htmlReg.test(source)
+    if (isHtmlReg || jsReg.test(source)) {
+        return isHtmlReg ? htmlReg : jsReg
     }
+}
+
+/**
+ * 获取加载文件路径
+ */
+function getImportFilePath(parentPath, filePath, importAlias) {
+
+    // 如果是别名
+    if ($n_isValidObject(importAlias)) {
+        for (const key in importAlias) {
+            if (filePath.startsWith(key)) {
+                return path.join(importAlias[key], filePath.substring(String(key).length))
+            }
+        }
+    }
+    
+    // 否则是相对路径
+    return path.join(getFileTypeSync(parentPath) === 'dir' ? parentPath : path.dirname(parentPath), filePath)
 }
 
 /**
  * 加载内容
  */
-function includeContent(filePath, content, reg, loader) {
-    return content.replace(reg, function(a1, a2) {
+function importContent(filePath, reg, source, importAlias, importLoader) {
+    return source.replace(reg, function(a1, a2) {
+        // 获取参数
         const args = new Function(`return (function(){return arguments})${a2}`)()
         if (args.length) {
-            const res = loader(filePath, ...args)
-            if (res) {
-                return includeContent(filePath, res, reg, loader)
+
+            // 获取加载文件路径
+            const importFilePath = getImportFilePath(filePath, args[0], importAlias)
+            if (fileExistsSync(importFilePath)) {
+
+                // 读取文件内容
+                source = readFileSync(importFilePath)
+
+                // 如果没有正则匹配, 则说明是最终加载的内容
+                reg = importMacth(source)
+                if (! reg) {
+                    // 获取加载器
+                    const loader = getLoader(importLoader)
+                    if (loader) {
+                        const newArgs = []
+                        for (let i = 1; i < args.length; i++) {
+                            newArgs.push(args[i])
+                        }
+                        return loader(source, importFilePath, ...newArgs)
+                    }
+                    return source
+                }
+
+                // 否则继续执行加载内容
+                return importContent(importFilePath, reg, source, importAlias, importLoader)
             }
         }
         return ''
     })
-}
-
-/**
- * 导入内容
- */
-function importContent(filePath, source) {
-
-    // 获取加载正则
-    const { htmlReg, jsReg } = getIncludeReg('import')
-    const isHtmlReg = htmlReg.test(source)
-    if (isHtmlReg || jsReg.test(source)) {
-        return source.replace(isHtmlReg ? htmlReg : jsReg, function(a1, a2) {
-            const args = new Function(`return (function(){return arguments})${a2}`)()
-            if (args.length) {
-                const fileType = getFileTypeSync(filePath)
-                const importFilePath = path.join(fileType === 'dir' ? filePath : path.dirname(filePath), args[0])
-                if (fileExistsSync(importFilePath)) {
-                    return importContent(importFilePath, readFileSync(importFilePath))
-                }
-            }
-            return ''
-        })
-    }
-    return source
 }
 
 /**
@@ -181,10 +200,8 @@ function batchReplace(source, replaceObj) {
 module.exports = {
     // 获取加载器
     getLoader,
-    // 获取加载正则
-    getIncludeReg,
-    // 加载内容
-    includeContent,
+    // 加载匹配
+    importMacth,
     // 导入内容
     importContent,
     // 替换环境变量

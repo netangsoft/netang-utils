@@ -2,14 +2,12 @@ const Transform = require('stream').Transform
 const istextorbinary = require('istextorbinary')
 
 const {
+    // 加载匹配
+    importMacth,
     // 获取加载器
     getLoader,
-    // 获取加载正则
-    getIncludeReg,
     // 导入内容
     importContent,
-    // 加载内容
-    includeContent,
     // 替换环境变量
     replaceEnv,
     // 批量替换
@@ -26,10 +24,10 @@ module.exports = function (options = {}) {
         replace: {},
         // 替换器
         replacer: null,
-        // 是否开启导入
-        import: false,
+        // 加载别名
+        importAlias: {},
         // 加载器
-        includeLoader: null,
+        importLoader: null,
         // 是否跳过二进制
         skipBinary: true,
     }, options)
@@ -56,23 +54,10 @@ module.exports = function (options = {}) {
                     // 获取文件内容
                     let source = String(file.contents)
 
-                    // 开启导入
-                    if (o.import) {
-                        // 导入内容
-                        source = importContent(file._base, source)
-                    }
-
                     // 加载器
-                    if (o.includeLoader) {
-                        // 获取加载正则
-                        const { htmlReg, jsReg } = getIncludeReg()
-                        const isHtmlReg = htmlReg.test(source)
-                        if (isHtmlReg || jsReg.test(source)) {
-                            const includeLoader = getLoader(o.includeLoader)
-                            if (includeLoader) {
-                                source = includeContent(file._base, source, isHtmlReg ? htmlReg : jsReg, includeLoader)
-                            }
-                        }
+                    const importReg = importMacth(source)
+                    if (importReg) {
+                        source = importContent(file._base, importReg, source, o.importAlias, o.importLoader)
                     }
 
                     // 替换器
