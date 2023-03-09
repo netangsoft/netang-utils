@@ -1,6 +1,41 @@
+const path = require('path')
 const xregexp = require('xregexp')
+
+const $n_isFunction = require('lodash/isFunction')
 const $n_isValidObject = require('../../cjs/isValidObject')
 const $n_forIn = require('../../cjs/forIn')
+
+const getFileTypeSync = require('../getFileTypeSync')
+const readFileSync = require('../readFileSync')
+const fileExistsSync = require('../fileExistsSync')
+
+/**
+ * 获取加载器
+ */
+function getLoader(loader) {
+    try {
+        if ($n_isFunction(loader)) {
+            return loader
+        }
+        loader = require(loader)
+        if ($n_isFunction(loader)) {
+            return loader
+        }
+    } catch (e) {}
+    return null
+}
+
+/**
+ * 获取加载正则
+ */
+function getIncludeReg(name = 'include') {
+    return {
+        // html 加载器正则
+        htmlReg: new RegExp('(?:/\\*|<!--)[ \\t]*#' + name + '(.*)(?:\\*/|-->)','gmi'),
+        // js 加载器正则
+        jsReg: new RegExp('//[ \\t]*#' + name + '(.*)\n','gmi'),
+    }
+}
 
 /**
  * 加载内容
@@ -16,6 +51,30 @@ function includeContent(filePath, content, reg, loader) {
         }
         return ''
     })
+}
+
+/**
+ * 导入内容
+ */
+function importContent(filePath, source) {
+
+    // 获取加载正则
+    const { htmlReg, jsReg } = getIncludeReg('import')
+    const isHtmlReg = htmlReg.test(source)
+    if (isHtmlReg || jsReg.test(source)) {
+        return source.replace(isHtmlReg ? htmlReg : jsReg, function(a1, a2) {
+            const args = new Function(`return (function(){return arguments})${a2}`)()
+            if (args.length) {
+                const fileType = getFileTypeSync(filePath)
+                const importFilePath = path.join(fileType === 'dir' ? filePath : path.dirname(filePath), args[0])
+                if (fileExistsSync(importFilePath)) {
+                    return importContent(importFilePath, readFileSync(importFilePath))
+                }
+            }
+            return ''
+        })
+    }
+    return source
 }
 
 /**
@@ -120,12 +179,14 @@ function batchReplace(source, replaceObj) {
 }
 
 module.exports = {
-    // html 加载器正则
-    includeHtmlReg: new RegExp('(?:/\\*|<!--)[ \\t]*#include(.*)(?:\\*/|-->)','gmi'),
-    // js 加载器正则
-    includeJsReg: new RegExp('//[ \\t]*#include(.*)\n','gmi'),
+    // 获取加载器
+    getLoader,
+    // 获取加载正则
+    getIncludeReg,
     // 加载内容
     includeContent,
+    // 导入内容
+    importContent,
     // 替换环境变量
     replaceEnv,
     // 批量替换
