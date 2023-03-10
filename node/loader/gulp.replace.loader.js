@@ -57,7 +57,7 @@ module.exports = function (options = {}) {
                     // 加载器
                     const importReg = importMacth(source)
                     if (importReg) {
-                        source = importContent(file._base, importReg, source, o.importAlias, o.importLoader)
+                        source = importContent(file._base, importReg, source, o.importAlias, o.importLoader, o.env)
                     }
 
                     // 替换器
