@@ -1,11 +1,9 @@
 const path = require('path')
 const xregexp = require('xregexp')
 
-const $n_has = require('lodash/has')
 const $n_isFunction = require('lodash/isFunction')
 const $n_isValidObject = require('../../cjs/isValidObject')
 const $n_forIn = require('../../cjs/forIn')
-const $n_indexOf = require('../../cjs/indexOf')
 const $n_trimString = require('../../cjs/trimString')
 
 const getFileTypeSync = require('../getFileTypeSync')
@@ -65,7 +63,7 @@ function importContent(filePath, reg, source, importAlias, importLoader, env) {
     return source.replace(reg, function(a1, a2) {
         a2 = $n_trimString(a2)
         if (a2.startsWith('(') && a2.endsWith(')')) {
-            
+
             // 获取参数
             const args = new Function(`return (function(){return arguments})${a2}`)()
             if (args && args.length) {
