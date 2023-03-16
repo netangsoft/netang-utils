@@ -954,13 +954,9 @@ class Collection {
      * 方法确定集合中是否存在给定键
      */
     has(key) {
-
-        // 如果没有查询字段
-        if (! $n_isValidValue(key)) {
-            throw new Error('has key cannot be empty')
-        }
-
-        return $n_has(this.data, key)
+        return $n_isValidValue(key)
+            ? $n_has(this.data, key)
+            : false
     }
 
     /**

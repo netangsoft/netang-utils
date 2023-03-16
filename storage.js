@@ -150,7 +150,7 @@ function getStorage(key = '', defaultValue = null) {
         // 否则数据不存在, 则删除当前缓存 key
         deleteStorageKeys(info, key)
     }
-    
+
     // 返回 null
     return defaultValue
 }
