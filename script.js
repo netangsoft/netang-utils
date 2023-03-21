@@ -156,17 +156,17 @@ export default function script(urls) {
             return
         }
 
-        const windowDefine = has(window, 'define') ? window.define : null
+        // const windowDefine = has(window, 'define') ? window.define : null
 
         Promise.all(promises)
             .then(resolve)
             .catch(function(e) {
                 reject($n_getThrowMessage(e))
             })
-            .finally(function () {
-                if (windowDefine !== null) {
-                    window.define = windowDefine
-                }
-            })
+            // .finally(function () {
+            //     if (windowDefine !== null) {
+            //         window.define = windowDefine
+            //     }
+            // })
     })
 }
