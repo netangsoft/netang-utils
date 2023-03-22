@@ -59,12 +59,8 @@ function toTree(params) {
     // 树列表
     let tree = []
 
-    // tree 默认展开id
-    const expanded = []
-
-    // 数据是否为数组
-    const status = Array.isArray(o.data)
-    if (status) {
+    // 如果数据为数组
+    if (Array.isArray(o.data)) {
 
         // 分组
         const group = {}
@@ -280,28 +276,15 @@ function toTree(params) {
         rootItem[o.childrenKey] = tree
 
         tree = [rootItem]
-
-        // 展开根 id
-        expanded.push(o.rootValue)
-
-    } else {
-        for (const item of tree) {
-            // 展开根 id
-            expanded.push(item[o.valueKey])
-        }
     }
 
     return {
-        // 状态
-        status,
         // 所有属性
         attrs,
         // 所有节点
         nodes,
         // 树数组
         tree,
-        // 默认展开根节点
-        expanded,
     }
 }
 
