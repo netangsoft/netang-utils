@@ -3,6 +3,8 @@ import $n_isFunction from 'lodash/isFunction'
 import $n_forEachRight from './forEachRight'
 import $n_forIn from './forIn'
 
+import $n_cloneDeep from 'lodash/cloneDeep'
+
 /**
  * 转树数据
  * @param {object} params
@@ -142,7 +144,7 @@ export default function toTree(params) {
             if (! o.level || o.level > level) {
 
                 // 获取 pid
-                const pid = item[o.idKey]
+                const pid = item[o.attrKey][o.idKey]
 
                 // 如果有子节点
                 if ($n_has(group, pid) && group[pid].length) {
@@ -175,7 +177,7 @@ export default function toTree(params) {
 
                 // 删除子节点
                 function delItem(item) {
-                    const id = item[o.idKey]
+                    const id = item[o.attrKey][o.idKey]
                     delete attrs[id]
                     delete nodes[id]
                 }
