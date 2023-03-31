@@ -204,20 +204,20 @@ async function build(params) {
             },
         }, o.common, server ? o.server : o.web)
 
-        // 如果开启 ssr
-        if (o.ssr) {
-            $n_merge(config, {
-                pages: {
-                    index: {
-                        // 入口
-                        entry: o.entry,
-                    },
-                },
-            })
-        }
-
         // 如果是后端
         if (server) {
+
+            // 如果开启 ssr
+            if (o.ssr) {
+                $n_merge(config, {
+                    pages: {
+                        index: {
+                            // 入口
+                            entry: o.entry,
+                        },
+                    },
+                })
+            }
 
             // 生成 js 文件名
             config.configureWebpack.output.filename = '[name].js'
