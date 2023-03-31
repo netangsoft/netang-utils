@@ -1,10 +1,10 @@
-const http = require('http')
-const os = require('os')
+import http from 'http'
+import os from 'os'
 
-const $n_getFileExt = require('../../cjs/getFileExt')
-const $n_runAsync = require('../../cjs/runAsync')
+import $n_getFileExt from '../../getFileExt'
+import $n_runAsync from '../../runAsync'
 
-const ssrRender  = require('./render')
+import ssrRender from './render'
 
 /* #if IS_DEV */
 // 资源清单
@@ -50,7 +50,7 @@ function httpGet(url) {
 /**
  * ssr 服务
  */
-function ssrServer(render) {
+export default function ssrServer(render) {
 
     /* #if IS_DEV */
     // 创建代理服务
@@ -128,5 +128,3 @@ function ssrServer(render) {
         }
     })
 }
-
-module.exports = ssrServer

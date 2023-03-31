@@ -1,12 +1,12 @@
-const qs = require('qs')
+import qs from 'qs'
 
-const $n_trimStart = require('lodash/trimStart')
+import $n_trimStart from 'lodash/trimStart'
 
-const $n_slash = require('../../cjs/slash')
-const $n_isValidObject = require('../../cjs/isValidObject')
-const $n_runAsync = require('../../cjs/runAsync')
+import $n_slash from '../../slash'
+import $n_isValidObject from '../../isValidObject'
+import $n_runAsync from '../../runAsync'
 
-const ssrRender  = require('./render')
+import ssrRender from './render'
 
 /* #if IS_PRO */
 const manifest = __HTML_MANIFEST__
@@ -15,7 +15,7 @@ const manifest = __HTML_MANIFEST__
 /**
  * ssr 云函数
  */
-function cloud(render) {
+export default function cloud(render) {
     return async function({ path, queryStringParameters }, { FUNCTION_NAME }) {
 
         // 获取当前地址
@@ -41,5 +41,3 @@ function cloud(render) {
         }
     }
 }
-
-module.exports = cloud

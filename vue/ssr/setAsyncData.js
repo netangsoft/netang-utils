@@ -1,16 +1,16 @@
 /* #if IS_SERVER */
-const $n_get = require('lodash/get')
-const $n_has = require('lodash/has')
-const $n_isBoolean = require('lodash/isBoolean')
-const $n_isFunction = require('lodash/isFunction')
-const $n_filter = require('lodash/filter')
+import $n_get from 'lodash/get'
+import $n_has from 'lodash/has'
+import $n_isBoolean from 'lodash/isBoolean'
+import $n_isFunction from 'lodash/isFunction'
+import $n_filter from 'lodash/filter'
 
-const $n_isValidObject = require('../../cjs/isValidObject')
-const $n_runAsync = require('../../cjs/runAsync')
-const $n_numberDeep = require('../../cjs/numberDeep')
+import $n_isValidObject from '../../isValidObject'
+import $n_runAsync from '../../runAsync'
+import $n_numberDeep from '../../numberDeep'
 /* #endif */
 
-const { stateSsrAsyncData } = require('../store')
+import { stateSsrAsyncData } from '../store'
 
 // 【前端】
 /* #if IS_WEB */
@@ -20,7 +20,7 @@ let isRendered = false
 /**
  * ssr 设置异步数据
  */
-async function setAsyncData(params) {
+export default async function setAsyncData(params) {
 
     // 【前端】
     // --------------------------------------------------
@@ -103,5 +103,3 @@ async function setAsyncData(params) {
         stateSsrAsyncData.value = o
     /* #endif */
 }
-
-module.exports = setAsyncData

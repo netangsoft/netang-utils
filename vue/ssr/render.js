@@ -1,13 +1,13 @@
-const { renderToString } = require('@vue/server-renderer')
+import { renderToString } from '@vue/server-renderer'
 
 import $n_isValidObject from '../../cjs/isValidObject'
 
-const { stateSsrAsyncData } = require('../store')
+import { stateSsrAsyncData } from '../store'
 
 /**
  * ssr 渲染数据
  */
-async function render(params) {
+export default async function render(params) {
 
     const o = Object.assign({
         // 资源地址
@@ -60,5 +60,3 @@ async function render(params) {
 
     return `<html lang="__HTML_LANG__"><head>__HTML_META__${head}${o.manifest.js}__HTML_JS__${o.manifest.css}__HTML_CSS__</head><body><noscript>Please enable JavaScript.</noscript><div id="app">${body}</div><script>window.__INIT_DATA__=${initData};__HTML_SCRIPT__</script></body></html>`
 }
-
-module.exports = render
