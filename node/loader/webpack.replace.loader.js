@@ -30,7 +30,7 @@ module.exports = function (source) {
     // 加载器
     const importReg = importMacth(source)
     if (importReg) {
-        source = importContent(this.resourcePath, importReg, o.importAlias, o.importLoader)
+        source = importContent(this.resourcePath, importReg, source, o.importAlias, o.importLoader, o.env)
     }
 
     // 替换器

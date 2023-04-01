@@ -22,7 +22,9 @@ function getLoader(loader) {
         if ($n_isFunction(loader)) {
             return loader
         }
-    } catch (e) {}
+    } catch (e) {
+        console.log(`    [error]getLoader(${loader})`, e)
+    }
     return null
 }
 
