@@ -41,7 +41,7 @@ function itemHasKey(item, key) {
 function getItemData(item) {
 
     // 如果数据是集合类型
-    if (typeof item === 'object' && $n_get(item, 'constructor.name') === 'Collection') {
+    if (typeof item === 'object' && $n_get(item, '__isCollection') === true) {
         return item._toValue()
     }
 
@@ -181,6 +181,8 @@ class Collection {
      * 构造
      */
     constructor(data) {
+
+        this.__isCollection = true
 
         // 设置集合底层数据
         this.set(data)

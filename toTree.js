@@ -3,8 +3,6 @@ import $n_isFunction from 'lodash/isFunction'
 import $n_forEachRight from './forEachRight'
 import $n_forIn from './forIn'
 
-import $n_cloneDeep from 'lodash/cloneDeep'
-
 /**
  * 转树数据
  * @param {object} params

@@ -229,7 +229,7 @@ async function httpAsync(params) {
                 options.data = fileData
             }
 
-            // 否则为请求数据
+        // 否则为请求数据
         } else {
 
             if (! $n_has(options.headers, 'Content-Type')) {
@@ -304,7 +304,7 @@ async function httpAsync(params) {
                 // 设置 ref loading 值
                 para.loading.value = status
 
-                // 判断是是否为方法
+            // 判断是是否为方法
             } else if ($n_isFunction(para.loading)) {
                 para.loading(status)
             }
@@ -318,7 +318,7 @@ async function httpAsync(params) {
         if (para.loading === true || $n_isFunction(para.loading)) {
             isLoading = true
 
-            // 如果是 vue ref 格式
+        // 如果是 vue ref 格式
         } else if ($n_get(para.loading, '__v_isRef') === true) {
             isLoading = true
             isLoadingRef = true
@@ -336,7 +336,7 @@ async function httpAsync(params) {
                         onLoading(true)
                     })
 
-                // 否则立即开启 loading
+            // 否则立即开启 loading
             } else {
 
                 // 开启 loading
