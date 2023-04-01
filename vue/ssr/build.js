@@ -105,7 +105,7 @@ async function build(params) {
         // 替换全局变量
         replaceDefine: null,
         // 加载器
-        includeLoader: null,
+        importLoader: null,
         // html 模板参数(前端 public/index.html 中的模板参数)
         htmlTemplateOptions: {},
         // html 模板变量(后端 ssr 中的 html 模板变量)
@@ -282,7 +282,7 @@ async function build(params) {
                 .options({
                     env: newEnv,
                     replace: newReplaceDefine,
-                    includeLoader: o.includeLoader,
+                    importLoader: o.importLoader,
                 })
                 .end()
 
@@ -294,7 +294,7 @@ async function build(params) {
                 .options({
                     env: newEnv,
                     replace: newReplaceDefine,
-                    includeLoader: o.includeLoader,
+                    importLoader: o.importLoader,
                 })
                 .end()
 
