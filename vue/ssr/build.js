@@ -104,8 +104,8 @@ async function build(params) {
         env: null,
         // 替换全局变量
         replaceDefine: null,
-        // 加载器
-        importLoader: null,
+        // 替换器
+        replaceLoader: {},
         // html 模板参数(前端 public/index.html 中的模板参数)
         htmlTemplateOptions: {},
         // html 模板变量(后端 ssr 中的 html 模板变量)
@@ -279,11 +279,10 @@ async function build(params) {
                 .rule('vue')
                 .use(replaceLoader)
                 .loader(replaceLoader)
-                .options({
+                .options(Object.assign({
                     env: newEnv,
                     replace: newReplaceDefine,
-                    importLoader: o.importLoader,
-                })
+                }, o.replaceLoader))
                 .end()
 
             // 条件编译 .js 文件
@@ -291,11 +290,10 @@ async function build(params) {
                 .rule('js')
                 .use(replaceLoader)
                 .loader(replaceLoader)
-                .options({
+                .options(Object.assign({
                     env: newEnv,
                     replace: newReplaceDefine,
-                    importLoader: o.importLoader,
-                })
+                }, o.replaceLoader))
                 .end()
 
             // 如果为前端
