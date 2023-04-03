@@ -3,7 +3,7 @@ import $n_get from 'lodash/get'
 import $n_has from 'lodash/has'
 import $n_isBoolean from 'lodash/isBoolean'
 import $n_isFunction from 'lodash/isFunction'
-import $n_filter from 'lodash/filter'
+import $n_pick from 'lodash/pick'
 
 import $n_isValidObject from '../../isValidObject'
 import $n_runAsync from '../../runAsync'
@@ -48,11 +48,16 @@ export default async function setAsyncData(params) {
         } = params
 
         // 执行路由跳转的组件中的 asyncData 方法返回的数据
-        const resAsyncData = $n_has(to, 'matched[0].components.default.asyncData') ? await $n_runAsync(to.matched[0].components.default.asyncData)({
-            route: to,
-            query: $n_isValidObject($n_get(to, 'query')) ? $n_numberDeep(to.query) : {},
-            render: true,
-        }) : {}
+        let resAsyncData
+        try {
+            resAsyncData = await $n_runAsync((await to.matched[0].components.default()).default.asyncData)({
+                route: to,
+                query: $n_isValidObject($n_get(to, 'query')) ? $n_numberDeep(to.query) : {},
+                render: true,
+            })
+        } catch (e) {
+            resAsyncData = {}
+        }
 
         const o = Object.assign({
             // 是否开启 ssr
@@ -73,12 +78,13 @@ export default async function setAsyncData(params) {
             o.ssr = $n_get(to.meta, 'ssr') === true
 
             // 合并路由 meta 数据
-            Object.assign(o, $n_filter(to.meta, ['title', 'keywords', 'description']))
+            Object.assign(o, $n_pick(to.meta, ['title', 'keywords', 'description']))
 
             // 如果有异步数据, 则合并异步数据
             if ($n_isValidObject(resAsyncData)) {
+
                 // 合并异步数据
-                Object.assign(o, $n_filter(resAsyncData, ['ssr', 'title', 'keywords', 'description']))
+                Object.assign(o, $n_pick(resAsyncData, ['ssr', 'title', 'keywords', 'description']))
 
                 if (
                     // 如果开启 ssr
@@ -95,7 +101,7 @@ export default async function setAsyncData(params) {
                 }
             }
         }
-
+        
         if ($n_isFunction(format)) {
             format(o)
         }
