@@ -411,31 +411,35 @@ module.exports = async function (params) {
     }
 
     // 遍历 vue 工具
-    files = await readdir(path.join(__dirname, '../vue'), {
-        // 包含规则
-        includes: [
-            '*.js',
-        ],
-        // 忽略规则
-        ignores: [
-            'store.js',
-        ],
-        // 不包含当前路径
-        self: false,
-        // 不深度遍历
-        deep: false,
-    })
-    for (const { fileName, isFile } of files) {
-        if (isFile) {
+    const dirs = ['vue', 'vue/ssr']
+    for (const dir of dirs) {
+        // 遍历 vue 工具
+        files = await readdir(path.join(__dirname, '../' + dir), {
+            // 包含规则
+            includes: [
+                '*.js',
+            ],
+            // 忽略规则
+            ignores: [
+                'store.js',
+            ],
+            // 不包含当前路径
+            self: false,
+            // 不深度遍历
+            deep: false,
+        })
+        for (const { fileName, isFile } of files) {
+            if (isFile) {
 
-            // 方法名
-            const methodName = fileName.replace('.js', '')
+                // 方法名
+                const methodName = fileName.replace('.js', '')
 
-            // 如果该方法在 vue 包含文件列表中
-            if (o.vue.indexOf(methodName) > -1) {
-                // 添加至 netang 方法列表中
-                vueHeaders.push(`import ${methodName} from '@netang/utils/vue/${methodName}'`)
-                vueContents.push(`    ${methodName},`)
+                // 如果该方法在 vue 包含文件列表中
+                if (o.vue.indexOf(methodName) > -1) {
+                    // 添加至 netang 方法列表中
+                    vueHeaders.push(`import ${methodName} from '@netang/utils/${dir}/${methodName}'`)
+                    vueContents.push(`    ${methodName},`)
+                }
             }
         }
     }
