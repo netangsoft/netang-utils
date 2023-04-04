@@ -208,16 +208,16 @@ async function build(params) {
         if (server) {
 
             // 如果开启 ssr
-            if (o.ssr) {
-                $n_merge(config, {
-                    pages: {
-                        index: {
-                            // 入口
-                            entry: o.entry,
-                        },
-                    },
-                })
-            }
+            // if (o.ssr) {
+            //     $n_merge(config, {
+            //         pages: {
+            //             index: {
+            //                 // 入口
+            //                 entry: o.entry,
+            //             },
+            //         },
+            //     })
+            // }
 
             // 生成 js 文件名
             config.configureWebpack.output.filename = '[name].js'
@@ -442,7 +442,7 @@ async function build(params) {
                 if (o.nodemon) {
                     require('nodemon')({
                         watch: path.join(rootPath, 'build/server'),
-                        script: path.join(rootPath, 'build/server/index.js')
+                        script: path.join(rootPath, 'build/server/app.js')
                     })
                 }
             })
@@ -532,10 +532,9 @@ async function build(params) {
 
         // 删除非 js 文件
         const files = readdirSync(serverConfig.outputDir, { order: 'desc' })
-        for (const file of files) {
-            const ext = $n_getFileExt(file.fileName)
-            if (ext !== 'js' || ext !== 'file') {
-                removeSync(file.filePath)
+        for (const { isFile, fileName, filePath } of files) {
+            if (isFile && ! fileName.endsWith('.js')) {
+                removeSync(filePath)
             }
         }
 

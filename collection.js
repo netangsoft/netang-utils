@@ -10,6 +10,7 @@ import $n_isPlainObject from 'lodash/isPlainObject'
 import $n_isFunction from 'lodash/isFunction'
 import $n_orderBy from 'lodash/orderBy'
 import $n_concat from 'lodash/concat'
+import $n_isBoolean from 'lodash/isBoolean'
 
 import $n_numberDeep from './numberDeep'
 import $n_trimString from './trimString'
@@ -296,7 +297,10 @@ class Collection {
                 // 如果集合不为空
                 this.isNotEmpty()
                 // 如果有查询运算符
-                && $n_isValidValue(operator, true)
+                && (
+                    $n_isValidValue(operator, true)
+                    || $n_isBoolean(operator)
+                )
             ) {
                 // 如果没有设值, 则说明查询运算符就是值, 则查询运算符为 =
                 if ($n_isNil(value)) {

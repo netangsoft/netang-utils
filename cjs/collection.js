@@ -10,6 +10,7 @@ const $n_isPlainObject = require('lodash/isPlainObject')
 const $n_isFunction = require('lodash/isFunction')
 const $n_orderBy = require('lodash/orderBy')
 const $n_concat = require('lodash/concat')
+const $n_isBoolean = require('lodash/isBoolean')
 
 const $n_numberDeep = require('./numberDeep')
 const $n_trimString = require('./trimString')
@@ -296,7 +297,10 @@ class Collection {
                 // 如果集合不为空
                 this.isNotEmpty()
                 // 如果有查询运算符
-                && $n_isValidValue(operator, true)
+                && (
+                    $n_isValidValue(operator, true)
+                    || $n_isBoolean(operator)
+                )
             ) {
                 // 如果没有设值, 则说明查询运算符就是值, 则查询运算符为 =
                 if ($n_isNil(value)) {
