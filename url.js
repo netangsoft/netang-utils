@@ -116,5 +116,17 @@ export default function url(href = '') {
         return u
     }
 
-    throw new Error('url is error')
+    return {
+        href,
+        protocol: '',
+        origin: '',
+        host: '',
+        hostname: '',
+        port: '',
+        hash: '',
+        pathname: '',
+        search: '',
+        query: {},
+        url: '',
+    }
 }
