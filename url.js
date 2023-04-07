@@ -23,97 +23,109 @@ import $n_slash from './slash'
  */
 export default function url(href = '') {
 
-    if (! $n_isValidString(href) && $n_isBrowser()) {
-        href = window.location.href
-    }
+    try {
 
-    const parts = /^([\w.+-]+:)(?:\/\/(?:[^\/?#]*@|)([^\/?#:]*)(?::(\d+)|)|)/.exec(href) || []
-
-    if (parts.length) {
-
-        // 是否为 file 模式
-        const isFile = parts[1] === 'file:'
-
-        // 是否为 hash 模式(file 模式一定是 hash 模式)
-        const isHash = isFile || href.indexOf('/#/') > -1
-
-        if (! isFile && ! parts[2]) {
-            throw new Error('hostname is not defined')
+        if (! $n_isValidString(href) && $n_isBrowser()) {
+            href = window.location.href
         }
 
-        let u
+        const parts = /^([\w.+-]+:)(?:\/\/(?:[^\/?#]*@|)([^\/?#:]*)(?::(\d+)|)|)/.exec(href) || []
 
-        // 如果是 file 模式
-        if (isFile) {
+        if (parts.length) {
 
-            const files = href.split('#')
-            u = {
-                href,
-                protocol: parts[1],
-                origin: files[0],
-                host: files[0],
-                hostname: files[0],
-                port: '',
+            // 是否为 file 模式
+            const isFile = parts[1] === 'file:'
+
+            // 是否为 hash 模式(file 模式一定是 hash 模式)
+            const isHash = isFile || href.indexOf('/#/') > -1
+
+            if (! isFile && ! parts[2]) {
+                throw new Error('hostname is not defined')
             }
 
-        } else {
-            u = {
-                href,
-                origin: parts[0],
-                protocol: parts[1],
-                hostname: parts[2],
-                port: parts[3] || ''
-            }
-            u.host = `${u.hostname}${u.port ? ':' + u.port : ''}`
-        }
-
-        // 如果为 hash 模式
-        if (isHash) {
+            let u
 
             // 如果是 file 模式
             if (isFile) {
-                href = href.replace('#/', '___HASH___')
 
-            // 否则是 http 模式
+                const files = href.split('#')
+                u = {
+                    href,
+                    protocol: parts[1],
+                    origin: files[0],
+                    host: files[0],
+                    hostname: files[0],
+                    port: '',
+                }
+
             } else {
-                href = href.replace('/#/', '___HASH___')
+                u = {
+                    href,
+                    origin: parts[0],
+                    protocol: parts[1],
+                    hostname: parts[2],
+                    port: parts[3] || ''
+                }
+                u.host = `${u.hostname}${u.port ? ':' + u.port : ''}`
             }
+
+            // 如果为 hash 模式
+            if (isHash) {
+
+                // 如果是 file 模式
+                if (isFile) {
+                    href = href.replace('#/', '___HASH___')
+
+                // 否则是 http 模式
+                } else {
+                    href = href.replace('/#/', '___HASH___')
+                }
+            }
+
+            // 获取 hash
+            let hrefs = href.split('#')
+
+            let len = hrefs.length
+            if (len > 1) {
+                href = hrefs[0]
+                u.hash = hrefs[len - 1]
+
+            } else {
+                u.hash = ''
+            }
+
+            // 获取 query
+            hrefs = href.split('?')
+            len = hrefs.length
+            if (len > 1) {
+                u.url = hrefs[0]
+                u.search = hrefs[len - 1]
+                u.query = $n_numberDeep(parse(u.search))
+            } else {
+                u.url = href
+                u.search = ''
+                u.query = {}
+            }
+
+            u.pathname = $n_slash(u.url.substring(u.url.lastIndexOf(u.origin) + u.origin.length), 'all', false)
+
+            // 如果为 hash 模式
+            if (isHash) {
+                u.pathname = u.pathname.replace('___HASH___', '')
+                u.url = u.url.replace('___HASH___', isFile ? '#/' : '/#/')
+            }
+
+            return u
         }
 
-        // 获取 hash
-        let hrefs = href.split('#')
+    } catch (e) {
 
-        let len = hrefs.length
-        if (len > 1) {
-            href = hrefs[0]
-            u.hash = hrefs[len - 1]
-
-        } else {
-            u.hash = ''
-        }
-
-        // 获取 query
-        hrefs = href.split('?')
-        len = hrefs.length
-        if (len > 1) {
-            u.url = hrefs[0]
-            u.search = hrefs[len - 1]
-            u.query = $n_numberDeep(parse(u.search))
-        } else {
-            u.url = href
-            u.search = ''
-            u.query = {}
-        }
-
-        u.pathname = $n_slash(u.url.substring(u.url.lastIndexOf(u.origin) + u.origin.length), 'all', false)
-
-        // 如果为 hash 模式
-        if (isHash) {
-            u.pathname = u.pathname.replace('___HASH___', '')
-            u.url = u.url.replace('___HASH___', isFile ? '#/' : '/#/')
-        }
-
-        return u
+        // 【调试模式】
+        // --------------------------------------------------
+        // #ifdef IS_DEBUG
+        console.log(`url error`, e)
+        // #endif
+        // --------------------------------------------------
     }
 
     return {
