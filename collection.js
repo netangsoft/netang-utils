@@ -263,8 +263,8 @@ class Collection {
         return this._init(function() {
 
             if ($n_isFunction(callback)) {
-                this._each((item)=> {
-                    const res = callback(item)
+                this._each((item, key)=> {
+                    const res = callback(item, key)
                     if (res === false) {
                         return true
                     }
