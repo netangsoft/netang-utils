@@ -177,6 +177,30 @@ class QN {
             // 获取空间管理
             this._getBucketManager()
 
+            // 如果是数组, 则为批量删除
+            if (Array.isArray(fileUrl)) {
+
+                if (! fileUrl.length) {
+                    reject('文件路径不存在')
+                    return
+                }
+
+                const deleteOperations = []
+                for (const url of fileUrl) {
+                    deleteOperations.push(_qiniu.rs.deleteOp(bucket, url))
+                }
+                this.bucketManager.batch(deleteOperations, function(err, respBody, respInfo) {
+                    if (err) {
+                        console.log('[file]' + fileUrl)
+                        reject(err)
+                        return
+                    }
+                    resolve(true)
+                })
+                return
+            }
+
+            // 否则删除单个
             this.bucketManager.delete(bucket, fileUrl, (err) => {
                 if (err) {
                     console.log('[file]' + fileUrl)
