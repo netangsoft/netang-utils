@@ -47,18 +47,6 @@ export default async function setAsyncData(params) {
             format,
         } = params
 
-        // 执行路由跳转的组件中的 asyncData 方法返回的数据
-        let resAsyncData
-        try {
-            resAsyncData = await $n_runAsync((await to.matched[0].components.default()).default.asyncData)({
-                route: to,
-                query: $n_isValidObject($n_get(to, 'query')) ? $n_numberDeep(to.query) : {},
-                render: true,
-            })
-        } catch (e) {
-            resAsyncData = {}
-        }
-
         const o = Object.assign({
             // 是否开启 ssr
             ssr: false,
@@ -80,28 +68,45 @@ export default async function setAsyncData(params) {
             // 合并路由 meta 数据
             Object.assign(o, $n_pick(to.meta, ['title', 'keywords', 'description']))
 
-            // 如果有异步数据, 则合并异步数据
-            if ($n_isValidObject(resAsyncData)) {
+            // 如果开启 ssr
+            // --------------------------------------------------
+            if (o.ssr) {
 
-                // 合并异步数据
-                Object.assign(o, $n_pick(resAsyncData, ['ssr', 'title', 'keywords', 'description']))
+                // 执行路由跳转的组件中的 asyncData 方法返回的数据
+                let resAsyncData
+                try {
+                    resAsyncData = await $n_runAsync((await to.matched[0].components.default()).default.asyncData)({
+                        route: to,
+                        query: $n_isValidObject($n_get(to, 'query')) ? $n_numberDeep(to.query) : {},
+                        render: true,
+                    })
+                } catch (e) {
+                    resAsyncData = {}
+                }
 
-                if (
-                    // 如果开启 ssr
-                    o.ssr
-                    // 如果异步数据有返回初始数据
-                    && $n_isValidObject($n_get(resAsyncData, 'data'))
-                    // 初始数据格式正确
-                    && $n_isBoolean($n_get(resAsyncData.data, 'status')) && $n_has(resAsyncData.data, 'data')
-                ) {
-                    o.data = {
-                        status: resAsyncData.data.status,
-                        data: resAsyncData.data.data,
+                // 如果有异步数据, 则合并异步数据
+                if ($n_isValidObject(resAsyncData)) {
+
+                    // 合并异步数据
+                    Object.assign(o, $n_pick(resAsyncData, ['ssr', 'title', 'keywords', 'description']))
+
+                    if (
+                        // 如果异步数据有返回初始数据
+                        $n_isValidObject($n_get(resAsyncData, 'data'))
+                        // 初始数据格式正确
+                        && $n_isBoolean($n_get(resAsyncData.data, 'status'))
+                        && $n_has(resAsyncData.data, 'data')
+                    ) {
+                        o.data = {
+                            status: resAsyncData.data.status,
+                            data: resAsyncData.data.data,
+                        }
                     }
                 }
             }
+            // --------------------------------------------------
         }
-        
+
         if ($n_isFunction(format)) {
             format(o)
         }
