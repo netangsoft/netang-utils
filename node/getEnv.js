@@ -27,10 +27,10 @@ function getEnv(newEnv) {
         env.IS_PRO = true
     }
 
-    Object.assign(env, newEnv)
-
     // 是否调试模式
     env.IS_DEBUG = env.IS_DEV || env.IS_TEST || hasArgv('--debug')
+
+    Object.assign(env, newEnv)
 
     return env
 }
