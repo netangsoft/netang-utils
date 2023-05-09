@@ -186,7 +186,8 @@ function getRoute($route = null, path = '', defaultValue = '') {
     // 如果没定义路由
     if (_isNil($route)) {
         // 路由为当前路由
-        $route = useRoute()
+        // $route = useRoute()
+        $route = $router.currentRoute.value
 
     // 如果第一个参数是字符串
     } else if ($n_isValidString($route)) {
@@ -196,7 +197,8 @@ function getRoute($route = null, path = '', defaultValue = '') {
         // 第一个参数是路径
         path = $route
         // 路由为当前路由
-        $route = useRoute()
+        // $route = useRoute()
+        $route = $router.currentRoute.value
     }
 
     // 如果有路由参数
