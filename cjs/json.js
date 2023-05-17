@@ -9,11 +9,11 @@ const json = {
         } catch (e) {}
         return null
     },
-    parse(value) {
+    parse(value, defaultValue = null) {
         try {
             return JSON.parse(value)
         } catch (e) {}
-        return null
+        return defaultValue
     },
 }
 
