@@ -10,7 +10,7 @@ export default function calc(v1, symbol = '', v2, defaultValue = 0, returnBigNum
 
     if (
         v1.isFinite()
-        && v2.isFinite
+        && v2.isFinite()
     ) {
         switch (symbol) {
             case '+':
