@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 /**
  * 简单数字计算
  */
-export default function calc(v1, symbol = '', v2, defaultValue = null, returnBigNumber = false) {
+export default function calc(v1, symbol = '', v2, defaultValue = 0, returnBigNumber = false) {
 
     v1 = new BigNumber(v1)
     v2 = new BigNumber(v2)
