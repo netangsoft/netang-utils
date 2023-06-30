@@ -15,7 +15,7 @@ export default function getThrowMessage(e, defaultValue = 'Operation Failed', er
             if (! Array.isArray(errorKeys)) {
                 errorKeys = []
             }
-            errorKeys.unshift('errMsg', 'message')
+            errorKeys.unshift('errMsg', 'errorMessage', 'error', 'message')
 
             for (const key of errorKeys) {
                 if (e[key]) {
