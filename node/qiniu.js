@@ -35,6 +35,8 @@ class QN {
             prefix: '',
             // 地区(华东)
             zone: 'Zone_z0',
+            // 上传地址
+            uphost: 'up-cn-east-2.qiniup.com',
         }, config)
 
         // 七牛鉴权认证
@@ -419,6 +421,9 @@ class QN {
             const config = new _qiniu.conf.Config()
             // config.useHttpsDomain = true
             config.zone = _qiniu.zone[this.config.zone]
+            if (this.config.uphost) {
+                config.zone.srcUpHosts = [this.config.uphost]
+            }
             this.qiniuConfig = config
         }
     }
