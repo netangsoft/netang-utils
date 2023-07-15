@@ -353,10 +353,14 @@ async function httpAsync(params) {
         /**
          * 请求数据
          */
-        async function onHttp() {
+        async function onHttp(_para = null) {
 
             // 请求成功
             try {
+                if (_para !== null) {
+                    Object.assign(para, _para)
+                }
+
                 // 请求前执行
                 if (await $n_runAsync(para.onRequestBefore)({ para, options, onError }) === false) {
                     return
