@@ -142,7 +142,7 @@ async function httpAsync(params) {
      * 420 ~ 430: 业务自定义错误
      * 500:       服务器未知错误
      */
-    function onError(data, r) {
+    function _onError(data, r, onHttp) {
 
         // 如果没有错误提示
         if (! data.msg) {
@@ -293,6 +293,13 @@ async function httpAsync(params) {
 
         // 创建防抖睡眠方法
         const sleep = $n_sleep()
+
+        /**
+         * 报错
+         */
+        function onError(data, r) {
+            return _onError(data, r, onHttp)
+        }
 
         /**
          * loading 状态
@@ -479,7 +486,7 @@ async function httpAsync(params) {
 
     } catch (e) {
 
-        return onError({
+        return _onError({
             code: dicts.CODE__SERVER_ERROR,
             msg: $n_getThrowMessage(e),
         }, e)
