@@ -151,7 +151,7 @@ async function httpAsync(params) {
 
         // 执行错误执行
         if ($n_isFunction(para.onError)) {
-            const res = para.onError({ data, r, para })
+            const res = para.onError({ data, r, para, onHttp })
             if (! $n_isNil(res)) {
                 if (res === false) {
                     return
