@@ -151,7 +151,7 @@ async function httpAsync(params) {
 
         // 执行错误执行
         if ($n_isFunction(para.onError)) {
-            const res = para.onError({ data, r, para })
+            const res = para.onError({ data, r, para, onHttp })
             if (! $n_isNil(res)) {
                 if (res === false) {
                     return
@@ -353,14 +353,10 @@ async function httpAsync(params) {
         /**
          * 请求数据
          */
-        async function onHttp(_para = null) {
+        async function onHttp() {
 
             // 请求成功
             try {
-                if (_para !== null) {
-                    Object.assign(para, _para)
-                }
-
                 // 请求前执行
                 if (await $n_runAsync(para.onRequestBefore)({ para, options, onError }) === false) {
                     return
