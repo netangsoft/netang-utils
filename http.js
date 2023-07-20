@@ -15,7 +15,6 @@ import $n_isNumeric from './isNumeric'
 import $n_isValidObject from './isValidObject'
 import $n_sleep from './sleep'
 import $n_numberDeep from './numberDeep'
-import $n_run from './run'
 import $n_getUrl from './getUrl'
 import $n_getThrowMessage from './getThrowMessage'
 import $n_runAsync from './runAsync'
@@ -74,6 +73,8 @@ const httpSettings = {
     reConnect: false,
     // 重连次数
     reConnectNum: 3,
+    // 重连延迟时间(1 秒)
+    reConnectDelayTime: 1000,
     // 是否将请求结果深度转换为数字(如果开头为 0 的数字, 则认为是字符串)
     numberDeep: true,
     // axios 配置
@@ -124,71 +125,7 @@ async function httpAsync(params) {
     const { dicts } = para
 
     // 重连次数
-    let reConnectedNum = 0
-
-    /**
-     * 返回错误数据
-     *
-     * code 类型
-     *
-     * 200:       请求成功
-     * 400:       参数错误
-     * 404:       页面请求失败
-     * 410:       token 过期需要重新鉴权
-     * 411:       强制退出(当前用户账号在另一台设备上登录)
-     * 412:       当前用户账号被禁用，需要退出并重新跳转至登录页面
-     * 413:       当前用户不是会员, 需要跳转至升级vip页面
-     * 415:       没有权限访问当前页面
-     * 420 ~ 430: 业务自定义错误
-     * 500:       服务器未知错误
-     */
-    function _onError(data, r, onHttp) {
-
-        // 如果没有错误提示
-        if (! data.msg) {
-            data.msg = data.code === dicts.CODE__PAGE_NOT_FOUND ? 'No data' : 'System error'
-        }
-
-        // 执行错误执行
-        if ($n_isFunction(para.onError)) {
-            const res = para.onError({ data, r, para, onHttp })
-            if (! $n_isNil(res)) {
-                if (res === false) {
-                    return
-                }
-                data = res
-            }
-        }
-
-        return {
-            status: false,
-            data,
-            response: r,
-        }
-    }
-
-    /**
-     * 返回成功数据
-     */
-    function onSuccess(data, r) {
-
-        // 请求成功执行
-        if ($n_isFunction(para.onRequestSuccess)) {
-            const res = para.onRequestSuccess({ data, r, para })
-            if (! $n_isNil(res)) {
-                if (res === false) {
-                    return
-                }
-                data = res
-            }
-        }
-
-        return {
-            status: true,
-            data,
-            response: r,
-        }
-    }
+    let _reConnectedNum = 0
 
     try {
         // 【请求设置】=================================================================================================
@@ -220,7 +157,7 @@ async function httpAsync(params) {
             if (para.uploadFormData) {
                 options.data = para.data
 
-                // 否则获取上传文件数据
+            // 否则获取上传文件数据
             } else if ($n_isValidObject(para.data)) {
                 const fileData = new FormData()
                 $n_forEach(para.data, function(value, key) {
@@ -295,10 +232,89 @@ async function httpAsync(params) {
         const sleep = $n_sleep()
 
         /**
-         * 报错
+         * 返回错误数据
+         *
+         * code 类型
+         *
+         * 200:       请求成功
+         * 400:       参数错误
+         * 404:       页面请求失败
+         * 410:       token 过期需要重新鉴权
+         * 411:       强制退出(当前用户账号在另一台设备上登录)
+         * 412:       当前用户账号被禁用，需要退出并重新跳转至登录页面
+         * 413:       当前用户不是会员, 需要跳转至升级vip页面
+         * 415:       没有权限访问当前页面
+         * 420 ~ 430: 业务自定义错误
+         * 500:       服务器未知错误
          */
-        function onError(data, r) {
-            return _onError(data, r, onHttp)
+        async function onError(data, r) {
+
+            // 如果开启重连, 则进行重新连接
+            // --------------------------------------------------
+            if (
+                para.reConnect
+                // 如果已重连次数 >= 最大重连次数, 则继续重连
+                && _reConnectedNum <= para.reConnectNum
+                && (
+                    ! $n_isFunction(para.onCheckReConnect)
+                    || para.onCheckReConnect({ data, r, _reConnectedNum, para, options }) === true
+                )
+            ) {
+                // 重连次数 + 1
+                _reConnectedNum++
+
+                // 延迟执行
+                await sleep(para.reConnectDelayTime, 'reConnect')
+
+                // 进行下一轮请求
+                return await onHttp()
+            }
+            // --------------------------------------------------
+
+            // 如果没有错误提示
+            if (! data.msg) {
+                data.msg = data.code === dicts.CODE__PAGE_NOT_FOUND ? 'No data' : 'System error'
+            }
+
+            // 执行错误执行
+            if ($n_isFunction(para.onError)) {
+                const res = await $n_runAsync(para.onError)({ data, r, para })
+                if (! $n_isNil(res)) {
+                    if (res === false) {
+                        return
+                    }
+                    data = res
+                }
+            }
+
+            return {
+                status: false,
+                data,
+                response: r,
+            }
+        }
+
+        /**
+         * 返回成功数据
+         */
+        function onSuccess(data, r) {
+
+            // 请求成功执行
+            if ($n_isFunction(para.onRequestSuccess)) {
+                const res = para.onRequestSuccess({ data, r, para })
+                if (! $n_isNil(res)) {
+                    if (res === false) {
+                        return
+                    }
+                    data = res
+                }
+            }
+
+            return {
+                status: true,
+                data,
+                response: r,
+            }
         }
 
         /**
@@ -385,7 +401,7 @@ async function httpAsync(params) {
                             ! $n_isValidObject(data)
                             || ! $n_has(data, 'code')
                         ) {
-                            return onError({
+                            return await onError({
                                 // 错误码
                                 code: dicts.CODE__FAIL,
                                 // 错误信息
@@ -403,7 +419,7 @@ async function httpAsync(params) {
                             }
 
                             // 返回失败数据
-                            return onError(data, r)
+                            return await onError(data, r)
                         }
 
                         data = data.data
@@ -429,38 +445,12 @@ async function httpAsync(params) {
                 // 发起请求
                 return await para.onRequest({ para, options, onError, next })
 
-                // 请求失败
             } catch (e) {
 
-                // 错误消息
-                const msg = $n_getThrowMessage(e, '')
-
-                // 如果开启重连, 则进行重新连接
-                if (
-                    para.reConnect
-                    && $n_run(para.onCheckReConnect)(e, msg) === true
-                    // 如果已重连次数 >= 最大重连次数, 则继续重连
-                    && reConnectedNum <= para.reConnectNum
-                ) {
-                    // 重连次数 + 1
-                    reConnectedNum++
-
-                    // 开发模式
-                    if (process.env.NODE_ENV !== 'production') {
-                        console.log(`http reconnect - ${reConnectedNum}`, e)
-                    }
-
-                    // 延迟执行
-                    await sleep(300)
-
-                    // 进行下一轮请求
-                    return await onHttp()
-                }
-
                 // 返回失败数据
-                return onError({
+                return await onError({
                     code: dicts.CODE__SERVER_ERROR,
-                    msg,
+                    msg: $n_getThrowMessage(e, ''),
                 }, e)
             }
         }
@@ -475,7 +465,7 @@ async function httpAsync(params) {
         }
 
         // 清空连接次数
-        reConnectedNum = 0
+        _reConnectedNum = 0
 
         // 删除 loading 句柄
         if (para.debounce) {
@@ -486,10 +476,14 @@ async function httpAsync(params) {
 
     } catch (e) {
 
-        return _onError({
-            code: dicts.CODE__SERVER_ERROR,
-            msg: $n_getThrowMessage(e),
-        }, e)
+        return {
+            status: false,
+            data: {
+                code: dicts.CODE__SERVER_ERROR,
+                msg: $n_getThrowMessage(e, 'System error'),
+            },
+            response: e,
+        }
     }
 }
 
