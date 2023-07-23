@@ -90,6 +90,8 @@ const httpSettings = {
         /** 状态码 - 服务器未知错误 - 500 */
         CODE__SERVER_ERROR: 500,
     },
+    // 整体请求
+    onHttp: null,
     // 设置参数
     onOptions: null,
     // 取消请求调用函数(需要自己在 onOptions 方法中实现)
@@ -118,16 +120,16 @@ const loadingHandles = {}
  */
 async function httpAsync(params) {
 
-    // 默认参数
-    const para = $n_merge({}, httpSettings, httpOptions, params)
-
-    // 获取字典
-    const { dicts } = para
-
-    // 重连次数
-    let _reConnectedNum = 0
-
     try {
+        // 默认参数
+        const para = $n_merge({}, httpSettings, httpOptions, params)
+
+        // 获取字典
+        const { dicts } = para
+
+        // 重连次数
+        let _reConnectedNum = 0
+
         // 【请求设置】=================================================================================================
 
         const options = Object.assign({
@@ -456,7 +458,7 @@ async function httpAsync(params) {
         }
 
         // 执行请求
-        const resHttp = await onHttp()
+        const resHttp = $n_isFunction(para.onHttp) ? await $n_runAsync(para.onHttp)({ para, options, onError, onHttp }) : await onHttp()
 
         // 关闭 loading
         if (isLoading) {
