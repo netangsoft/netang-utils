@@ -90,8 +90,6 @@ const httpSettings = {
         /** 状态码 - 服务器未知错误 - 500 */
         CODE__SERVER_ERROR: 500,
     },
-    // 整体请求
-    onHttp: null,
     // 设置参数
     onOptions: null,
     // 取消请求调用函数(需要自己在 onOptions 方法中实现)
@@ -458,7 +456,7 @@ async function httpAsync(params) {
         }
 
         // 执行请求
-        const resHttp = $n_isFunction(para.onHttp) ? await $n_runAsync(para.onHttp)({ para, options, onError, onHttp }) : await onHttp()
+        const resHttp = await onHttp()
 
         // 关闭 loading
         if (isLoading) {

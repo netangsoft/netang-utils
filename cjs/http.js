@@ -118,16 +118,16 @@ const loadingHandles = {}
  */
 async function httpAsync(params) {
 
-    // 默认参数
-    const para = $n_merge({}, httpSettings, httpOptions, params)
-
-    // 获取字典
-    const { dicts } = para
-
-    // 重连次数
-    let _reConnectedNum = 0
-
     try {
+        // 默认参数
+        const para = $n_merge({}, httpSettings, httpOptions, params)
+
+        // 获取字典
+        const { dicts } = para
+
+        // 重连次数
+        let _reConnectedNum = 0
+
         // 【请求设置】=================================================================================================
 
         const options = Object.assign({
