@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import $n_isFunction from 'lodash/isFunction'
 
 /**
  * 简单数字计算
@@ -32,7 +33,11 @@ export default function calc(v1, symbol = '', v2, defaultValue = 0, returnBigNum
                 return defaultValue
         }
 
-        return returnBigNumber ? v1 : v1.toNumber()
+        if ($n_isFunction(returnBigNumber)) {
+            return returnBigNumber(v1)
+        }
+
+        return returnBigNumber === true ? v1 : v1.toNumber()
     }
 
     return defaultValue
