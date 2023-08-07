@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js'
-
 import $n_indexOf from './indexOf'
 
 /**
@@ -14,7 +13,7 @@ export default function percentValue(value, onlyCheckPercentSign = false, defaul
     // 如果有百分号
     if ($n_indexOf(value, '%') > -1) {
         // 去除所有百分号
-        value = value.replaceAll('%', '')
+        value = value.replace(/%/g, '')
 
     // 如果仅检查带有 % 的值
     } else if (onlyCheckPercentSign) {
