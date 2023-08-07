@@ -1,6 +1,7 @@
 const crypto = require('crypto')
 const $n_isValidArray = require('../cjs/isValidArray')
 const $n_isValidObject = require('../cjs/isValidObject')
+const $n_isValidValue = require('../cjs/isValidValue')
 const _sha1 = require('./sha1')
 
 // 设置
@@ -93,7 +94,10 @@ function sign(data, verifyKey, ignoreKeys = []) {
         const keys = []
 
         for (const key in data) {
-            if (ignoreKeys.indexOf(key) === -1) {
+            if (
+                ignoreKeys.indexOf(key) === -1
+                && $n_isValidValue(data[key])
+            ) {
                 keys.push(key)
             }
         }
@@ -129,7 +133,10 @@ function verify(data, verifyKey, ignoreKeys = []) {
         for (const key in data) {
             if (key === 'sign') {
                 sign = data[key]
-            } else if (ignoreKeys.indexOf(key) === -1) {
+            } else if (
+                ignoreKeys.indexOf(key) === -1
+                && $n_isValidValue(data[key])
+            ) {
                 keys.push(key)
             }
         }
