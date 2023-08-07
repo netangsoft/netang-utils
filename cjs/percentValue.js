@@ -1,5 +1,4 @@
 const BigNumber = require('bignumber.js')
-
 const $n_indexOf = require('./indexOf')
 
 /**
@@ -14,7 +13,7 @@ function percentValue(value, onlyCheckPercentSign = false, defaultValue = 0) {
     // 如果有百分号
     if ($n_indexOf(value, '%') > -1) {
         // 去除所有百分号
-        value = value.replaceAll('%', '')
+        value = value.replace(/%/g, '')
 
     // 如果仅检查带有 % 的值
     } else if (onlyCheckPercentSign) {
