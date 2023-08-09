@@ -15,7 +15,7 @@ export default function split(str = '', separator, limit, toNumberDeep = true) {
     if ($n_isNumber(str)) {
         str = String(str)
     }
-    
+
     if ($n_isValidString(str)) {
         const arr = str.split(separator, limit)
         return toNumberDeep ? $n_numberDeep(arr) : arr

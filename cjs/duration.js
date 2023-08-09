@@ -3,7 +3,7 @@ const $n_padStart = require('lodash/padStart')
 /**
  * 时间长度
  */
-function duration(time) {
+function duration(time, showDay = true) {
 
     // 天
     let d = 0
@@ -36,8 +36,8 @@ function duration(time) {
                 //获取小时后取佘的分，获取分钟除以60取佘的分
                 m = parseInt(String(m % 60))
 
-                // 如果小时大于24，将小时转换成天
-                if (h > 24) {
+                // 如果显示天 && 小时大于24，将小时转换成天
+                if (showDay && h > 24) {
 
                     //获取小时，获取分钟除以60，得到整数小时
                     d = parseInt(String(h / 24))
