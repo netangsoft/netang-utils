@@ -10,7 +10,6 @@ import $n_toLower from 'lodash/toLower'
 import $n_get from 'lodash/get'
 import $n_isEmpty from 'lodash/isEmpty'
 import $n_join from 'lodash/join'
-import $n_map from 'lodash/map'
 import $n_cloneDeep from 'lodash/cloneDeep'
 import $n_toPairs from 'lodash/toPairs'
 
@@ -23,6 +22,7 @@ import $n_isRequired from '../isRequired'
 import $n_size from '../size'
 import $n_numberDeep from '../numberDeep'
 import $n_replaceAll from '../replaceAll'
+import $n_map from '../map'
 
 import { langOptions } from '../settings'
 

@@ -10,7 +10,6 @@ const $n_toLower = require('lodash/toLower')
 const $n_get = require('lodash/get')
 const $n_isEmpty = require('lodash/isEmpty')
 const $n_join = require('lodash/join')
-const $n_map = require('lodash/map')
 const $n_cloneDeep = require('lodash/cloneDeep')
 const $n_toPairs = require('lodash/toPairs')
 
@@ -23,6 +22,7 @@ const $n_isRequired = require('../isRequired')
 const $n_size = require('../size')
 const $n_numberDeep = require('../numberDeep')
 const $n_replaceAll = require('../replaceAll')
+const $n_map = require('../map')
 
 const { langOptions } = require('../settings')
 
