@@ -379,7 +379,7 @@ function socketTask(options) {
 
                 // 【调试模式】
                 /* #if IS_DEBUG */
-                console.error('[socket 连接失败]')
+                console.error('[socket 连接失败]', e)
                 /* #endif */
 
                 if (! _isCompleted) {
