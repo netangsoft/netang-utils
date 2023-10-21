@@ -34,7 +34,7 @@ export default function calc(v1, symbol = '', v2, defaultValue = 0, returnBigNum
         }
 
         if ($n_isFunction(returnBigNumber)) {
-            return returnBigNumber(v1, defaultValue)
+            return returnBigNumber(v1, defaultValue, BigNumber)
         }
 
         return returnBigNumber === true ? v1 : v1.toNumber()
