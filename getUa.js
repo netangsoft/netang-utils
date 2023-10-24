@@ -10,11 +10,11 @@ export default function getUa() {
 
         const ua = navigator.userAgent.toLowerCase()
         const ie = /msie|trident/.test(ua)
-        const edge = ua.indexOf('edge/') > 0
+        const edge = ua.indexOf('edge/') > -1
         const chrome = /chrome\/\d+/.test(ua) && ! edge
         const safari = /version\/([\d.]+).*safari/.test(ua)
         const firefox = /firefox\/\d+/.test(ua)
-        const android = ua.indexOf('android') > 0
+        const android = ua.indexOf('android') > -1
         const ios = /iphone|ipad|ipod|ios/.test(ua)
         const weixin = /micromessenger/i.test(ua)
         const weixinMp = weixin && /miniProgram/i.test(ua)
