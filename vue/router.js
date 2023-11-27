@@ -169,6 +169,13 @@ function push(options) {
 }
 
 /**
+ * pop 路由
+ */
+function pop() {
+    $router.go(-1)
+}
+
+/**
  * replace 路由
  */
 function replace(options) {
@@ -216,6 +223,7 @@ function getRoute($route = null, path = '', defaultValue = '') {
 
 const router = {
     push,
+    pop,
     replace,
     resolve,
     // 获取当前路由
