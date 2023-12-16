@@ -33,9 +33,7 @@ export default function crontab(func, timeout = 0) {
             _timerId = null
         }
 
-        if (_stop) {
-            return
-        }
+        _stop = false
 
         _timerId = setTimeout(function() {
 
