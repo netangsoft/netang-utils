@@ -26,13 +26,12 @@ export default async function() {
     // 执行路由跳转的组件中的 asyncData 方法返回的数据
     if ($n_has(route, 'matched[0].components.default.asyncData')) {
 
-        route.query = $n_isValidObject($n_get(route, 'query')) ? $n_numberDeep(route.query) : {}
-        route.params = $n_isValidObject($n_get(route, 'params')) ? $n_numberDeep(route.params) : {}
-
         const {
             data
         } = await $n_runAsync(route.matched[0].components.default.asyncData)({
             route,
+            query: $n_isValidObject($n_get(route, 'query')) ? $n_numberDeep(route.query) : {},
+            params: $n_isValidObject($n_get(route, 'params')) ? $n_numberDeep(route.params) : {},
             render: false,
         })
 
