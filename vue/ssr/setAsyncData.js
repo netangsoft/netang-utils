@@ -75,7 +75,11 @@ export default async function setAsyncData(params) {
                 // 执行路由跳转的组件中的 asyncData 方法返回的数据
                 let resAsyncData
                 try {
-                    resAsyncData = await $n_runAsync((await to.matched[0].components.default()).default.asyncData)({
+                    let res = to.matched[0].components.default
+                    if ($n_isFunction(res)) {
+                        res = (await to.matched[0].components.default()).default
+                    }
+                    resAsyncData = await $n_runAsync(res.asyncData)({
                         route: to,
                         query: $n_isValidObject($n_get(to, 'query')) ? $n_numberDeep(to.query) : {},
                         render: true,
