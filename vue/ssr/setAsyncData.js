@@ -79,9 +79,11 @@ export default async function setAsyncData(params) {
                     if ($n_isFunction(res)) {
                         res = (await to.matched[0].components.default()).default
                     }
+
                     resAsyncData = await $n_runAsync(res.asyncData)({
                         route: to,
                         query: $n_isValidObject($n_get(to, 'query')) ? $n_numberDeep(to.query) : {},
+                        params: $n_isValidObject($n_get(to, 'params')) ? $n_numberDeep(to.params) : {},
                         render: true,
                     })
                 } catch (e) {
