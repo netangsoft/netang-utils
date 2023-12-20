@@ -31,12 +31,10 @@ function getLoader(loader) {
 /**
  * 加载匹配
  */
-function importMacth(source) {
-    const htmlReg = new RegExp('(?:/\\*|<!--)[ \\t]*#import(.*)(?:\\*/|-->)','gmi')
-    const jsReg = new RegExp('(?:/\\*|<!--)[ \\t]*#import(.*)(?:\\*/|-->)','gmi')
-    const isHtmlReg = htmlReg.test(source)
-    if (isHtmlReg || jsReg.test(source)) {
-        return isHtmlReg ? htmlReg : jsReg
+function importMacth(source, name = '#import') {
+    const htmlReg = new RegExp('(?:/\\*|<!--)[ \\t]*' + name + '(.*)(?:\\*/|-->)','gmi')
+    if (htmlReg.test(source)) {
+        return htmlReg
     }
 }
 
@@ -59,45 +57,53 @@ function getImportFilePath(parentPath, filePath, importAlias) {
 }
 
 /**
- * 加载内容
+ * 执行内容
  */
-function importContent(filePath, reg, source, importAlias, importLoader, env) {
+function runContent(reg, source, cb, defaultValue = '') {
     return source.replace(reg, function(a1, a2) {
         a2 = $n_trimString(a2)
         if (a2.startsWith('(') && a2.endsWith(')')) {
-
             // 获取参数
             const args = new Function(`return (function(){return arguments})${a2}`)()
             if (args && args.length) {
-
-                // 获取加载文件路径
-                const importFilePath = getImportFilePath(filePath, args[0], importAlias)
-                if (fileExistsSync(importFilePath)) {
-
-                    // 读取文件内容
-                    source = readFileSync(importFilePath)
-
-                    // 如果没有正则匹配, 则说明是最终加载的内容
-                    reg = importMacth(source)
-                    if (! reg) {
-                        // 获取加载器
-                        const loader = getLoader(importLoader)
-                        if (loader) {
-                            const newArgs = []
-                            for (let i = 1; i < args.length; i++) {
-                                newArgs.push(args[i])
-                            }
-                            return loader(source, importFilePath, ...newArgs)
-                        }
-                        return source
-                    }
-
-                    // 否则继续执行加载内容
-                    return importContent(importFilePath, reg, source, importAlias, importLoader, env)
-                }
+                return cb(args, source, defaultValue)
             }
         }
-        return ''
+        return defaultValue
+    })
+}
+
+/**
+ * 加载内容
+ */
+function importContent(filePath, reg, source, importAlias, importLoader, env) {
+    return runContent(reg, source, function(args) {
+
+        // 获取加载文件路径
+        const importFilePath = getImportFilePath(filePath, args[0], importAlias)
+        if (fileExistsSync(importFilePath)) {
+            
+            // 读取文件内容
+            source = readFileSync(importFilePath)
+
+            // 如果没有正则匹配, 则说明是最终加载的内容
+            reg = importMacth(source)
+            if (! reg) {
+                // 获取加载器
+                const loader = getLoader(importLoader)
+                if (loader) {
+                    const newArgs = []
+                    for (let i = 1; i < args.length; i++) {
+                        newArgs.push(args[i])
+                    }
+                    return loader(source, importFilePath, ...newArgs)
+                }
+                return source
+            }
+
+            // 否则继续执行加载内容
+            return importContent(importFilePath, reg, source, importAlias, importLoader, env)
+        }
     })
 }
 
@@ -207,6 +213,8 @@ module.exports = {
     getLoader,
     // 加载匹配
     importMacth,
+    // 执行内容
+    runContent,
     // 导入内容
     importContent,
     // 替换环境变量

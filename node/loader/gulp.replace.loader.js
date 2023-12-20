@@ -6,6 +6,8 @@ const {
     importMacth,
     // 获取加载器
     getLoader,
+    // 执行内容
+    runContent,
     // 导入内容
     importContent,
     // 替换环境变量
@@ -23,7 +25,9 @@ module.exports = function (options = {}) {
         // 替换内容
         replace: {},
         // 替换器
-        replacer: null,
+        replaceLoader: null,
+        // 执行器
+        runLoader: null,
         // 加载别名
         importAlias: {},
         // 加载器
@@ -60,11 +64,22 @@ module.exports = function (options = {}) {
                         source = importContent(file._base, importReg, source, o.importAlias, o.importLoader, o.env)
                     }
 
+                    // 执行器
+                    if (o.runLoader) {
+                        const runLoader = getLoader(o.runLoader)
+                        if (runLoader) {
+                            const runReg = importMacth(source, '#run')
+                            if (runReg) {
+                                source = runLoader(source, file._base, runReg, runContent)
+                            }
+                        }
+                    }
+
                     // 替换器
-                    if (o.replacer) {
-                        const replacer = getLoader(o.replacer)
-                        if (replacer) {
-                            source = replacer(source, file._base)
+                    if (o.replaceLoader) {
+                        const replaceLoader = getLoader(o.replaceLoader)
+                        if (replaceLoader) {
+                            source = replaceLoader(source, file._base)
                         }
                     }
 
