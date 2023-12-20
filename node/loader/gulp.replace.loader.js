@@ -26,8 +26,6 @@ module.exports = function (options = {}) {
         replace: {},
         // 替换器
         replaceLoader: null,
-        // 执行器
-        runLoader: null,
         // 加载别名
         importAlias: {},
         // 加载器
@@ -64,22 +62,11 @@ module.exports = function (options = {}) {
                         source = importContent(file._base, importReg, source, o.importAlias, o.importLoader, o.env)
                     }
 
-                    // 执行器
-                    if (o.runLoader) {
-                        const runLoader = getLoader(o.runLoader)
-                        if (runLoader) {
-                            const runReg = importMacth(source, '#run')
-                            if (runReg) {
-                                source = runLoader(source, file._base, runReg, runContent)
-                            }
-                        }
-                    }
-
                     // 替换器
                     if (o.replaceLoader) {
                         const replaceLoader = getLoader(o.replaceLoader)
                         if (replaceLoader) {
-                            source = replaceLoader(source, file._base)
+                            source = replaceLoader(source, file._base, o.env, importMacth, runContent)
                         }
                     }
 
