@@ -126,13 +126,16 @@ function script(urls) {
                     && Array.isArray(url.urls)
                 ) {
                     if (! has(window, url.key)) {
+                        const _urls = []
                         for (const item of url.urls) {
                             if (typeof item === 'string') {
-                                promises.push(runScript(item))
-
+                                _urls.push(item)
                             } else if (Array.isArray(item) && item.length) {
                                 promises.push(runScripts(item))
                             }
+                        }
+                        if (_urls.length) {
+                            promises.push(runScripts(_urls))
                         }
                     }
                 } else {
