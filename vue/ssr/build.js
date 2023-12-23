@@ -22,7 +22,6 @@ const $n_forIn = require('../../cjs/forIn')
 const $n_join = require('../../cjs/join')
 const $n_sortAsc = require('../../cjs/sortAsc')
 const $n_isValidString = require('../../cjs/isValidString')
-const $n_getFileExt = require('../../cjs/getFileExt')
 
 let WebpackManifestPlugin = null
 
