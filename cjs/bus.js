@@ -63,4 +63,7 @@ class Bus {
   }
 }
 
-module.exports = Bus
+const bus = new Bus()
+
+
+module.exports = bus

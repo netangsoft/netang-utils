@@ -2,7 +2,7 @@
  * Forked from tiny-emitter
  * Copyright (c) 2017 Scott Corgan
  */
-export default class Bus {
+class Bus {
 
   constructor () {
     this.__stack = {}
@@ -62,3 +62,7 @@ export default class Bus {
     return this // chainable
   }
 }
+
+const bus = new Bus()
+
+export default bus
