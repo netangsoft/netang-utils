@@ -8,7 +8,7 @@ class Bus {
     this.__stack = {}
   }
 
-  on (name, callback, ctx) {
+  on (name, callback, ctx = null) {
     (this.__stack[ name ] || (this.__stack[ name ] = [])).push({
       fn: callback,
       ctx
@@ -17,7 +17,7 @@ class Bus {
     return this // chainable
   }
 
-  once (name, callback, ctx) {
+  once (name, callback, ctx = null) {
     const listener = () => {
       this.off(name, listener)
       callback.apply(ctx, arguments)
