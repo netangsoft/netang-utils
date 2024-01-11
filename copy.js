@@ -7,14 +7,16 @@
 function copy(value, isHtml = false) {
 
     // 获取节点
-    let $dom = document.querySelector('#n-copy-input')
+    let $dom = document.querySelector('#n-copy-content')
     if (! $dom) {
         $dom = document.createElement(isHtml ? 'div' : 'textarea')
-        $dom.id = 'n-copy-input'
+        $dom.id = 'n-copy-content'
         $dom.contentEditable = 'true'
         $dom.style.position = 'fixed'
-        $dom.style.top = '-9999px'
-        $dom.style.left = '-9999px'
+        $dom.style.top = '-999px'
+        $dom.style.left = '-999px'
+        $dom.style.width = '1px'
+        $dom.style.height = '1px'
         document.body.appendChild($dom)
     }
 
