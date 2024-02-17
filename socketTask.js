@@ -584,6 +584,13 @@ export default function socketTask(options) {
         _onClose = cb
     }
 
+    /**
+     * 获取句柄
+     */
+    function getHandle() {
+        return socketTask
+    }
+
     return {
         // 连接
         connect,
@@ -602,5 +609,7 @@ export default function socketTask(options) {
         onMessage,
         // 设置监听连接关闭事件
         onClose,
+        // 获取句柄
+        getHandle,
     }
 }
