@@ -1,5 +1,3 @@
-import { parse } from 'qs'
-
 import $n_isValidString from './isValidString'
 import $n_numberDeep from './numberDeep'
 import $n_isBrowser from './isBrowser'
@@ -97,14 +95,22 @@ export default function url(href = '') {
             // 获取 query
             hrefs = href.split('?')
             len = hrefs.length
+            u.query = {}
             if (len > 1) {
                 u.url = hrefs[0]
                 u.search = hrefs[len - 1]
-                u.query = $n_numberDeep(parse(u.search))
+
+                const searchs = u.search.split('&')
+                for (const e of searchs) {
+                    const arr = e.split('=')
+                    if (arr.length > 1) {
+                        u.query[arr[0]] = $n_numberDeep(arr[1])
+                    }
+                }
+
             } else {
                 u.url = href
                 u.search = ''
-                u.query = {}
             }
 
             u.pathname = $n_slash(u.url.substring(u.url.lastIndexOf(u.origin) + u.origin.length), 'all', false)
