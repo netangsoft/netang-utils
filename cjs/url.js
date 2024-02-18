@@ -21,7 +21,7 @@ const $n_slash = require('./slash')
  *      search: "a=1&b=2&c=3"
  *      url: "http://192.168.1.120:9081/biz/user/index"
  */
-function url(href = '') {
+function url(href = '', isParseQuery = true) {
 
     try {
 
@@ -97,14 +97,27 @@ function url(href = '') {
             // 获取 query
             hrefs = href.split('?')
             len = hrefs.length
+            u.query = {}
             if (len > 1) {
                 u.url = hrefs[0]
                 u.search = hrefs[len - 1]
-                u.query = $n_numberDeep(parse(u.search))
+
+                if (isParseQuery) {
+                    u.query = $n_numberDeep(parse(u.search))
+
+                } else {
+                    const searchs = u.search.split('&')
+                    for (const e of searchs) {
+                        const arr = e.split('=')
+                        if (arr.length > 1) {
+                            u.query[arr[0]] = $n_numberDeep(arr[1])
+                        }
+                    }
+                }
+
             } else {
                 u.url = href
                 u.search = ''
-                u.query = {}
             }
 
             u.pathname = $n_slash(u.url.substring(u.url.lastIndexOf(u.origin) + u.origin.length), 'all', false)

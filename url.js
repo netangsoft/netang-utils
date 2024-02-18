@@ -1,3 +1,5 @@
+import { parse } from 'qs'
+
 import $n_isValidString from './isValidString'
 import $n_numberDeep from './numberDeep'
 import $n_isBrowser from './isBrowser'
@@ -19,7 +21,7 @@ import $n_slash from './slash'
  *      search: "a=1&b=2&c=3"
  *      url: "http://192.168.1.120:9081/biz/user/index"
  */
-export default function url(href = '') {
+export default function url(href = '', isParseQuery = true) {
 
     try {
 
@@ -100,11 +102,16 @@ export default function url(href = '') {
                 u.url = hrefs[0]
                 u.search = hrefs[len - 1]
 
-                const searchs = u.search.split('&')
-                for (const e of searchs) {
-                    const arr = e.split('=')
-                    if (arr.length > 1) {
-                        u.query[arr[0]] = $n_numberDeep(arr[1])
+                if (isParseQuery) {
+                    u.query = $n_numberDeep(parse(u.search))
+
+                } else {
+                    const searchs = u.search.split('&')
+                    for (const e of searchs) {
+                        const arr = e.split('=')
+                        if (arr.length > 1) {
+                            u.query[arr[0]] = $n_numberDeep(arr[1])
+                        }
                     }
                 }
 

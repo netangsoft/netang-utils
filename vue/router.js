@@ -44,7 +44,9 @@ function getOptions(options) {
         return false
     }
 
-    const o = Object.assign({}, options)
+    const o = Object.assign({
+        parse: true,
+    }, options)
 
     // 如果存在 path
     if (_has(o, 'path')) {
@@ -68,10 +70,10 @@ function getOptions(options) {
         // 如果有参数
         } else {
             // 路径开头加上反斜杠
-            o.path = $n_slash(o.path, 'start', true)
+            o.path = $n_slash(o.path, 'start')
 
             // 解构地址
-            urls = $n_url('http://x.com' + o.path)
+            urls = $n_url('http://x.com' + o.path, o.parse)
         }
 
         // 解构地址
@@ -94,6 +96,8 @@ function getOptions(options) {
             o.hash = '#' + hash
         }
     }
+
+    delete o.parse
 
     return o
 }
