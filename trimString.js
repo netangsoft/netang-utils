@@ -7,10 +7,10 @@ import $n_trim from 'lodash/trim'
  * @param {number|string} val 值
  * @returns {string}
  */
-export default function trimString(val) {
+export default function trimString(val, chars = undefined) {
 
     if ($n_isString(val)) {
-        return $n_trim(val)
+        return $n_trim(val, chars)
     }
 
     if ($n_isNumber(val)) {
