@@ -22,9 +22,13 @@ function substring(value, start= 0, length = 0, other = '', isReverse = false) {
 
     for (let i = 0; i < count; i++) {
 
-        if (encodeURI(value.charAt(isReverse === true ? count - 1 - i : i)).length > 2) {
-            num += 2
-        } else {
+        try {
+            if (encodeURI(value.charAt(isReverse === true ? count - 1 - i : i)).length > 2) {
+                num += 2
+            } else {
+                num += 1
+            }
+        } catch (e) {
             num += 1
         }
 
