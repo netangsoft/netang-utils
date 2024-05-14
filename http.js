@@ -67,7 +67,9 @@ const httpSettings = {
     setCacheBefore: null,
     // 缓存时间(5分钟)
     cacheTime: 300000,
-    // 是否开启防抖(防止重复请求)
+    // 是否允许重复请求(如果关闭, 则同时请求多个相同请求会合并成一个请求)
+    repeatRequest: true,
+    // 是否开启防抖(执行过程中, 只第一次有效)
     debounce: false,
     // 是否错误重连
     reConnect: false,
@@ -110,13 +112,13 @@ const httpSettings = {
     onError: null,
 }
 
-// loading 句柄对象
-const loadingHandles = {}
+// 请求句柄对象
+const requestHandles = {}
 
 /**
  * httpAsync
  */
-async function httpAsync(params) {
+async function httpAsync(params, resolve) {
 
     try {
         // 默认参数
@@ -219,11 +221,20 @@ async function httpAsync(params) {
         // 【防止重复请求】================================================================================================
 
         // 如果当前请求为 loading 则停止往下执行(防止重复请求)
-        if (para.debounce) {
-            if ($n_get(loadingHandles, cacheName) === true) {
+        // 如果不允许重复请求
+        if (! para.repeatRequest) {
+            if ($n_has(requestHandles, cacheName)) {
+                // 如果未开启防抖动
+                if (! para.debounce) {
+                    // 则保存当前请求方法, 等到第一次请求结束后, 返回第一次的请求结果
+                    requestHandles[cacheName].push({
+                        onHttp,
+                        resolve,
+                    })
+                }
                 return
             }
-            loadingHandles[cacheName] = true
+            requestHandles[cacheName] = []
         }
 
         // 【判断 loading 状态】==========================================================================================
@@ -376,7 +387,7 @@ async function httpAsync(params) {
         /**
          * 请求数据
          */
-        async function onHttp() {
+        async function onHttp(resHttp = null, isReturnRequest = false) {
 
             // 请求成功
             try {
@@ -443,7 +454,7 @@ async function httpAsync(params) {
                 }
 
                 // 发起请求
-                return await para.onRequest({ para, options, onError, next })
+                return isReturnRequest ? resHttp : await para.onRequest({ para, options, onError, next })
 
             } catch (e) {
 
@@ -467,9 +478,20 @@ async function httpAsync(params) {
         // 清空连接次数
         _reConnectedNum = 0
 
-        // 删除 loading 句柄
-        if (para.debounce) {
-            delete loadingHandles[cacheName]
+        if (
+            // 如果不允许重复请求
+            ! para.repeatRequest
+            // 如果有未执行请求句柄
+            && $n_has(requestHandles, cacheName)
+        ) {
+            // 如果未开启防抖动
+            if (! para.debounce) {
+                for (const fn of requestHandles[cacheName]) {
+                    fn.resolve(await fn.onHttp(resHttp, true))
+                }
+            }
+            // 删除请求句柄
+            delete requestHandles[cacheName]
         }
 
         return resHttp
@@ -489,7 +511,7 @@ async function httpAsync(params) {
 
 function httpSingle(params) {
     return new Promise(function(resolve) {
-        httpAsync(params)
+        httpAsync(params, resolve)
             .then(function(res) {
                 if (! $n_isNil(res)) {
                     resolve(res)
