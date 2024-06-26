@@ -38,7 +38,7 @@ function matchAll(content, reg, isMustMatch = false) {
             end: currentIndex,
         })
     }
-    
+
     if (isMustMatch && ! currentIndex) {
         return []
     }
