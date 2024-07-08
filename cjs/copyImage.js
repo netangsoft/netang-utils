@@ -1,10 +1,37 @@
+function convertBase64ToBlob(base64, type) {
+    const bytes = window.atob(base64)
+    const ab = new ArrayBuffer(bytes.length)
+    const ia = new Uint8Array(ab)
+    for (let i = 0; i < bytes.length; i++) {
+        ia[i] = bytes.charCodeAt(i)
+    }
+    return new Blob([ab], { type })
+}
+
 /**
  * copyImage
  * 复制图片到剪切板
- * @param src
  */
 function copyImage(src) {
     return new Promise(function (resolve, reject) {
+
+        src = String(src)
+
+        // 如果是 base64
+        if (/^(data:)/i.test(src)) {
+            const arr = src.split('base64,')
+            if (arr.length > 1) {
+                const type = 'image/png'
+                navigator.clipboard.write([
+                    new ClipboardItem({
+                        [type]: convertBase64ToBlob(arr[1], type)
+                    })
+                ])
+                    .then(resolve)
+                    .catch(reject)
+            }
+        }
+
         let $dom = document.querySelector('#n-copy-image')
         if ($dom) {
             $dom.innerHTML = ''
