@@ -14,7 +14,7 @@ const {
 /**
  * 替换
  */
-export default function (options) {
+module.exports = function (options) {
 
     // 获取配置
     const o = Object.assign({
