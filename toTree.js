@@ -106,8 +106,20 @@ export default function toTree(params) {
             // 获取 node 节点
             const item = nodes[rawItem[o.idKey]]
 
+            // 获取 attr
+            const attr = item[o.attrKey]
+
+            // 如果有根节点值 && id === 根节点值
+            if (
+                o.rootValue
+                && attr[o.idKey] === o.rootValue
+            ) {
+                // 添加至树列表
+                tree.push(item)
+            }
+
             // 获取节点 pid
-            const pid = item[o.attrKey][o.pidKey]
+            const pid = attr[o.pidKey]
 
             // 如果有绑定父级 id
             if (pid) {
