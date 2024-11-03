@@ -1,6 +1,6 @@
-const path = require('path')
-const fsWriteFile = require('./promisify/fsWriteFile')
-const mkdir = require('./mkdir')
+import path from 'path'
+import fsWriteFile from './promisify/fsWriteFile.js'
+import mkdir from './mkdir.js'
 
 /*
  * 写入文件
@@ -14,4 +14,4 @@ async function writeFile(filePath, ...args) {
     await fsWriteFile(filePath, ...args)
 }
 
-module.exports = writeFile
+export default writeFile

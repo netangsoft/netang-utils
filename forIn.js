@@ -1,6 +1,6 @@
-import $n_isPlainObject from 'lodash/isPlainObject'
+import $n_isPlainObject from 'lodash/isPlainObject.js'
 
-import _forIn from './.internal/_forIn'
+import _forIn from './.internal/_forIn.js'
 
 /**
  * forIn

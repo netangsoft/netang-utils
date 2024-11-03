@@ -1,4 +1,4 @@
-import $n_isNumeric from '../isNumeric'
+import $n_isNumeric from '../isNumeric.js'
 
 /**
  * forIn

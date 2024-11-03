@@ -1,5 +1,5 @@
-import $n_isNil from 'lodash/isNil'
-import $n_forIn from './forIn'
+import $n_isNil from 'lodash/isNil.js'
+import $n_forIn from './forIn.js'
 
 /**
  * 移除对象中的 nil 值

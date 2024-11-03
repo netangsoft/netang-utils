@@ -1,9 +1,9 @@
-import $n_isNumber from 'lodash/isNumber'
-import $n_trim from 'lodash/trim'
-import $n_isNil from 'lodash/isNil'
-import $n_isBoolean from 'lodash/isBoolean'
-import $n_isObjectLike from 'lodash/isObjectLike'
-import $n_isNumeric from './isNumeric'
+import $n_isNumber from 'lodash/isNumber.js'
+import $n_trim from 'lodash/trim.js'
+import $n_isNil from 'lodash/isNil.js'
+import $n_isBoolean from 'lodash/isBoolean.js'
+import $n_isObjectLike from 'lodash/isObjectLike.js'
+import $n_isNumeric from './isNumeric.js'
 
 /**
  * 深度转换为数字

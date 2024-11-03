@@ -1,5 +1,5 @@
-const crypto = require('crypto')
-const fsReadFile = require('./promisify/fsReadFile')
+import crypto from 'crypto'
+import fsReadFile from './promisify/fsReadFile.js'
 
 /**
  * 获取文件 hash
@@ -13,4 +13,4 @@ async function getFileHash(filePath, algorithm = 'md5') {
         .digest('hex')
 }
 
-module.exports = getFileHash
+export default getFileHash

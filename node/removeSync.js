@@ -1,5 +1,5 @@
-const fs = require('fs')
-const readdirSync = require('./readdirSync')
+import fs from 'fs'
+import readdirSync from './readdirSync.js'
 
 /*
  * 删除所有文件
@@ -43,4 +43,4 @@ function removeSync(filePath, params) {
     }
 }
 
-module.exports = removeSync
+export default removeSync

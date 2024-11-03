@@ -1,4 +1,4 @@
-const fsStat = require('./promisify/fsStat')
+import fsStat from './promisify/fsStat.js'
 
 /*
  * 获取文件类型
@@ -10,4 +10,4 @@ async function getFileType(filePath) {
     return ''
 }
 
-module.exports = getFileType
+export default getFileType

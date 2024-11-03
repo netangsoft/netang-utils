@@ -1,5 +1,5 @@
 import ResizeObserver from 'resize-observer-polyfill'
-import $n_run from './run'
+import $n_run from './run.js'
 
 function resizeHandler(entries) {
     for (const entry of entries) {

@@ -1,8 +1,8 @@
-import $n_toNumber from 'lodash/toNumber'
-import $n_has from 'lodash/has'
+import $n_toNumber from 'lodash/toNumber.js'
+import $n_has from 'lodash/has.js'
 
-import $n_isValidString from './isValidString'
-import $n_isNumeric from './isNumeric'
+import $n_isValidString from './isValidString.js'
+import $n_isNumeric from './isNumeric.js'
 
 /**
  * 保存 cookie

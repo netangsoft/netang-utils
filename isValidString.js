@@ -1,5 +1,5 @@
-import $n_isString from 'lodash/isString'
-import $n_trim from 'lodash/trim'
+import $n_isString from 'lodash/isString.js'
+import $n_trim from 'lodash/trim.js'
 
 /**
  * 检查是否为非空字符串

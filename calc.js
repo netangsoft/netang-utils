@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import $n_isFunction from 'lodash/isFunction'
+import $n_isFunction from 'lodash/isFunction.js'
 
 /**
  * 简单数字计算

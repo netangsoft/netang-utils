@@ -1,4 +1,4 @@
-import $n_isBrowser from './isBrowser'
+import $n_isBrowser from './isBrowser.js'
 
 /**
  * 获取屏幕宽高【废弃】

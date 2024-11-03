@@ -1,4 +1,4 @@
-import $n_isValidArray from './isValidArray'
+import $n_isValidArray from './isValidArray.js'
 
 /*
  * 拆分字符串

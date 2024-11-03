@@ -1,4 +1,4 @@
-import $n_isString from 'lodash/isString'
+import $n_isString from 'lodash/isString.js'
 
 /**
  * 检查是否为数字(包括字符串数字)

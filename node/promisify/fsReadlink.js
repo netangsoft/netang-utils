@@ -1,3 +1,3 @@
-const fs = require('fs')
-const { promisify } = require('util')
-module.exports = promisify(fs.readlink)
+import fs from 'fs'
+import { promisify } from 'util'
+export default promisify(fs.readlink)

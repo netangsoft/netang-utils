@@ -1,6 +1,6 @@
-const readdir = require('./readdir')
-const fsUnlink = require('./promisify/fsUnlink')
-const fsRmdir = require('./promisify/fsRmdir')
+import readdir from './readdir.js'
+import fsUnlink from './promisify/fsUnlink.js'
+import fsRmdir from './promisify/fsRmdir.js'
 
 /*
  * 删除所有文件
@@ -44,4 +44,4 @@ async function remove(filePath, params) {
     }
 }
 
-module.exports = remove
+export default remove

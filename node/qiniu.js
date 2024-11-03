@@ -1,15 +1,15 @@
-const axios = require('axios')
-const _qiniu = require('qiniu')
+import axios from 'axios'
+import _qiniu from 'qiniu'
 
-const $n_has = require('lodash/has')
+import $n_has from 'lodash/has.js'
 
-const $n_slash = require('../cjs/slash')
-const $n_isValidArray = require('../cjs/isValidArray')
-const $n_isValidString = require('../cjs/isValidString')
-const $n_sortDesc = require('../cjs/sortDesc')
+import $n_slash from '../slash.js'
+import $n_isValidArray from '../isValidArray.js'
+import $n_isValidString from '../isValidString.js'
+import $n_sortDesc from '../sortDesc.js'
 
-const readdir = require('./readdir')
-const remove = require('./remove')
+import readdir from './readdir.js'
+import remove from './remove.js'
 
 /**
  * 七牛类
@@ -449,4 +449,4 @@ function qiniu(config) {
     return new QN(config)
 }
 
-module.exports = qiniu
+export default qiniu

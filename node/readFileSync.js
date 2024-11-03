@@ -1,5 +1,5 @@
-const fs = require('fs')
-const fileExistsSync = require('./fileExistsSync')
+import fs from 'fs'
+import fileExistsSync from './fileExistsSync.js'
 
 /*
  * 读取文件内容
@@ -14,4 +14,4 @@ function readFileSync(filePath, options = 'utf-8', defaultValue = '') {
         : defaultValue
 }
 
-module.exports = readFileSync
+export default readFileSync

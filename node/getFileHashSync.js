@@ -1,5 +1,5 @@
-const fs = require('fs')
-const crypto = require('crypto')
+import fs from 'fs'
+import crypto from 'crypto'
 
 /**
  * 获取文件 hash
@@ -13,4 +13,4 @@ function getFileHashSync(filePath, algorithm = 'md5') {
         .digest('hex')
 }
 
-module.exports = getFileHashSync
+export default getFileHashSync

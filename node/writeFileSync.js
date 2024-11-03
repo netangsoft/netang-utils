@@ -1,6 +1,6 @@
-const path = require('path')
-const fs = require('fs')
-const mkdirSync = require('./mkdirSync')
+import path from 'path'
+import fs from 'fs'
+import mkdirSync from './mkdirSync.js'
 
 /*
  * 写入文件
@@ -14,4 +14,4 @@ function writeFileSync(filePath, ...args) {
     fs.writeFileSync(filePath, ...args)
 }
 
-module.exports = writeFileSync
+export default writeFileSync

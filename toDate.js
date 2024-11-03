@@ -1,6 +1,6 @@
-import $n_isNil from 'lodash/isNil'
-import $n_isString from 'lodash/isString'
-import $n_isNumeric from './isNumeric'
+import $n_isNil from 'lodash/isNil.js'
+import $n_isString from 'lodash/isString.js'
+import $n_isNumeric from './isNumeric.js'
 
 /**
  * 转换日期格式

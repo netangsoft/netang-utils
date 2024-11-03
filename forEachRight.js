@@ -1,4 +1,4 @@
-import _forEach from './.internal/_forEach'
+import _forEach from './.internal/_forEach.js'
 
 /**
  * forEachRight

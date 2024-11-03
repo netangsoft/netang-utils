@@ -1,5 +1,4 @@
-const process = require('process')
-const hasArgv = require('./hasArgv')
+import hasArgv from './hasArgv.js'
 
 /**
  * 获取环境变量
@@ -35,4 +34,4 @@ function getEnv(newEnv) {
     return env
 }
 
-module.exports = getEnv
+export default getEnv

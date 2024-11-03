@@ -1,3 +1,5 @@
+import loaderUtils from './loaderUtils.js'
+
 const {
     // 加载匹配
     importMacth,
@@ -9,12 +11,12 @@ const {
     replaceEnv,
     // 批量替换
     batchReplace,
-} = require('./loaderUtils')
+} = loaderUtils
 
 /**
  * 替换
  */
-module.exports = function (options) {
+function viteReplaceLoader(options) {
 
     // 获取配置
     const o = Object.assign({
@@ -61,3 +63,5 @@ module.exports = function (options) {
         }
     }
 }
+
+export default viteReplaceLoader

@@ -1,4 +1,4 @@
-import $n_toNumber from 'lodash/toNumber'
+import $n_toNumber from 'lodash/toNumber.js'
 
 /**
  * 数字转 ip

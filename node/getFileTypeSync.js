@@ -1,4 +1,4 @@
-const fs = require('fs')
+import fs from 'fs'
 
 /*
  * 获取文件类型
@@ -10,4 +10,4 @@ function getFileTypeSync(filePath) {
     return ''
 }
 
-module.exports = getFileTypeSync
+export default getFileTypeSync

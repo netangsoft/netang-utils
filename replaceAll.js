@@ -1,5 +1,5 @@
-import $n_isNumber from 'lodash/isNumber'
-import $n_isString from 'lodash/isString'
+import $n_isNumber from 'lodash/isNumber.js'
+import $n_isString from 'lodash/isString.js'
 
 /*
  * 替换全部

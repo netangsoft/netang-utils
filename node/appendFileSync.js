@@ -1,6 +1,6 @@
-const fs = require('fs')
-const fileExistsSync = require('./fileExistsSync')
-const writeFileSync = require('./writeFileSync')
+import fs from 'fs'
+import fileExistsSync from './fileExistsSync.js'
+import writeFileSync from './writeFileSync.js'
 
 /*
  * 追加文件
@@ -18,4 +18,4 @@ function appendFileSync(filePath, data, options) {
     }
 }
 
-module.exports = appendFileSync
+export default appendFileSync

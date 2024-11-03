@@ -1,5 +1,5 @@
-const { exec } = require('child_process')
-const iconv = require('iconv-lite')
+import { exec } from 'node:child_process'
+import iconv from 'iconv-lite'
 
 /**
  * 执行命令
@@ -37,4 +37,4 @@ function runExec(cmd) {
     })
 }
 
-module.exports = runExec
+export default runExec

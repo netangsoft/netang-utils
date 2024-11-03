@@ -1,12 +1,12 @@
-import $n_isNil from 'lodash/isNil'
-import $n_has from 'lodash/has'
-import $n_isValidObject from './isValidObject'
-import $n_isValidString from './isValidString'
-import $n_numberDeep from './numberDeep'
-import $n_forIn from './forIn'
-import $n_json from './json'
+import $n_isNil from 'lodash/isNil.js'
+import $n_has from 'lodash/has.js'
+import $n_isValidObject from './isValidObject.js'
+import $n_isValidString from './isValidString.js'
+import $n_numberDeep from './numberDeep.js'
+import $n_forIn from './forIn.js'
+import $n_json from './json.js'
 
-import { storageOptions as o } from './settings'
+import { storageOptions as o } from './settings.js'
 
 /**
  * 获取 storage 前缀

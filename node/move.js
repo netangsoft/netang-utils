@@ -1,7 +1,7 @@
-const path = require('path')
-const fsRename = require('./promisify/fsRename')
-const remove = require('./remove')
-const copy = require('./copy')
+import path from 'path'
+import fsRename from './promisify/fsRename.js'
+import remove from './remove.js'
+import copy from './copy.js'
 
 /**
  * 移动
@@ -42,4 +42,4 @@ async function move(src, dest, params) {
     await remove(src)
 }
 
-module.exports = move
+export default move

@@ -1,5 +1,5 @@
-import $n_isNumeric from './isNumeric'
-import $n_indexOf from './indexOf'
+import $n_isNumeric from './isNumeric.js'
+import $n_indexOf from './indexOf.js'
 
 /**
  * 转为像素

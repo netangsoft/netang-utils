@@ -1,15 +1,10 @@
-const crypto = require('crypto')
-const fsReadFile = require('./promisify/fsReadFile')
+import getFileHash from './getFileHash.js'
 
 /**
  * 获取文件 hash 名称
  */
-async function getFileHashName(filePath, length = 8, algorithm = 'md4') {
-    return crypto
-        .createHash(algorithm)
-        .update(await fsReadFile(filePath))
-        .digest('hex')
-        .slice(0, length)
+async function getFileHashName(filePath, length = 8) {
+    return (await getFileHash(filePath)).slice(0, length)
 }
 
-module.exports = getFileHashName
+export default getFileHashName

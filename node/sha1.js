@@ -1,4 +1,4 @@
-const crypto = require('crypto')
+import crypto from 'crypto'
 
 /**
  * 获取 sha1
@@ -9,4 +9,4 @@ function sha1(str) {
         .digest('hex')
 }
 
-module.exports = sha1
+export default sha1

@@ -1,4 +1,4 @@
-import $n_isPlainObject from 'lodash/isPlainObject'
+import $n_isPlainObject from 'lodash/isPlainObject.js'
 
 /**
  * 检查是否为非空对象

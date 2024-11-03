@@ -1,4 +1,4 @@
-import zhCn from './locale/zh-cn'
+import zhCn from './locale/zh-cn.js'
 
 /**
  * 默认 storage 参数

@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import $n_indexOf from './indexOf'
+import $n_indexOf from './indexOf.js'
 
 /**
  * 获取百分比值

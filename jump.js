@@ -1,5 +1,5 @@
-import $n_isBrowser from './isBrowser'
-import $n_isValidString from './isValidString'
+import $n_isBrowser from './isBrowser.js'
+import $n_isValidString from './isValidString.js'
 
 /**
  * 跳转

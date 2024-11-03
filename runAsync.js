@@ -1,5 +1,5 @@
-import $n_isFunction from 'lodash/isFunction'
-import $n_isPromise from './isPromise'
+import $n_isFunction from 'lodash/isFunction.js'
+import $n_isPromise from './isPromise.js'
 
 /**
  * 运行异步函数

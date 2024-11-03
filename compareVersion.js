@@ -1,5 +1,4 @@
-import $n_split from './split'
-import $n_trimString from './trimString'
+import $n_split from './split.js'
 
 /**
  * 对比版本号

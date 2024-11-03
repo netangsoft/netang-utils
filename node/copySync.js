@@ -1,8 +1,8 @@
-const path = require('path')
-const fs = require('fs')
-const fileExistsSync = require('./fileExistsSync')
-const mkdirSync = require('./mkdirSync')
-const readdirSync = require('./readdirSync')
+import path from 'path'
+import fs from 'fs'
+import fileExistsSync from './fileExistsSync.js'
+import mkdirSync from './mkdirSync.js'
+import readdirSync from './readdirSync.js'
 
 // prevent copy if src is a subdir of dest since unlinking
 // dest in this case would result in removing src contents
@@ -158,4 +158,4 @@ function copySync(src, dest, params) {
     }
 }
 
-module.exports = copySync
+export default copySync

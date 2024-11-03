@@ -1,4 +1,4 @@
-const fs = require('fs')
+import fs from 'fs'
 
 /*
  * 文件夹是否存在
@@ -10,4 +10,4 @@ function dirExistsSync(filePath) {
     return false
 }
 
-module.exports = dirExistsSync
+export default dirExistsSync

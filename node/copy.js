@@ -1,11 +1,11 @@
-const path = require('path')
-const fsCopyFile = require('./promisify/fsCopyFile')
-const fsReadlink = require('./promisify/fsReadlink')
-const fsSymlink = require('./promisify/fsSymlink')
-const fsUnlink = require('./promisify/fsUnlink')
-const fileExists = require('./fileExists')
-const mkdir = require('./mkdir')
-const readdir = require('./readdir')
+import path from 'path'
+import fsCopyFile from './promisify/fsCopyFile.js'
+import fsReadlink from './promisify/fsReadlink.js'
+import fsSymlink from './promisify/fsSymlink.js'
+import fsUnlink from './promisify/fsUnlink.js'
+import fileExists from './fileExists.js'
+import mkdir from './mkdir.js'
+import readdir from './readdir.js'
 
 // prevent copy if src is a subdir of dest since unlinking
 // dest in this case would result in removing src contents
@@ -161,4 +161,4 @@ async function copy(src, dest, params) {
     }
 }
 
-module.exports = copy
+export default copy

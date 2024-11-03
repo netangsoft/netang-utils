@@ -1,5 +1,5 @@
-import $n_isString from 'lodash/isString'
-import $n_isNumeric from './isNumeric'
+import $n_isString from 'lodash/isString.js'
+import $n_isNumeric from './isNumeric.js'
 
 function toString(value, separator = '-', defaultValue = '') {
     if ($n_isNumeric(value)) {

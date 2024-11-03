@@ -1,5 +1,5 @@
-const fsReadFile = require('./promisify/fsReadFile')
-const fileExists = require('./fileExists')
+import fsReadFile from './promisify/fsReadFile.js'
+import fileExists from './fileExists.js'
 
 /*
  * 读取文件内容
@@ -14,4 +14,4 @@ async function readFile(filePath, options = 'utf-8', defaultValue = '') {
         : defaultValue
 }
 
-module.exports = readFile
+export default readFile

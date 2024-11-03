@@ -1,7 +1,7 @@
-import $n_has from 'lodash/has'
-import $n_isNumeric from './isNumeric'
-import $n_isValidObject from './isValidObject'
-import $n_isValidString from './isValidString'
+import $n_has from 'lodash/has.js'
+import $n_isNumeric from './isNumeric.js'
+import $n_isValidObject from './isValidObject.js'
+import $n_isValidString from './isValidString.js'
 
 /*
  * 是否是/含有 id

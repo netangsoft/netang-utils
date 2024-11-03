@@ -1,6 +1,6 @@
-import $n_isValidArray from './isValidArray'
-import $n_isValidObject from './isValidObject'
-import $n_isValidValue from './isValidValue'
+import $n_isValidArray from './isValidArray.js'
+import $n_isValidObject from './isValidObject.js'
+import $n_isValidValue from './isValidValue.js'
 
 /**
  * 是否有值

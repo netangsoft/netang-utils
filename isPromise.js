@@ -1,5 +1,5 @@
-import $n_isObject from 'lodash/isObject'
-import $n_isFunction from 'lodash/isFunction'
+import $n_isObject from 'lodash/isObject.js'
+import $n_isFunction from 'lodash/isFunction.js'
 
 /**
  * 检查是否为 Promise

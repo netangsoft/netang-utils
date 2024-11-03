@@ -1,6 +1,6 @@
-import $n_isString from 'lodash/isString'
-import $n_isNumber from 'lodash/isNumber'
-import $n_trim from 'lodash/trim'
+import $n_isString from 'lodash/isString.js'
+import $n_isNumber from 'lodash/isNumber.js'
+import $n_trim from 'lodash/trim.js'
 
 /**
  * 替换为星号

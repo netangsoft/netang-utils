@@ -1,5 +1,5 @@
-import $n_has from 'lodash/has'
-import $n_isValidArray from './isValidArray'
+import $n_has from 'lodash/has.js'
+import $n_isValidArray from './isValidArray.js'
 
 /**
  * 数组转对象【废弃】

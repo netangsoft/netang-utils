@@ -1,4 +1,4 @@
-import { validate } from './.internal/_validator'
+import { validate } from './.internal/_validator.js'
 
 /**
  * 单个验证器

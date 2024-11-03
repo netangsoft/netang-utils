@@ -1,6 +1,6 @@
-const fsAppendFile = require('./promisify/fsAppendFile')
-const fileExists = require('./fileExists')
-const writeFile = require('./writeFile')
+import fsAppendFile from './promisify/fsAppendFile.js'
+import fileExists from './fileExists.js'
+import writeFile from './writeFile.js'
 
 /*
  * 追加文件
@@ -18,4 +18,4 @@ async function appendFile(filePath, data, ...args) {
     }
 }
 
-module.exports = appendFile
+export default appendFile

@@ -1,4 +1,4 @@
-import $n_isArray from 'lodash/isArray'
+import $n_isArray from 'lodash/isArray.js'
 
 /**
  * 排序

@@ -1,6 +1,6 @@
-const path = require('path')
-const readdir = require('../node/readdir')
-const writeFile = require('../node/writeFile')
+import path from 'path'
+import readdir from '../node/readdir.js'
+import writeFile from '../node/writeFile.js'
 
 // lodash 所有方法
 const lodashKeys = [
@@ -329,13 +329,11 @@ const lodashKeys = [
 /**
  * 生成引入配置文件
  */
-module.exports = async function (params) {
+export default async function (params) {
 
     const o = Object.assign({
         // utils 包含文件列表
         utils: [],
-        // vue 包含文件列表
-        vue: [],
         // lodash 包含文件列表
         lodash: [],
         // 生成文件地址
@@ -356,10 +354,6 @@ module.exports = async function (params) {
     // lodash 方法列表
     const lodashHeaders = []
     const lodashContents = []
-
-    // vue 方法列表
-    const vueHeaders = []
-    const vueContents = []
 
     // 遍历 utils
     let files = await readdir(path.join(__dirname, '../'), {
@@ -410,49 +404,12 @@ module.exports = async function (params) {
         }
     }
 
-    // 遍历 vue 工具
-    const dirs = ['vue', 'vue/ssr']
-    for (const dir of dirs) {
-        // 遍历 vue 工具
-        files = await readdir(path.join(__dirname, '../' + dir), {
-            // 包含规则
-            includes: [
-                '*.js',
-            ],
-            // 忽略规则
-            ignores: [
-                'store.js',
-            ],
-            // 不包含当前路径
-            self: false,
-            // 不深度遍历
-            deep: false,
-        })
-        for (const { fileName, isFile } of files) {
-            if (isFile) {
-
-                // 方法名
-                const methodName = fileName.replace('.js', '')
-
-                // 如果该方法在 vue 包含文件列表中
-                if (o.vue.indexOf(methodName) > -1) {
-                    // 添加至 netang 方法列表中
-                    vueHeaders.push(`import ${methodName} from '@netang/utils/${dir}/${methodName}'`)
-                    vueContents.push(`    ${methodName},`)
-                }
-            }
-        }
-    }
-
     // 生成文件
     await writeFile(o.outputPath, `// @netang/utils
 ${utilsHeaders.join('\n')}
 
 // lodash
 ${lodashHeaders.join('\n')}
-
-// @netang/utils/vue
-${vueHeaders.join('\n')}
 
 /**
  * 公共方法
@@ -466,7 +423,5 @@ ${utilsContents.join('\n')}
     // lodash
 ${lodashContents.join('\n')}
 
-    // @netang/utils/vue
-${vueContents.join('\n')}
 }`)
 }

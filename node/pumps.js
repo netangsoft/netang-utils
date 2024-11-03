@@ -1,4 +1,4 @@
-const pump = require('pump')
+import pump from 'pump'
 
 /**
  * pumps
@@ -15,4 +15,4 @@ function pumps(...args) {
     })
 }
 
-module.exports = pumps
+export default pumps
