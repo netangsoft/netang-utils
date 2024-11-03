@@ -26,11 +26,11 @@
     "registry": "https://registry.npmjs.org"
   },
   "dependencies": {
-    "bignumber.js": "^9.1.1",
-    "iconv-lite": "^0.6.3",
-    "lodash": "^4.17.21",
-    "minimatch": "^10.0.1",
-    "qs": "^6.11.0",
-    "xregexp": "^5.1.1"
+    "bignumber.js": "9.1.1",
+    "iconv-lite": "0.6.3",
+    "lodash": "4.17.21",
+    "minimatch": "10.0.1",
+    "qs": "6.11.0",
+    "xregexp": "5.1.1"
   }
 }
