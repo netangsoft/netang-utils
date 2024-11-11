@@ -1,6 +1,11 @@
 import path from 'path'
+import { fileURLToPath } from 'node:url'
+
 import readdir from '../node/readdir.js'
 import writeFile from '../node/writeFile.js'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 // lodash 所有方法
 const lodashKeys = [
