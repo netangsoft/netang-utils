@@ -1,5 +1,5 @@
-import $n_trim from 'lodash/trim.js'
-import $n_size from 'lodash/size.js'
+import $n_trim from 'lodash-es/trim.js'
+import $n_size from 'lodash-es/size.js'
 import $n_isNumeric from './isNumeric.js'
 import $n_isValidString from './isValidString.js'
 

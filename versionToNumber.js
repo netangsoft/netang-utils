@@ -1,4 +1,4 @@
-import $n_padStart from 'lodash/padStart.js'
+import $n_padStart from 'lodash-es/padStart.js'
 import $n_split from './split.js'
 
 /**

@@ -399,7 +399,7 @@ export default async function (params) {
             && lodashKeys.indexOf(methodName) > -1
         ) {
             // 添加至 lodash 方法列表中
-            lodashHeaders.push(`import ${methodName} from 'lodash/${methodName}'`)
+            lodashHeaders.push(`import ${methodName} from 'lodash-es/${methodName}'`)
             lodashContents.push(`    ${methodName},`)
         }
     }

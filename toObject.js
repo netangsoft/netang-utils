@@ -1,4 +1,4 @@
-import $n_has from 'lodash/has.js'
+import $n_has from 'lodash-es/has.js'
 import $n_isValidArray from './isValidArray.js'
 
 /**

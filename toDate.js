@@ -1,5 +1,5 @@
-import $n_isNil from 'lodash/isNil.js'
-import $n_isString from 'lodash/isString.js'
+import $n_isNil from 'lodash-es/isNil.js'
+import $n_isString from 'lodash-es/isString.js'
 import $n_isNumeric from './isNumeric.js'
 
 /**

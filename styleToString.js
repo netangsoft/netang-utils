@@ -1,5 +1,5 @@
-import $n_isString from 'lodash/isString.js'
-import $n_kebabCase from 'lodash/kebabCase.js'
+import $n_isString from 'lodash-es/isString.js'
+import $n_kebabCase from 'lodash-es/kebabCase.js'
 
 import $n_split from './split.js'
 import $n_isValidObject from './isValidObject.js'

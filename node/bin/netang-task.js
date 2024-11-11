@@ -3,8 +3,8 @@
 import path from 'path'
 import { createRequire } from 'node:module'
 
-import $n_startsWith from 'lodash/startsWith.js'
-import $n_has from 'lodash/has.js'
+import $n_startsWith from 'lodash-es/startsWith.js'
+import $n_has from 'lodash-es/has.js'
 
 import $n_runAsync from '../../runAsync.js'
 import $n_isValidObject from '../../isValidObject.js'

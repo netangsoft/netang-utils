@@ -1,7 +1,7 @@
-import $n_has from 'lodash/has.js'
-import $n_findIndex from 'lodash/findIndex.js'
-import $n_isNil from 'lodash/isNil.js'
-import $n_isFunction from 'lodash/isFunction.js'
+import $n_has from 'lodash-es/has.js'
+import $n_findIndex from 'lodash-es/findIndex.js'
+import $n_isNil from 'lodash-es/isNil.js'
+import $n_isFunction from 'lodash-es/isFunction.js'
 
 import $n_isValidObject from './isValidObject.js'
 import $n_getThrowMessage from './getThrowMessage.js'

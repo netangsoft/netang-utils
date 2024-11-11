@@ -1,4 +1,4 @@
-import $n_trim from 'lodash/trim.js'
+import $n_trim from 'lodash-es/trim.js'
 
 /**
  * 截取字符串【即将会更名，请勿使用】

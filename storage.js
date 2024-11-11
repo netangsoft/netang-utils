@@ -1,5 +1,5 @@
-import $n_isNil from 'lodash/isNil.js'
-import $n_has from 'lodash/has.js'
+import $n_isNil from 'lodash-es/isNil.js'
+import $n_has from 'lodash-es/has.js'
 import $n_isValidObject from './isValidObject.js'
 import $n_isValidString from './isValidString.js'
 import $n_numberDeep from './numberDeep.js'

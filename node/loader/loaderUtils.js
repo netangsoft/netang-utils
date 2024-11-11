@@ -1,7 +1,7 @@
 import path from 'path'
 import xregexp from 'xregexp'
 
-import $n_isFunction from 'lodash/isFunction.js'
+import $n_isFunction from 'lodash-es/isFunction.js'
 import $n_isValidObject from '../../isValidObject.js'
 import $n_forIn from '../../forIn.js'
 import $n_trimString from '../../trimString.js'

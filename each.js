@@ -1,4 +1,4 @@
-import $n_isPlainObject from 'lodash/isPlainObject.js'
+import $n_isPlainObject from 'lodash-es/isPlainObject.js'
 
 import _forEach from './.internal/_forEach.js'
 import _forIn from './.internal/_forIn.js'

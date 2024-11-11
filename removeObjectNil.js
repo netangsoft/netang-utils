@@ -1,4 +1,4 @@
-import $n_isNil from 'lodash/isNil.js'
+import $n_isNil from 'lodash-es/isNil.js'
 import $n_forIn from './forIn.js'
 
 /**

@@ -1,5 +1,5 @@
-import $n_isNumber from 'lodash/isNumber.js'
-import $n_round from 'lodash/round.js'
+import $n_isNumber from 'lodash-es/isNumber.js'
+import $n_round from 'lodash-es/round.js'
 import $n_numberDeep from './numberDeep.js'
 
 /**

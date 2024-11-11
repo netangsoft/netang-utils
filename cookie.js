@@ -1,5 +1,5 @@
-import $n_toNumber from 'lodash/toNumber.js'
-import $n_has from 'lodash/has.js'
+import $n_toNumber from 'lodash-es/toNumber.js'
+import $n_has from 'lodash-es/has.js'
 
 import $n_isValidString from './isValidString.js'
 import $n_isNumeric from './isNumeric.js'

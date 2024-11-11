@@ -1,4 +1,4 @@
-import $n_isFunction from 'lodash/isFunction.js'
+import $n_isFunction from 'lodash-es/isFunction.js'
 
 /**
  * 运行函数

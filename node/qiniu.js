@@ -1,7 +1,7 @@
 import axios from 'axios'
 import _qiniu from 'qiniu'
 
-import $n_has from 'lodash/has.js'
+import $n_has from 'lodash-es/has.js'
 
 import $n_slash from '../slash.js'
 import $n_isValidArray from '../isValidArray.js'

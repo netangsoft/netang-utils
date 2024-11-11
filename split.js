@@ -1,4 +1,4 @@
-import $n_isNumber from 'lodash/isNumber.js'
+import $n_isNumber from 'lodash-es/isNumber.js'
 import $n_numberDeep from './numberDeep.js'
 import $n_isValidString from './isValidString.js'
 

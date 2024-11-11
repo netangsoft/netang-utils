@@ -1,4 +1,4 @@
-import $n_sample from 'lodash/sample.js'
+import $n_sample from 'lodash-es/sample.js'
 
 const numberPool = '123456789'
 const StringLowerPool = 'abcdefghijkmnpqrstuvwxyz'

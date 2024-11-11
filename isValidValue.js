@@ -1,6 +1,6 @@
-import $n_isNil from 'lodash/isNil.js'
-import $n_isString from 'lodash/isString.js'
-import $n_trim from 'lodash/trim.js'
+import $n_isNil from 'lodash-es/isNil.js'
+import $n_isString from 'lodash-es/isString.js'
+import $n_trim from 'lodash-es/trim.js'
 
 /**
  * 是否为有效值

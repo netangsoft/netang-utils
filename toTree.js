@@ -1,5 +1,5 @@
-import $n_has from 'lodash/has.js'
-import $n_isFunction from 'lodash/isFunction.js'
+import $n_has from 'lodash-es/has.js'
+import $n_isFunction from 'lodash-es/isFunction.js'
 import $n_forEachRight from './forEachRight.js'
 import $n_forIn from './forIn.js'
 
