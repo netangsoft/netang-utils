@@ -20,6 +20,11 @@ function viteReplaceLoader(options) {
 
     // 获取配置
     const o = Object.assign({
+        // 强制插件的位置
+        // pre: 在 Vite 核心插件之前调用该插件
+        // 默认: 在 Vite 核心插件之后调用该插件
+        // post: 在 Vite 构建插件之后调用该插件
+        enforce: 'pre',
         // 环境变量
         env: {},
         // 替换内容回调
@@ -33,7 +38,8 @@ function viteReplaceLoader(options) {
     }, options)
 
     return {
-        enforce: 'pre',
+        // 强制插件的位置
+        enforce: o.enforce,
         transform(source, resourcePath) {
 
             // 加载器
