@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 import path from 'path'
-import { createRequire } from 'node:module'
 
 import $n_startsWith from 'lodash-es/startsWith.js'
 import $n_has from 'lodash-es/has.js'
@@ -16,9 +15,6 @@ import readdir from '../readdir.js'
 
 // 任务路径
 const taskPath = path.join(rootPath, 'task')
-
-// require
-const _require = createRequire(import.meta.url)
 
 /**
  * 运行任务

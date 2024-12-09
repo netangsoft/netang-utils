@@ -1,6 +1,6 @@
 {
   "name": "@netang/utils",
-  "version": "3.0.10",
+  "version": "3.0.11",
   "type": "module",
   "description": "netang-utils",
   "scripts": {
@@ -28,6 +28,7 @@
   "dependencies": {
     "bignumber.js": "9.1.1",
     "iconv-lite": "0.6.3",
+    "lodash-es": "^4.17.21",
     "minimatch": "10.0.1",
     "qs": "6.11.0",
     "xregexp": "5.1.1"
