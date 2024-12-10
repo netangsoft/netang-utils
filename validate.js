@@ -1012,7 +1012,7 @@ export function validator(data, rules, messages = null, attributes = null) {
  * @param {string} attribute
  * @returns {string}
  */
-export function validate(value, field = '', rule = '', message = '', attribute = null, data = null) {
+export default function validate(value, field = '', rule = '', message = '', attribute = null, data = null) {
 
     if (!$n_isValidObject(data)) {
         data = {}

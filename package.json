@@ -1,6 +1,6 @@
 {
   "name": "@netang/utils",
-  "version": "3.0.13",
+  "version": "3.0.14",
   "type": "module",
   "description": "netang-utils",
   "scripts": {
