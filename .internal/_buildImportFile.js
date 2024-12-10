@@ -368,7 +368,6 @@ export default async function (params) {
         ],
         // 忽略规则
         ignores: [
-            'settings.js',
             'socket.js',
         ],
         // 不包含当前路径

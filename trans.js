@@ -1,4 +1,4 @@
-import { trans } from './.internal/_validator.js'
+import { trans } from './validate.js'
 
 /**
  * 翻译

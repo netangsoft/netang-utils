@@ -6,7 +6,23 @@ import $n_numberDeep from './numberDeep.js'
 import $n_forIn from './forIn.js'
 import $n_json from './json.js'
 
-import { storageOptions as o } from './settings.js'
+// 配置
+const o = {
+    // 缓存前缀
+    prefix: 'netang:',
+    // 过期时间(7天)
+    expires: 604800,
+    set() {},
+    get() {},
+    delete() {},
+}
+
+/**
+ * 设置 storage
+ */
+export function setStorage(options) {
+    Object.assign(o, options)
+}
 
 /**
  * 获取 storage 前缀

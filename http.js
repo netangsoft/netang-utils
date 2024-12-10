@@ -21,8 +21,6 @@ import $n_runAsync from './runAsync.js'
 import $n_json from './json.js'
 import $n_storage from './storage.js'
 
-import { httpOptions } from './settings.js'
-
 // http 初始设置
 const httpSettings = {
 
@@ -112,8 +110,18 @@ const httpSettings = {
     onError: null,
 }
 
+// http 配置
+const httpOptions = {}
+
 // 请求句柄对象
 const requestHandles = {}
+
+/**
+ * 设置 http
+ */
+export function setHttp(options) {
+    Object.assign(httpOptions, options)
+}
 
 /**
  * httpAsync
