@@ -24,20 +24,7 @@ import $n_numberDeep from './numberDeep.js'
 import $n_replaceAll from './replaceAll.js'
 import $n_map from './map.js'
 
-import zhCn from './locale/zh-cn.js'
-
-// 语言配置
-const langOptions = {
-    lists: [],
-    package: zhCn,
-}
-
-/**
- * 设置验证参数
- */
-export function setValidateOptions(options) {
-    Object.assign(langOptions, options)
-}
+import { langOptions } from './setOptions.js'
 
 /**
  * 表单验证
