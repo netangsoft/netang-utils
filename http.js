@@ -117,9 +117,9 @@ const httpOptions = {}
 const requestHandles = {}
 
 /**
- * 设置 http
+ * 设置 http 参数
  */
-export function setHttp(options) {
+export function setHttpOptions(options) {
     Object.assign(httpOptions, options)
 }
 

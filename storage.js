@@ -18,9 +18,9 @@ const o = {
 }
 
 /**
- * 设置 storage
+ * 设置 storage 参数
  */
-export function setStorage(options) {
+export function setStorageOptions(options) {
     Object.assign(o, options)
 }
 

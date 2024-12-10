@@ -33,9 +33,9 @@ const langOptions = {
 }
 
 /**
- * 语言设置
+ * 设置验证参数
  */
-export function setValidate(options) {
+export function setValidateOptions(options) {
     Object.assign(langOptions, options)
 }
 
