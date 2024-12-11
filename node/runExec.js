@@ -4,13 +4,13 @@ import iconv from 'iconv-lite'
 /**
  * 执行命令
  */
-function runExec(cmd) {
+function runExec(cmd, showConsoleLog = true) {
     return new Promise(function(resolve, reject) {
         exec(cmd, { encoding: 'binary' }, function(err, stdout, stderr) {
 
             if (stdout) {
                 stdout = iconv.decode(new Buffer(stdout, 'binary'), 'cp936')
-                if (stdout) {
+                if (stdout && showConsoleLog) {
                     console.log('\n[stdout]')
                     console.log(stdout)
                 }
@@ -18,15 +18,17 @@ function runExec(cmd) {
 
             if (stderr) {
                 stderr = iconv.decode(new Buffer(stderr, 'binary'), 'cp936')
-                if (stderr) {
+                if (stderr && showConsoleLog) {
                     console.log('\n[stderr]')
                     console.log(stderr)
                 }
             }
 
             if (err) {
-                console.log('\n[error]')
-                console.log(err)
+                if (showConsoleLog) {
+                    console.log('\n[error]')
+                    console.log(err)
+                }
                 process.exit(1)
                 reject(err)
                 return
