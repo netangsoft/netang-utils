@@ -1,7 +1,7 @@
-import $n_trim from 'lodash-es/trim.js'
-import $n_size from 'lodash-es/size.js'
-import $n_isNumeric from './isNumeric.js'
-import $n_isValidString from './isValidString.js'
+import $n_trim from 'lodash/trim'
+import $n_size from 'lodash/size'
+import $n_isNumeric from './isNumeric'
+import $n_isValidString from './isValidString'
 
 /**
  * 返回值的长度, 如果值是类数组或字符串, 返回其 length(汉字:长度为 2，英文/数字: 长度为 1); 如果值是对象, 返回其可枚举属性的个数

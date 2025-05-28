@@ -1,6 +1,6 @@
-import path from 'path'
-import fs from 'fs'
-import { minimatch } from 'minimatch'
+const path = require('path')
+const fs = require('fs')
+const minimatch = require('minimatch')
 
 /**
  * 遍历文件夹
@@ -208,4 +208,4 @@ function readdirSync(filePath, params) {
     return lists
 }
 
-export default readdirSync
+module.exports = readdirSync

@@ -1,4 +1,4 @@
-import $n_getThrowMessage from './getThrowMessage.js'
+import $n_getThrowMessage from './getThrowMessage'
 
 function has(object, key) {
     return object != null && Object.prototype.hasOwnProperty.call(object, key)

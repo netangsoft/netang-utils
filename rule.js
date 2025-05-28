@@ -1,4 +1,4 @@
-import { rule } from './validate.js'
+import { rule } from './.internal/_validator'
 
 /**
  * 规则验证

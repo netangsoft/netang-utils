@@ -1,4 +1,4 @@
-import $n_isPlainObject from 'lodash-es/isPlainObject.js'
+import $n_isPlainObject from 'lodash/isPlainObject'
 
 /**
  * 获取对象第一个元素【废弃】

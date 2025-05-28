@@ -1,7 +1,7 @@
-import path from 'path'
-import fs from 'fs'
-import removeSync from './removeSync.js'
-import copySync from './copySync.js'
+const path = require('path')
+const fs = require('fs')
+const removeSync = require('./removeSync')
+const copySync = require('./copySync')
 
 /**
  * 移动
@@ -42,4 +42,4 @@ function moveSync(src, dest, params) {
     removeSync(src)
 }
 
-export default moveSync
+module.exports = moveSync

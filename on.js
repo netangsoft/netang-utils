@@ -4,14 +4,14 @@
  */
 
 const on = document.addEventListener ?
-    function(element, event, handler, options = false) {
+    function(element, event, handler) {
         if (element && event && handler) {
-            element.addEventListener(event, handler, options)
+            element.addEventListener(event, handler, false)
         }
     }
-    : function(element, event, handler, options = undefined) {
+    : function(element, event, handler) {
         if (element && event && handler) {
-            element.attachEvent('on' + event, handler, options)
+            element.attachEvent('on' + event, handler)
         }
     }
 

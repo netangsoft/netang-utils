@@ -1,8 +1,7 @@
-import $n_sample from 'lodash-es/sample.js'
+import $n_sample from 'lodash/sample'
 
 const numberPool = '123456789'
-const StringLowerPool = 'abcdefghijkmnpqrstuvwxyz'
-const StringUpperPool = 'ABCDEFGHIJKMNPQRSTUVWXYZ'
+const StringPool = 'abcdefghijkmnpqrstuvwxyz'
 
 function randomBuild(pool, length = 16) {
     let str = ''
@@ -17,12 +16,12 @@ function randomBuild(pool, length = 16) {
  */
 const random = {
     // 随机数字和字母
-    alnum(length = 16, isUpper = false) {
-        return randomBuild(numberPool + StringLowerPool + (isUpper ? StringUpperPool : ''), length)
+    alnum(length = 16) {
+        return randomBuild(numberPool + StringPool, length)
     },
     // 随机字母
-    alpha(length = 16, isUpper = false) {
-        return randomBuild(StringLowerPool + (isUpper ? StringUpperPool : ''), length)
+    alpha(length = 16) {
+        return randomBuild(StringPool, length)
     },
     // 随机数字
     numeric(length = 16) {

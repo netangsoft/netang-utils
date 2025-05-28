@@ -1,14 +1,14 @@
-import path from 'path'
-import xregexp from 'xregexp'
+const path = require('path')
+const xregexp = require('xregexp')
 
-import $n_isFunction from 'lodash-es/isFunction.js'
-import $n_isValidObject from '../../isValidObject.js'
-import $n_forIn from '../../forIn.js'
-import $n_trimString from '../../trimString.js'
+const $n_isFunction = require('lodash/isFunction')
+const $n_isValidObject = require('../../cjs/isValidObject')
+const $n_forIn = require('../../cjs/forIn')
+const $n_trimString = require('../../cjs/trimString')
 
-import getFileTypeSync from '../getFileTypeSync.js'
-import readFileSync from '../readFileSync.js'
-import fileExistsSync from '../fileExistsSync.js'
+const getFileTypeSync = require('../getFileTypeSync')
+const readFileSync = require('../readFileSync')
+const fileExistsSync = require('../fileExistsSync')
 
 /**
  * 获取加载器
@@ -18,7 +18,7 @@ function getLoader(loader) {
         if ($n_isFunction(loader)) {
             return loader
         }
-        loader = import(loader)
+        loader = require(loader)
         if ($n_isFunction(loader)) {
             return loader
         }
@@ -82,7 +82,7 @@ function importContent(filePath, reg, source, importAlias, importLoader, env) {
         // 获取加载文件路径
         const importFilePath = getImportFilePath(filePath, args[0], importAlias)
         if (fileExistsSync(importFilePath)) {
-
+            
             // 读取文件内容
             source = readFileSync(importFilePath)
 
@@ -208,7 +208,7 @@ function batchReplace(source, replaceObj) {
     return source
 }
 
-export default {
+module.exports = {
     // 获取加载器
     getLoader,
     // 加载匹配

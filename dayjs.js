@@ -1,6 +1,5 @@
+import $n_padStart from 'lodash/padStart'
 import dayjs from 'dayjs'
-
-import $n_padStart from 'lodash-es/padStart.js'
 
 /**
  * 扩展 toObject

@@ -1,4 +1,4 @@
-import $n_padStart from 'lodash-es/padStart.js'
+import $n_padStart from 'lodash/padStart'
 
 /**
  * 数字转版本号

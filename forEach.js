@@ -1,4 +1,4 @@
-import _forEach from './.internal/_forEach.js'
+import _forEach from './.internal/_forEach'
 
 /**
  * forEach

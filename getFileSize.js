@@ -1,6 +1,6 @@
-import $n_isNumber from 'lodash-es/isNumber.js'
-import $n_round from 'lodash-es/round.js'
-import $n_numberDeep from './numberDeep.js'
+import $n_isNumber from 'lodash/isNumber'
+import $n_round from 'lodash/round'
+import $n_numberDeep from './numberDeep'
 
 /**
  * 获取文件大小

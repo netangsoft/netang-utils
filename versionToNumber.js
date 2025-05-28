@@ -1,5 +1,5 @@
-import $n_padStart from 'lodash-es/padStart.js'
-import $n_split from './split.js'
+import $n_padStart from 'lodash/padStart'
+import $n_split from './split'
 
 /**
  * 版本号转数字

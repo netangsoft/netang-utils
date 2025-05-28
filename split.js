@@ -1,6 +1,6 @@
-import $n_isNumber from 'lodash-es/isNumber.js'
-import $n_numberDeep from './numberDeep.js'
-import $n_isValidString from './isValidString.js'
+import $n_isNumber from 'lodash/isNumber'
+import $n_numberDeep from './numberDeep'
+import $n_isValidString from './isValidString'
 
 /*
  * 拆分字符串

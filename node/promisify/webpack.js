@@ -1,3 +1,3 @@
-import webpack from 'webpack'
-import { promisify } from 'util'
-export default promisify(webpack)
+const webpack = require('webpack')
+const { promisify } = require('util')
+module.exports = promisify(webpack)

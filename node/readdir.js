@@ -1,8 +1,8 @@
-import path from 'path'
-import { minimatch } from 'minimatch'
-import fsReaddir from './promisify/fsReaddir.js'
-import fsStat from './promisify/fsStat.js'
-import fsLstat from './promisify/fsLstat.js'
+const path = require('path')
+const minimatch = require('minimatch')
+const fsReaddir = require('./promisify/fsReaddir')
+const fsStat = require('./promisify/fsStat')
+const fsLstat = require('./promisify/fsLstat')
 
 /**
  * 遍历文件夹
@@ -210,4 +210,4 @@ async function readdir(filePath, params) {
     return lists
 }
 
-export default readdir
+module.exports = readdir

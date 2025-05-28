@@ -3,14 +3,14 @@
  * 取消监听
  */
 const off = document.removeEventListener ?
-    function(element, event, handler, options = false) {
+    function(element, event, handler) {
         if (element && event) {
-            element.removeEventListener(event, handler, options)
+            element.removeEventListener(event, handler, false)
         }
     }
-    : function(element, event, handler, options = undefined) {
+    : function(element, event, handler) {
         if (element && event) {
-            element.detachEvent('on' + event, handler, options)
+            element.detachEvent('on' + event, handler)
         }
     }
 

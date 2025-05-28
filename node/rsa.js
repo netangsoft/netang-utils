@@ -1,9 +1,8 @@
-import crypto from 'crypto'
-import _sha1 from './sha1.js'
-
-import $n_isValidArray from '../isValidArray.js'
-import $n_isValidObject from '../isValidObject.js'
-import $n_isValidValue from '../isValidValue.js'
+const crypto = require('crypto')
+const $n_isValidArray = require('../cjs/isValidArray')
+const $n_isValidObject = require('../cjs/isValidObject')
+const $n_isValidValue = require('../cjs/isValidValue')
+const _sha1 = require('./sha1')
 
 // 设置
 const rsaSettings = {
@@ -166,7 +165,7 @@ function settings(params) {
     Object.assign(rsaSettings, params)
 }
 
-export default {
+module.exports = {
     // 设置
     settings,
     // 公钥加密

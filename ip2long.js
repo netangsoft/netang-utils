@@ -1,4 +1,4 @@
-import $n_split from './split.js'
+import $n_split from './split'
 
 /**
  * ip 转数字

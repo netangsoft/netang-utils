@@ -1,5 +1,5 @@
-import fs from 'fs'
-import dirExistsSync from './dirExistsSync.js'
+const fs = require('fs')
+const dirExistsSync = require('./dirExistsSync')
 
 /*
  * 创建目录(递归)
@@ -15,4 +15,4 @@ function mkdirSync(dirname) {
         })
 }
 
-export default mkdirSync
+module.exports = mkdirSync

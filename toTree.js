@@ -1,7 +1,7 @@
-import $n_has from 'lodash-es/has.js'
-import $n_isFunction from 'lodash-es/isFunction.js'
-import $n_forEachRight from './forEachRight.js'
-import $n_forIn from './forIn.js'
+import $n_has from 'lodash/has'
+import $n_isFunction from 'lodash/isFunction'
+import $n_forEachRight from './forEachRight'
+import $n_forIn from './forIn'
 
 /**
  * 转树数据
@@ -106,20 +106,8 @@ export default function toTree(params) {
             // 获取 node 节点
             const item = nodes[rawItem[o.idKey]]
 
-            // 获取 attr
-            const attr = item[o.attrKey]
-
-            // 如果有根节点值 && id === 根节点值
-            if (
-                o.rootValue
-                && attr[o.idKey] === o.rootValue
-            ) {
-                // 添加至树列表
-                tree.push(item)
-            }
-
             // 获取节点 pid
-            const pid = attr[o.pidKey]
+            const pid = item[o.attrKey][o.pidKey]
 
             // 如果有绑定父级 id
             if (pid) {

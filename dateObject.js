@@ -1,5 +1,5 @@
-import $n_padStart from 'lodash-es/padStart.js'
-import $n_toDate from './toDate.js'
+import $n_padStart from 'lodash/padStart'
+import $n_toDate from './toDate'
 
 /**
  * 时间日期对象

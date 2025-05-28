@@ -1,4 +1,4 @@
-import $n_sort from './.internal/_sort.js'
+import $n_sort from './.internal/_sort'
 
 /**
  * 从大到小倒序序排序【废弃】

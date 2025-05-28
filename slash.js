@@ -1,8 +1,8 @@
-import $n_isString from 'lodash-es/isString.js'
-import $n_isNumber from 'lodash-es/isNumber.js'
-import $n_trim from 'lodash-es/trim.js'
-import $n_trimStart from 'lodash-es/trimStart.js'
-import $n_trimEnd from 'lodash-es/trimEnd.js'
+import $n_isString from 'lodash/isString'
+import $n_isNumber from 'lodash/isNumber'
+import $n_trim from 'lodash/trim'
+import $n_trimStart from 'lodash/trimStart'
+import $n_trimEnd from 'lodash/trimEnd'
 
 /**
  * 添加或去除首尾反斜杠

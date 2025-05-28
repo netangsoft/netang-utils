@@ -9,4 +9,4 @@ function success(data = null, msg = '') {
     }
 }
 
-export default success
+module.exports = success

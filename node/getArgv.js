@@ -1,5 +1,5 @@
-import $n_indexOf from '../indexOf.js'
-import $n_trimString from '../trimString.js'
+const $n_indexOf = require('../cjs/indexOf')
+const $n_trimString = require('../cjs/trimString')
 
 /**
  * 获取命令值
@@ -18,4 +18,4 @@ function getArgv(argv) {
     return ''
 }
 
-export default getArgv
+module.exports = getArgv

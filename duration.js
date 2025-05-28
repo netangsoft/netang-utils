@@ -1,4 +1,4 @@
-import $n_padStart from 'lodash-es/padStart.js'
+import $n_padStart from 'lodash/padStart'
 
 /**
  * 时间长度

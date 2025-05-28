@@ -1,4 +1,4 @@
-import $n_isBrowser from './isBrowser.js'
+import $n_isBrowser from './isBrowser'
 
 /**
  * 获取 ua

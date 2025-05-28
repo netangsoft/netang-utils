@@ -1,17 +1,16 @@
 #!/usr/bin/env node
 
-import path from 'path'
+const path = require('path')
 
-import $n_startsWith from 'lodash-es/startsWith.js'
-import $n_has from 'lodash-es/has.js'
+const $n_startsWith = require('lodash/startsWith')
+const $n_has = require('lodash/has')
+const $n_runAsync = require('../../cjs/runAsync')
+const $n_isValidObject = require('../../cjs/isValidObject')
 
-import $n_runAsync from '../../runAsync.js'
-import $n_isValidObject from '../../isValidObject.js'
-
-import rootPath from '../rootPath.js'
-import dirExists from '../dirExists.js'
-import fileExists from '../fileExists.js'
-import readdir from '../readdir.js'
+const rootPath = require('../rootPath')
+const dirExists = require('../dirExists')
+const fileExists = require('../fileExists')
+const readdir = require('../readdir')
 
 // 任务路径
 const taskPath = path.join(rootPath, 'task')
@@ -60,8 +59,7 @@ task(async function() {
     for (const key of process.argv) {
         const taskKey = `task${key}`
         if ($n_has(tasks, taskKey)) {
-            const res = await import('file:///' + tasks[taskKey])
-            await $n_runAsync(res.default ? res.default : res)()
+            await $n_runAsync(require(tasks[taskKey]))()
         }
     }
 }).finally()

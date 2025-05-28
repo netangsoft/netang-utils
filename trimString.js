@@ -1,6 +1,6 @@
-import $n_isString from 'lodash-es/isString.js'
-import $n_isNumber from 'lodash-es/isNumber.js'
-import $n_trim from 'lodash-es/trim.js'
+import $n_isString from 'lodash/isString'
+import $n_isNumber from 'lodash/isNumber'
+import $n_trim from 'lodash/trim'
 
 /**
  * 去除首位空格的字符串

@@ -1,5 +1,5 @@
-import $n_isString from 'lodash-es/isString.js'
-import $n_isNumeric from './isNumeric.js'
+import $n_isString from 'lodash/isString'
+import $n_isNumeric from './isNumeric'
 
 /**
  * 判断是否为合法日期格式

@@ -1,10 +1,10 @@
-import $n_isString from 'lodash-es/isString.js'
-import $n_kebabCase from 'lodash-es/kebabCase.js'
+import $n_isString from 'lodash/isString'
+import $n_kebabCase from 'lodash/kebabCase'
 
-import $n_split from './split.js'
-import $n_isValidObject from './isValidObject.js'
-import $n_isValidArray from './isValidArray.js'
-import $n_trimString from './trimString.js'
+import $n_split from './split'
+import $n_isValidObject from './isValidObject'
+import $n_isValidArray from './isValidArray'
+import $n_trimString from './trimString'
 
 /**
  * 样式转为字符串

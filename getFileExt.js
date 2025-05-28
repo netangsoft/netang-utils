@@ -1,4 +1,4 @@
-import $n_isValidString from './isValidString.js'
+import $n_isValidString from './isValidString'
 
 /**
  * 获取后缀

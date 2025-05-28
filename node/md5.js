@@ -1,4 +1,4 @@
-import crypto from 'crypto'
+const crypto = require('crypto')
 
 /**
  * 获取 md5
@@ -9,4 +9,4 @@ function md5(str) {
         .digest('hex')
 }
 
-export default md5
+module.exports = md5

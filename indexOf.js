@@ -1,5 +1,5 @@
-import $n_isString from 'lodash-es/isString.js'
-import $n_isNumber from 'lodash-es/isNumber.js'
+import $n_isString from 'lodash/isString'
+import $n_isNumber from 'lodash/isNumber'
 
 /**
  * 获取索引

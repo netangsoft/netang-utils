@@ -1,7 +1,7 @@
-import $n_isPlainObject from 'lodash-es/isPlainObject.js'
+import $n_isPlainObject from 'lodash/isPlainObject'
 
-import _forEach from './.internal/_forEach.js'
-import _forIn from './.internal/_forIn.js'
+import _forEach from './.internal/_forEach'
+import _forIn from './.internal/_forIn'
 
 /**
  * each
@@ -12,7 +12,7 @@ export default function each(data, func) {
 
     // 如果是数组
     if (Array.isArray(data)) {
-        return _forEach(data, func, false)
+        return _forEach(data, func)
     }
 
     // 如果是对象

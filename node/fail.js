@@ -9,4 +9,4 @@ function fail(msg = '', code = null, data = null) {
     }
 }
 
-export default fail
+module.exports = fail

@@ -1,10 +1,15 @@
-import getFileHashSync from './getFileHashSync.js'
+const fs = require('fs')
+const crypto = require('crypto')
 
 /**
  * 获取文件 hash 名称
  */
-function getFileHashNameSync(filePath, length = 8) {
-    return getFileHashSync(filePath).slice(0, length)
+function getFileHashNameSync(filePath, length = 8, algorithm = 'md4') {
+    return crypto
+        .createHash(algorithm)
+        .update(fs.readFileSync(filePath))
+        .digest('hex')
+        .slice(0, length)
 }
 
-export default getFileHashNameSync
+module.exports = getFileHashNameSync

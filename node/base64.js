@@ -13,7 +13,9 @@ function decrypt(value, isJson = false) {
     return isJson ? JSON.parse(res) : res
 }
 
-export default {
+const base64 = {
     encrypt,
     decrypt,
 }
+
+module.exports = base64

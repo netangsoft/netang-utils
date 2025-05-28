@@ -1,3 +1,3 @@
-import fs from 'fs'
-import { promisify } from 'util'
-export default promisify(fs.rename)
+const fs = require('fs')
+const { promisify } = require('util')
+module.exports = promisify(fs.rename)

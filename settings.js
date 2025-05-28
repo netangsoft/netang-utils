@@ -1,4 +1,4 @@
-import zhCn from './locale/zh-cn.js'
+import zhCn from './locale/zh-cn'
 
 /**
  * 默认 storage 参数
@@ -29,20 +29,20 @@ export const langOptions = {
 /**
  * storage 设置
  */
-export function setStorageOptions(options) {
+export function storageSettings(options) {
     Object.assign(storageOptions, options)
+}
+
+/**
+ * http 设置
+ */
+export function httpSettings(options) {
+    Object.assign(httpOptions, options)
 }
 
 /**
  * 语言设置
  */
-export function setValidateOptions(options) {
+export function langSettings(options) {
     Object.assign(langOptions, options)
-}
-
-/**
- * 设置 http 参数
- */
-export function setHttpOptions(options) {
-    Object.assign(httpOptions, options)
 }

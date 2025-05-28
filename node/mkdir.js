@@ -1,5 +1,5 @@
-import fsMkdir from './promisify/fsMkdir.js'
-import dirExists from './dirExists.js'
+const fsMkdir = require('./promisify/fsMkdir')
+const dirExists = require('./dirExists')
 
 /*
  * 创建目录(递归)
@@ -15,4 +15,4 @@ async function mkdir(dirname) {
         }))
 }
 
-export default mkdir
+module.exports = mkdir

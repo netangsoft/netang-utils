@@ -1,11 +1,6 @@
-import path from 'path'
-import { fileURLToPath } from 'node:url'
-
-import readdir from '../node/readdir.js'
-import writeFile from '../node/writeFile.js'
-
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
+const path = require('path')
+const readdir = require('../node/readdir')
+const writeFile = require('../node/writeFile')
 
 // lodash 所有方法
 const lodashKeys = [
@@ -334,11 +329,13 @@ const lodashKeys = [
 /**
  * 生成引入配置文件
  */
-export default async function (params) {
+module.exports = async function (params) {
 
     const o = Object.assign({
         // utils 包含文件列表
         utils: [],
+        // vue 包含文件列表
+        vue: [],
         // lodash 包含文件列表
         lodash: [],
         // 生成文件地址
@@ -360,6 +357,10 @@ export default async function (params) {
     const lodashHeaders = []
     const lodashContents = []
 
+    // vue 方法列表
+    const vueHeaders = []
+    const vueContents = []
+
     // 遍历 utils
     let files = await readdir(path.join(__dirname, '../'), {
         // 包含规则
@@ -368,6 +369,7 @@ export default async function (params) {
         ],
         // 忽略规则
         ignores: [
+            'settings.js',
             'socket.js',
         ],
         // 不包含当前路径
@@ -403,8 +405,42 @@ export default async function (params) {
             && lodashKeys.indexOf(methodName) > -1
         ) {
             // 添加至 lodash 方法列表中
-            lodashHeaders.push(`import ${methodName} from 'lodash-es/${methodName}'`)
+            lodashHeaders.push(`import ${methodName} from 'lodash/${methodName}'`)
             lodashContents.push(`    ${methodName},`)
+        }
+    }
+
+    // 遍历 vue 工具
+    const dirs = ['vue', 'vue/ssr']
+    for (const dir of dirs) {
+        // 遍历 vue 工具
+        files = await readdir(path.join(__dirname, '../' + dir), {
+            // 包含规则
+            includes: [
+                '*.js',
+            ],
+            // 忽略规则
+            ignores: [
+                'store.js',
+            ],
+            // 不包含当前路径
+            self: false,
+            // 不深度遍历
+            deep: false,
+        })
+        for (const { fileName, isFile } of files) {
+            if (isFile) {
+
+                // 方法名
+                const methodName = fileName.replace('.js', '')
+
+                // 如果该方法在 vue 包含文件列表中
+                if (o.vue.indexOf(methodName) > -1) {
+                    // 添加至 netang 方法列表中
+                    vueHeaders.push(`import ${methodName} from '@netang/utils/${dir}/${methodName}'`)
+                    vueContents.push(`    ${methodName},`)
+                }
+            }
         }
     }
 
@@ -414,6 +450,9 @@ ${utilsHeaders.join('\n')}
 
 // lodash
 ${lodashHeaders.join('\n')}
+
+// @netang/utils/vue
+${vueHeaders.join('\n')}
 
 /**
  * 公共方法
@@ -427,5 +466,7 @@ ${utilsContents.join('\n')}
     // lodash
 ${lodashContents.join('\n')}
 
+    // @netang/utils/vue
+${vueContents.join('\n')}
 }`)
 }

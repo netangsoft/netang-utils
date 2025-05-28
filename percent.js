@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 
-import $n_isNumeric from './isNumeric.js'
-import $n_indexOf from './indexOf.js'
+import $n_isNumeric from './isNumeric'
+import $n_indexOf from './indexOf'
 
 /**
  * 转为百分比

@@ -1,5 +1,5 @@
-import $n_isValidString from './isValidString.js'
-import $n_slash from './slash.js'
+import $n_isValidString from './isValidString'
+import $n_slash from './slash'
 
 /**
  * 获取当前 url

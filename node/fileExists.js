@@ -1,4 +1,4 @@
-import fsStat from './promisify/fsStat.js'
+const fsStat = require('./promisify/fsStat')
 
 /*
  * 文件是否存在
@@ -10,4 +10,4 @@ async function fileExists(filePath) {
     return false
 }
 
-export default fileExists
+module.exports = fileExists

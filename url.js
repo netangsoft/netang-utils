@@ -1,9 +1,9 @@
 import { parse } from 'qs'
 
-import $n_isValidString from './isValidString.js'
-import $n_numberDeep from './numberDeep.js'
-import $n_isBrowser from './isBrowser.js'
-import $n_slash from './slash.js'
+import $n_isValidString from './isValidString'
+import $n_numberDeep from './numberDeep'
+import $n_isBrowser from './isBrowser'
+import $n_slash from './slash'
 
 /**
  * 解构 url 参数
