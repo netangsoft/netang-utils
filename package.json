@@ -1,6 +1,6 @@
 {
   "name": "@netang/utils",
-  "version": "0.5.47",
+  "version": "0.5.48",
   "description": "netang-utils",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

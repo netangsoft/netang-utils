@@ -12,7 +12,7 @@ export default function each(data, func) {
 
     // 如果是数组
     if (Array.isArray(data)) {
-        return _forEach(data, func)
+        return _forEach(data, func, false)
     }
 
     // 如果是对象
