@@ -9,7 +9,7 @@ import $n_isNil from 'lodash/isNil'
 import $n_isArray from 'lodash/isArray'
 import $n_isFunction from 'lodash/isFunction'
 
-import $n_forEach from './forEach'
+import $n_forIn from './forIn'
 import $n_isValidString from './isValidString'
 import $n_isNumeric from './isNumeric'
 import $n_isValidObject from './isValidObject'
@@ -162,7 +162,7 @@ async function httpAsync(params, resolve) {
             // 否则获取上传文件数据
             } else if ($n_isValidObject(para.data)) {
                 const fileData = new FormData()
-                $n_forEach(para.data, function(value, key) {
+                $n_forIn(para.data, function(value, key) {
                     fileData.append(key, value)
                 })
                 options.data = fileData
